@@ -1,0 +1,66 @@
+import Finish_School from './Finish_School'
+import Unfinish_School from './Unfinish_School'
+import ExerciseInfo from '../../../viewmodel/ExerciseInfo'
+
+@Component
+export default struct School_Exercise {
+  @State currentIndex: number = 0
+  @State currentIndex2: number = 0
+
+  @Link schoolFinishExercise: ExerciseInfo[]
+  @Link schoolUnfinishExercise: ExerciseInfo[]
+
+  //自定义组件实现tabs组件拥有图片
+  @Builder TabBarBuilder(title: ResourceStr, index: number){
+    Column({space: 8}){
+      Text(title)
+        .fontSize(14)
+        .fontColor(this.selectColor2(index))
+    }
+    .border({ width: 1 ,color: $r('app.color.blue')})
+    .width('80%')
+    .height(29)
+    .backgroundColor(this.selectColor1(index))
+    .justifyContent(FlexAlign.Center)
+  }
+
+  selectColor1(index: number){
+    return this.currentIndex === index ? $r('app.color.blue') : $r('app.color.start_window_background')
+  }
+
+  selectColor2(index: number){
+    return this.currentIndex2 === index ? $r('app.color.start_window_background') : $r('app.color.blue')
+  }
+
+
+  build() {
+    Column(){
+      //1.分类：已完成，未完成
+      Tabs({barPosition: BarPosition.Start}){
+        //1.已完成
+        TabContent(){
+          // Text('已完成')
+          Finish_School({ exercise: $schoolFinishExercise })
+        }
+        .tabBar(this.TabBarBuilder('已完成', 0))
+
+        //2.未完成
+        TabContent(){
+          // Text('未完成')
+          Unfinish_School({ exercise: $schoolUnfinishExercise })
+        }
+        .tabBar(this.TabBarBuilder('未完成', 1))
+
+      }
+      .width('100%')
+      .height('100%')
+      .onChange(index => {
+        this.currentIndex = index
+        this.currentIndex2 = index
+
+        console.log('School_Exercise', this.currentIndex , `length = ${this.schoolUnfinishExercise.length}`)
+      })
+
+    }
+  }
+}

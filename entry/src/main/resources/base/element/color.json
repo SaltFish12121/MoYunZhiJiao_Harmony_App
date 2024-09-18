@@ -1,0 +1,76 @@
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "button1",
+      "value": "#69C0FF"
+    },
+    {
+      "name": "tips",
+      "value": "#0F40F5"
+    },
+    {
+      "name": "button2",
+      "value": "#EFEFEF"
+    },
+    {
+      "name": "input_tips",
+      "value": "#BFBFBF"
+    },
+    {
+      "name": "text_red",
+      "value": "#BD3124"
+    },
+    {
+      "name": "tips_red",
+      "value": "#E45E59"
+    },
+    {
+      "name": "knowledge_background",
+      "value": "#C9B4FDFF"
+    },
+    {
+      "name": "teaching_video_background",
+      "value": "#93D2F3"
+    },
+    {
+      "name": "blue",
+      "value": "#4095E5"
+    },
+    {
+      "name": "competition_button",
+      "value": "#4095E5"
+    },
+    {
+      "name": "gray",
+      "value": "#97CECECE"
+    },
+    {
+      "name": "light_gray",
+      "value": "#97EEECEC"
+    },
+    {
+      "name": "black",
+      "value": "#FF000000"
+    },
+    {
+      "name": "light_black",
+      "value": "#6C6C6C"
+    },
+    {
+      "name": "pink",
+      "value": "#DE868F"
+    },
+    {
+      "name": "mid_gray",
+      "value": "#97E9E8E8"
+    },
+    {
+      "name": "text_gray",
+      "value": "#9A9A9A"
+    }
+  ]
+}

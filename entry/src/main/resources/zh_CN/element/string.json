@@ -1,0 +1,136 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "模块描述"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "tab_homepage",
+      "value": "首页"
+    },
+    {
+      "name": "tab_exercise",
+      "value": "练习"
+    },
+    {
+      "name": "tab_competition",
+      "value": "竞赛"
+    },
+    {
+      "name": "tab_message",
+      "value": "消息"
+    },
+    {
+      "name": "tab_mine",
+      "value": "个人"
+    },
+    {
+      "name": "homepage_calligraphyKnowledge",
+      "value": "书法知识"
+    },
+    {
+      "name": "homework_teachingVideo",
+      "value": "书法教学视频"
+    },
+    {
+      "name": "homework_competitionNotice",
+      "value": "竞赛通知"
+    },
+    {
+      "name": "exercise_homework",
+      "value": "学校作业"
+    },
+    {
+      "name": "exercise_selfExercise",
+      "value": "自我练习"
+    },
+    {
+      "name": "exercise_excellentWorks",
+      "value": "优秀作品"
+    },
+    {
+      "name": "competition_unfinished",
+      "value": "未开始/进行中"
+    },
+    {
+      "name": "competition_finished",
+      "value": "历史竞赛"
+    },
+    {
+      "name": "competition_excellentWorks",
+      "value": "优秀作品"
+    },
+    {
+      "name": "message_system",
+      "value": "系统消息"
+    },
+    {
+      "name": "message_jobPosting",
+      "value": "作业发布"
+    },
+    {
+      "name": "message_jobReminder",
+      "value": "作业提醒"
+    },
+    {
+      "name": "message_competitionNotice",
+      "value": "竞赛通知"
+    },
+    {
+      "name": "mine_collect",
+      "value": "我的收藏"
+    },
+    {
+      "name": "mine_customerServiceCenter",
+      "value": "客服中心"
+    },
+    {
+      "name": "mine_set",
+      "value": "我的设置"
+    },
+    {
+      "name": "knowledge_recommend",
+      "value": "推荐"
+    },
+    {
+      "name": "knowledge_biography",
+      "value": " 人物传记"
+    },
+    {
+      "name": "knowledge_famousWorks",
+      "value": "名家作品"
+    },
+    {
+      "name": "knowledge_Hanzi",
+      "value": "汉字"
+    },
+    {
+      "name": "knowledge_culture",
+      "value": "文化"
+    },
+    {
+      "name": "self_specialExercises",
+      "value": "专项练习"
+    },
+    {
+      "name": "self_expertCopywriting",
+      "value": "专家字帖"
+    },
+    {
+      "name": "self_comprehensiveExercises",
+      "value": "综合练习"
+    },
+    {
+      "name": "reasonReadWriteMedia",
+      "value": "上传头像"
+    }
+  ]
+}

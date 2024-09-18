@@ -1,0 +1,135 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    }
+  ,{
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },{
+      "name": "EntryAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "tab_homepage",
+      "value": "homepage"
+    },
+    {
+      "name": "tab_exercise",
+      "value": "exercise"
+    },
+    {
+      "name": "tab_competition",
+      "value": "competiton"
+    },
+    {
+      "name": "tab_message",
+      "value": "message"
+    },
+    {
+      "name": "tab_mine",
+      "value": "mine"
+    },
+    {
+      "name": "homepage_calligraphyKnowledge",
+      "value": "calligraphy knowledge"
+    },
+    {
+      "name": "homework_teachingVideo",
+      "value": "teaching video"
+    },
+    {
+      "name": "homework_competitionNotice",
+      "value": "competition notice"
+    },
+    {
+      "name": "exercise_homework",
+      "value": "homework"
+    },
+    {
+      "name": "exercise_selfExercise",
+      "value": "self exercise"
+    },
+    {
+      "name": "exercise_excellentWorks",
+      "value": "excellent works"
+    },
+    {
+      "name": "competition_unfinished",
+      "value": "unfinished"
+    },
+    {
+      "name": "competition_finished",
+      "value": "finished"
+    },
+    {
+      "name": "competition_excellentWorks",
+      "value": "excellent works"
+    },
+    {
+      "name": "message_system",
+      "value": "system message"
+    },
+    {
+      "name": "message_jobPosting",
+      "value": "job posting"
+    },
+    {
+      "name": "message_jobReminder",
+      "value": "job reminder"
+    },
+    {
+      "name": "message_competitionNotice",
+      "value": "competition notice"
+    },
+    {
+      "name": "mine_collect",
+      "value": "mine collect"
+    },
+    {
+      "name": "mine_customerServiceCenter",
+      "value": "customer service center"
+    },
+    {
+      "name": "mine_set",
+      "value": "mine set"
+    },
+    {
+      "name": "knowledge_recommend",
+      "value": "recommend"
+    },
+    {
+      "name": "knowledge_biography",
+      "value": "biography"
+    },
+    {
+      "name": "knowledge_famousWorks",
+      "value": "famous works"
+    },
+    {
+      "name": "knowledge_Hanzi",
+      "value": "Hanzi"
+    },
+    {
+      "name": "knowledge_culture",
+      "value": "culture"
+    },
+    {
+      "name": "self_specialExercises",
+      "value": "special exercises"
+    },
+    {
+      "name": "self_expertCopywriting",
+      "value": "expert copywriting"
+    },
+    {
+      "name": "self_comprehensiveExercises",
+      "value": "comprehensive exercises"
+    },
+    {
+      "name": "reasonReadWriteMedia",
+      "value": "upload avatar"
+    }
+  ]
+}
