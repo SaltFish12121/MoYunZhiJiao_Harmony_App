@@ -61,7 +61,7 @@ struct Copybook {
           .alignItems(VerticalAlign.Center)
 
 
-          Image($r('app.media.exercise_test1'))
+          Image(/*$r('app.media.exercise_test1')*/this.template.content)
             .width('90%')
 
         }
@@ -103,13 +103,16 @@ struct Copybook {
   onPageShow(){
     const exercise = router.getParams() as PARAMS
 
-    this.title = exercise.title
-    this.template = exercise.template
-
-    if(this.title != ''){
-    } else {
-      this.title = this.template.title
+    if (exercise != null) {
+      this.title = exercise.title
+      if(this.title != ''){
+        this.template = exercise.template
+      } else {
+        this.title = this.template.title
+      }
     }
+
+    console.log('Params', this.template.title, this.template.content)
   }
 
   //创建练习

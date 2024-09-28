@@ -2,7 +2,8 @@ import { HeaderTitle } from '../../../common/components/CommonComponents'
 import UserService from '../../../service/UserService'
 import FeedbackInfo from '../../../viewmodel/FeedbackInfo'
 import PreferencesUtil from '../../../common/utils/PreferencesUtil'
-
+import Cant_Connect from '../../../views/Cant_Connect'
+import No_Content from '../../../views/No_Content'
 @Entry
 @Component
 struct MineFeedbackPage {
@@ -21,6 +22,7 @@ struct MineFeedbackPage {
   ]
 
   @State title: string = '我的反馈'
+  @State ifConnect: boolean = false
 
   build() {
     Scroll(){
@@ -30,97 +32,102 @@ struct MineFeedbackPage {
           .backgroundColor($r('app.color.start_window_background'))
           .margin({bottom: 5})
 
-        // Divider()
+        if (this.ifConnect) {
+          if (this.feedback.length == 0) {
+            No_Content()
+          } else {
+            //2反馈内容
+            Column(){
+              List(){
+                ForEach(this.feedback, (feedback: FeedbackInfo) => {
+                  ListItem() {
 
-        //2反馈内容
-        Column(){
-          List(){
-            ForEach(this.feedback, (feedback: FeedbackInfo) => {
-              ListItem() {
-
-                Column(){
-
-                  Column(){
-                    Row(){
+                    Column(){
 
                       Column(){
-                        Text(feedback.time)
+                        Row(){
 
-                        Text('问题类型：'+feedback.type)
-                      }
-                      .height(45)
-                      .alignItems(HorizontalAlign.Start)
-                      .justifyContent(FlexAlign.SpaceBetween)
-                      .margin({left: 10})
+                          Column(){
+                            Text(feedback.time)
 
-                    }
-                    .height(70)
-                    .width('95%')
+                            Text('问题类型：'+feedback.type)
+                          }
+                          .height(45)
+                          .alignItems(HorizontalAlign.Start)
+                          .justifyContent(FlexAlign.SpaceBetween)
+                          .margin({left: 10})
 
-                    Divider()
-                    .width('90%')
-
-                    Column({space: 10}){
-                      Row(){
-                        Text('问：')
-                          .fontColor($r('app.color.blue'))
-
-                        Text(feedback.content)
-                          .width('90%')
-                      }
-                      .alignItems(VerticalAlign.Top)
-                      .justifyContent(FlexAlign.Start)
-                      .width('90%')
-
-                      Row(){
-                        Text('答：')
-                          .fontColor($r('app.color.blue'))
-
-                        if (feedback.feedback == null) {
-                          Text('暂未回复')
-                            .width('90%')
-                        } else {
-                          Text(feedback.feedback)
-                            .width('90%')
                         }
+                        .height(70)
+                        .width('95%')
+
+                        Divider()
+                          .width('90%')
+
+                        Column({space: 10}){
+                          Row(){
+                            Text('问：')
+                              .fontColor($r('app.color.blue'))
+
+                            Text(feedback.content)
+                              .width('90%')
+                          }
+                          .alignItems(VerticalAlign.Top)
+                          .justifyContent(FlexAlign.Start)
+                          .width('90%')
+
+                          Row(){
+                            Text('答：')
+                              .fontColor($r('app.color.blue'))
+
+                            if (feedback.feedback == null) {
+                              Text('暂未回复')
+                                .width('90%')
+                            } else {
+                              Text(feedback.feedback)
+                                .width('90%')
+                            }
+
+                          }
+                          .alignItems(VerticalAlign.Top)
+                          .justifyContent(FlexAlign.Start)
+                          .width('90%')
+                        }
+                        .margin({top: 10, bottom: 10})
+
 
                       }
-                      .alignItems(VerticalAlign.Top)
-                      .justifyContent(FlexAlign.Start)
                       .width('90%')
-                    }
-                    .margin({top: 10, bottom: 10})
+                      .justifyContent(FlexAlign.Center)
+                      .alignItems(HorizontalAlign.Center)
+                      .backgroundColor($r('app.color.start_window_background'))
+                      .borderRadius(10)
 
+                    }
+                    .width('100%')
+                    .justifyContent(FlexAlign.Center)
+                    .alignItems(HorizontalAlign.Center)
 
                   }
-                  .width('90%')
-                  .justifyContent(FlexAlign.Center)
-                  .alignItems(HorizontalAlign.Center)
-                  .backgroundColor($r('app.color.start_window_background'))
-                  .borderRadius(10)
+                  .margin({top: 10, bottom: 10})
+
+
+
+                })
+
+                ListItem(){
 
                 }
-                .width('100%')
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Center)
+                .height(100)
 
               }
-              .margin({top: 10, bottom: 10})
-
-
-
-            })
-
-            ListItem(){
 
             }
-            .height(100)
-
+            .width('100%')
           }
-
+        } else {
+          Cant_Connect()
         }
-        .width('100%')
-
 
       }
       .width('100%')
@@ -137,16 +144,18 @@ struct MineFeedbackPage {
   //获得个人意见反馈记录
   async getMineFeedback(){
     // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
-    userId = 32 //测试用
-    UserService.getMineFeedback(userId)
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+
+    UserService.getMineFeedback()
       .then((feedback: FeedbackInfo[]) => {
         console.log('Tags', '获取个人意见反馈记录成功')
 
         this.feedback = feedback
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取个人意见反馈记录失败')
+        this.ifConnect = false
       })
   }
 

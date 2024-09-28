@@ -100,9 +100,9 @@ export default struct Knowledge_Collect {
 
   //获取知识收藏
   async getKnowledgeCollect(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    await UserService.getKnowledgeCollect(userId, this.pageNum)
+    await UserService.getKnowledgeCollect(this.pageNum)
       .then((collect: KnowledgeInfo[]) => {
         console.log('Tags', '获取知识收藏成功')
 
@@ -122,9 +122,9 @@ export default struct Knowledge_Collect {
 
   //获取知识收藏
   async getKnowledgeCollect2(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    await UserService.getKnowledgeCollect(userId, this.pageNum)
+    await UserService.getKnowledgeCollect(this.pageNum)
       .then((collect: KnowledgeInfo[]) => {
         console.log('Tags', '获取知识收藏成功')
 

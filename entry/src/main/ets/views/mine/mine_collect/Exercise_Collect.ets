@@ -140,9 +140,9 @@ export default struct Exercise_Collect {
 
   //获取练习收藏
   async getExerciseCollect(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    UserService.getExerciseCollect(userId, this.pageNum)
+    UserService.getExerciseCollect(this.pageNum)
       .then((collect: CollectInfo[]) => {
         console.log('Tags', '获取练习收藏成功')
 
@@ -161,9 +161,9 @@ export default struct Exercise_Collect {
 
   //获取练习收藏
   async getExerciseCollect2(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    UserService.getExerciseCollect(userId, this.pageNum)
+    UserService.getExerciseCollect(this.pageNum)
       .then((collect: CollectInfo[]) => {
         console.log('Tags', '获取练习收藏成功')
 

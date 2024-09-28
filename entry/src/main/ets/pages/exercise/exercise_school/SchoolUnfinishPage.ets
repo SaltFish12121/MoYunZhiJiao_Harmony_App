@@ -4,6 +4,7 @@ import Exercise_Top_School from '../../../views/exercise/exercise_detial/Exercis
 import Exercise_Upload from '../../../views/exercise/exercise_detial/Exercise_Upload'
 import ExerciseService from '../../../service/ExerciseService'
 import SchoolUnfinishExerciseDetailInfo from '../../../viewmodel/exerciseDetial/SchoolUnfinishExerciseDetailInfo'
+import Cant_Connect from '../../../views/Cant_Connect'
 
 
 @Entry
@@ -22,8 +23,8 @@ struct SchoolUnfinishPage {
   @State title: string = '标题'
   @State type: string = '类型'
 
-  @State success: boolean = false
-  @State success2: boolean = false
+  @State ifConnect: boolean = false
+  @State ifUpload: boolean = false
   @State content: ResourceStr[] = [$r('app.media.exercise_test1')]
 
   build(){
@@ -34,76 +35,32 @@ struct SchoolUnfinishPage {
           .width('95%')
 
 
-        //2 内容
-        if (this.success) {
+        if (this.ifConnect) {
+          //2 内容
           Exercise_Top_School({ exercise: $schoolUnfinish })
-        }
 
 
+          //3 倒计时
+          Row({space: 30}){
+            Text('截止日期')
 
-        //3 倒计时
-        Row({space: 30}){
-          Text('截止日期')
-
-          Text(/*'2024-4-14'*/this.schoolUnfinish.cutoffTime)
-        }
-        .width('90%')
-        .margin({top: 5})
-
-
-        //4 上传作品
-        Exercise_Upload({ exerciseId: this.exerciseId, content: $content })
-
-        // 3关闭
-        Row({space: 20}){
-          // 3关闭
-          Column(){
-            Text('关闭')
-              .fontSize(20)
-              .onClick((event: ClickEvent) => {
-                router.back()
-              })
+            Text(/*'2024-4-14'*/this.schoolUnfinish.cutoffTime)
           }
-          .alignItems(HorizontalAlign.Center)
-          .justifyContent(FlexAlign.Center)
-          .width(120)
-          .height(45)
-          .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
+          .width('90%')
+          .margin({top: 5})
 
 
-          // 4提交
-          if (this.cutoff) {
+          //4 上传作品
+          Exercise_Upload({ exerciseId: this.exerciseId, content: $content })
+
+          // 3关闭
+          Row({space: 20}){
+            // 3关闭
             Column(){
-              Text('提交')
+              Text('关闭')
                 .fontSize(20)
-                .onClick(async () => {
-
-                  //上传服务器
-                  await this.uploadExercise()
-
-                  if (this.success2) {
-                    AlertDialog.show({
-                      message: '作业提交成功',
-                      confirm: {
-                        value: '确定',
-                        action: ()=>{
-                          router.back()
-                        }
-                      }
-                    })
-
-                  } else {
-                    AlertDialog.show({
-                      message: '作业提交失败，请重新尝试',
-                      confirm: {
-                        value: '确定',
-                        action: ()=>{
-                        }
-                      }
-                    })
-                  }
-
-
+                .onClick((event: ClickEvent) => {
+                  router.back()
                 })
             }
             .alignItems(HorizontalAlign.Center)
@@ -112,15 +69,59 @@ struct SchoolUnfinishPage {
             .height(45)
             .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
 
+
+            // 4提交
+            if (this.cutoff) {
+              Column(){
+                Text('提交')
+                  .fontSize(20)
+                  .onClick(async () => {
+
+                    //上传服务器
+                    await this.uploadExercise()
+
+                    if (this.ifUpload) {
+                      AlertDialog.show({
+                        message: '作业提交成功',
+                        confirm: {
+                          value: '确定',
+                          action: ()=>{
+                            router.back()
+                          }
+                        }
+                      })
+
+                    } else {
+                      AlertDialog.show({
+                        message: '作业提交失败，请重新尝试',
+                        confirm: {
+                          value: '确定',
+                          action: ()=>{
+                          }
+                        }
+                      })
+                    }
+
+
+                  })
+              }
+              .alignItems(HorizontalAlign.Center)
+              .justifyContent(FlexAlign.Center)
+              .width(120)
+              .height(45)
+              .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
+
+            }
+
           }
 
+
+          Column()
+            .height(50)
+        } else {
+          Cant_Connect()
         }
 
-
-        Column(){
-
-        }
-        .height(50)
 
       }
 
@@ -153,29 +154,32 @@ struct SchoolUnfinishPage {
   //获取学校完成练习
   async getSchoolUnfinish(){
 
-    await ExerciseService.getSchoolUnfinish(this.userId, this.exerciseId)
+    await ExerciseService.getSchoolUnfinish(this.exerciseId)
       .then((schoolUnfinish: SchoolUnfinishExerciseDetailInfo) => {
         console.log('Tags', '获取书法知识成功')
 
         this.schoolUnfinish = schoolUnfinish
 
-        this.success = true
+        this.ifConnect = true
+
+        this.title = this.schoolUnfinish.title
+
+        this.type = this.schoolUnfinish.exerciseType
+
+        this.content = this.schoolUnfinish.submit
+
+        console.log('Result', this.type, this.schoolUnfinish.example)
 
         console.log('Result', this.schoolUnfinish.type, this.schoolUnfinish.title)
 
       })
       .catch((error: string) => {
-        this.success = true
+        this.ifConnect = false
         console.log('Tags', '获取书法知识失败')
       })
 
-    // this.change(this.knowledgeShow)
 
-    this.title = this.schoolUnfinish.title
 
-    this.type = this.schoolUnfinish.exerciseType
-
-    console.log('Result', this.type, this.schoolUnfinish.example)
   }
 
   //上传练习
@@ -185,13 +189,13 @@ struct SchoolUnfinishPage {
       .then((success) => {
         console.log('Tags', '上传练习成功')
 
-        this.success2 = success
+        this.ifUpload = success
 
-        console.log('Result', this.success2)
+        console.log('Result', this.ifUpload)
 
       })
       .catch((error: string) => {
-
+        this.ifUpload = false
         console.log('Tags', '获取书法知识失败')
       })
   }

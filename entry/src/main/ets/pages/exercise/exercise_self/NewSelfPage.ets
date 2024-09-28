@@ -16,6 +16,7 @@ struct NewSelfPage {
   @State currentIndex2: number = 0
 
   @State sampleWord: WordListInfo[] = [
+    /*
     new WordListInfo(73, "https://dummyimage.com/120x240"),
     new WordListInfo(67, "https://dummyimage.com/120x240"),
     new WordListInfo(74, "https://dummyimage.com/120x240"),
@@ -40,10 +41,13 @@ struct NewSelfPage {
     new WordListInfo(64, "https://dummyimage.com/120x240"),
     new WordListInfo(66, "https://dummyimage.com/120x240"),
     new WordListInfo(8, "https://dummyimage.com/120x240")
+    */
   ];
   @State radical: Radical = new Radical(0, '', '')
   @State structure: string = ''
   @State typeface: string = ''
+
+  @State ifConnect: boolean = false
 
   //自定义组件实现tabs组件拥有图片
   @Builder TabBarBuilder(title: ResourceStr, index: number){
@@ -79,7 +83,7 @@ struct NewSelfPage {
         //1.专项练习
         TabContent(){
           // Text('专项练习')
-          Special_Exercises({ radical: $radical, typeface: this.typeface, structure: this.typeface, sampleWord: $sampleWord })
+          Special_Exercises({ radical: $radical, typeface: this.typeface, structure: this.typeface, sampleWord: $sampleWord, ifConnect: this.ifConnect })
 
         }
         .tabBar(this.TabBarBuilder($r('app.string.self_specialExercises'), 0))
@@ -120,21 +124,23 @@ struct NewSelfPage {
     }
 
     //获取样本字
-    this.getSampleWord()
+    this.getTemplateWord()
   }
 
 
-  //获取样本字
-  getSampleWord(){
+  //获取模板字
+  getTemplateWord(){
     console.log(this.radical.radical, this.structure, this.typeface)
 
-    ExerciseService.getSampleWord('', this.radical.radical, this.structure, this.typeface, 1)
+    ExerciseService.getTemplateWord('', this.radical.radical, this.structure, this.typeface, 1)
       .then((sampleWord: WordListInfo[]) => {
 
         this.sampleWord = sampleWord
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取样本字', error)
+        this.ifConnect = false
       })
   }
 

@@ -2,10 +2,19 @@ import http from '@ohos.net.http'
 import CompetitionInfo from '../viewmodel/CompetitonInfo'
 import CompetitionDetailInfo from '../viewmodel/CompetitionDetailInfo'
 import { Http } from '../common/constants/Http'
+import PreferencesUtil from '../common/utils/PreferencesUtil'
 
 class CompetitionService{
   baseURL: string = `${Http.BaseURL}/CompetitionService`
   Authorization: string = Http.Token
+
+  async getUserToken(){
+    this.Authorization = await PreferencesUtil.getPreferenceValue('MyPreferences', 'Token', '') as string
+    if (this.Authorization == null) {
+      this.Authorization = Http.Token
+    }
+    console.log('token', 'Init', this.Authorization)
+  }
 
   /**
    * get
@@ -13,7 +22,7 @@ class CompetitionService{
    * @param userId
    * @returns 竞赛
    */
-  getCompetition(userId: number, type: string): Promise<CompetitionInfo[]>{
+  getCompetition(type: string): Promise<CompetitionInfo[]>{
     return new Promise((resolve, reject) => {
       let title: string = '获取竞赛'
 
@@ -25,7 +34,7 @@ class CompetitionService{
         `${this.baseURL}/getCompetition`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId, type: type },
+          extraData: { type: type },
           header: {Authorization: this.Authorization}
         }
       )
@@ -33,19 +42,19 @@ class CompetitionService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -69,7 +78,7 @@ class CompetitionService{
         `${this.baseURL}/getCompetitionDetail/${exerciseId}`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: exerciseId },
+          // extraData: { userId: exerciseId },
           header: {Authorization: this.Authorization}
         }
       )
@@ -77,19 +86,19 @@ class CompetitionService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -122,19 +131,19 @@ class CompetitionService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -166,19 +175,19 @@ class CompetitionService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })

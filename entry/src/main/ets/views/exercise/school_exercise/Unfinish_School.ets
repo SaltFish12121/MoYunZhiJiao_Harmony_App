@@ -84,9 +84,9 @@ export default struct Unfinish_School {
   //获取学校作业
   async getSchoolExercise(){
     // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    ExerciseService.getSchoolExercise(userId, 'unfinish', this.pageNum)
+    ExerciseService.getSchoolExercise('unfinish', this.pageNum)
       .then((exercise: ExerciseInfo[]) => {
         console.log('Tags', '获取学校作业成功')
 
@@ -105,9 +105,9 @@ export default struct Unfinish_School {
   //获取学校作业
   async getSchoolExercise2(){
     // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    ExerciseService.getSchoolExercise(userId, 'unfinish', this.pageNum)
+    ExerciseService.getSchoolExercise('unfinish', this.pageNum)
       .then((exercise: ExerciseInfo[]) => {
         console.log('Tags', '获取学校作业成功')
 

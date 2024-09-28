@@ -5,6 +5,7 @@ import SystemCopybookItem from '../../../viewitem/SystemCopybookItem'
 import { TemplateType } from  '../../../viewmodel/SystemTemplateInfo'
 import SystemTemplateInfo from  '../../../viewmodel/SystemTemplateInfo'
 import ExerciseService from '../../../service/ExerciseService'
+import Cant_Connect from '../../../views/Cant_Connect'
 
 @Extend(Column) function exercise_List(){
   .width('95%')
@@ -22,6 +23,7 @@ import ExerciseService from '../../../service/ExerciseService'
 @Component
 struct NewSystemPage {
   @State copybook: SystemTemplateInfo[] = [
+    /*
     new SystemTemplateInfo(0, TemplateType.specialType, '笔画练习（二）', ''),
     new SystemTemplateInfo(0, TemplateType.specialType, '笔画练习（一）', ''),
     new SystemTemplateInfo(0, TemplateType.specialType, '横折练习（一）', ''),
@@ -31,10 +33,14 @@ struct NewSystemPage {
     new SystemTemplateInfo(0, TemplateType.copybookType, '横折练习', '2024-3-3'),
     new SystemTemplateInfo(0, TemplateType.copybookType, '第一届书法大赛', '2024-3-3'),
     new SystemTemplateInfo(0, TemplateType.copybookType, '《唐灵飞经》', '2024-3-2')
+    */
   ]
   @State title: string = '系统模板'
   @State currentIndex: number = 0
   @State pageNum: number = 1
+
+  @State ifConnect: boolean = false
+
   //自定义组件实现tabs组件拥有图片
   @Builder TabBarBuilder(title: ResourceStr, index: number) {
     Column({ space: 8 }) {
@@ -57,38 +63,43 @@ struct NewSystemPage {
       //1头部
       HeaderTitle({ title: $title })
 
-      //2.导航栏：专项类型，综合类型，字帖类型
-      Tabs({ barPosition: BarPosition.Start }) {
-        //1.专项类型
-        TabContent() {
-          // Text('专项类型')
-          templateType({ exercise: $copybook, type: TemplateType.specialType, pageNum: this.pageNum })
+      if (this.ifConnect) {
+        //2.导航栏：专项类型，综合类型，字帖类型
+        Tabs({ barPosition: BarPosition.Start }) {
+          //1.专项类型
+          TabContent() {
+            // Text('专项类型')
+            templateType({ exercise: $copybook, type: TemplateType.specialType, pageNum: this.pageNum })
+
+          }
+          .tabBar(this.TabBarBuilder('专项类型', 0))
+
+          //2.综合类型
+          TabContent() {
+            // Text('综合类型')
+            templateType({ exercise: $copybook, type: TemplateType.syntheticType, pageNum: this.pageNum })
+
+          }
+          .tabBar(this.TabBarBuilder('综合类型', 1))
+
+          //3.字帖类型
+          TabContent() {
+            // Text('字帖类型')
+            templateType({ exercise: $copybook, type: TemplateType.copybookType, pageNum: this.pageNum })
+
+          }
+          .tabBar(this.TabBarBuilder('字帖类型', 2))
 
         }
-        .tabBar(this.TabBarBuilder('专项类型', 0))
-
-        //2.综合类型
-        TabContent() {
-          // Text('综合类型')
-          templateType({ exercise: $copybook, type: TemplateType.syntheticType, pageNum: this.pageNum })
-
-        }
-        .tabBar(this.TabBarBuilder('综合类型', 1))
-
-        //3.字帖类型
-        TabContent() {
-          // Text('字帖类型')
-          templateType({ exercise: $copybook, type: TemplateType.copybookType, pageNum: this.pageNum })
-
-        }
-        .tabBar(this.TabBarBuilder('字帖类型', 2))
-
+        .width('100%')
+        .height('100%')
+        .onChange(index => {
+          this.currentIndex = index
+        })
+      } else {
+        Cant_Connect()
       }
-      .width('100%')
-      .height('100%')
-      .onChange(index => {
-        this.currentIndex = index
-      })
+
 
     }
   }
@@ -114,9 +125,11 @@ struct NewSystemPage {
         this.copybook = copybook
 
         console.log('Result', '系统模板', this.copybook[0].title, this.copybook[0].type)
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取系统字帖失败', error)
+        this.ifConnect = false
       })
   }
 

@@ -9,6 +9,7 @@ import ExcellentWorkInfo from '../../viewmodel/ExcellentWorkInfo'
 import { WorkType } from '../../viewmodel/ExcellentWorkInfo'
 import ExerciseService from  '../../service/ExerciseService'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
+import Cant_Connect from '../Cant_Connect'
 
 @Component
 export default struct Tabs_Comptition {
@@ -16,31 +17,32 @@ export default struct Tabs_Comptition {
 
   @State userId: number = 0
   //接收的数据
-  /*@State competition: CompetitionInfo[] = [
-    new CompetitionInfo(0,IfSignUpType.unSignUp, CompetitionType.cutOff, '第三次书法竞赛', '2024-6-20 13:30', '2024-6-29 13:30'),
-    new CompetitionInfo(0,IfSignUpType.unSignUp, CompetitionType.unCutOff, '第三次书法竞赛', '2024-6-20 13:30', '2024-6-29 13:30'),
-    new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.submit, '第四次竞赛', '2024-6-22 13:30', '2024-6-29 13:30'),
-    new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.unSubmit, '全国大赛(2)', '2024-6-24 13:30', '2024-6-29 13:30'),
-    new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.cutOff, '全国大赛(1)', '2024-6-4 13:30', '2024-6-25 13:30'),
-    new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.finish, '第二次书法竞赛', '2024-3-3', '30', 91),
-    new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.finish, '第一次书法竞赛', '2024-3-2', '30', 90)
-  ]*/
   @State finishCompetition: CompetitionInfo[] = [
+    /*
     new CompetitionInfo(0,IfSignUpType.unSignUp, CompetitionType.cutOff, '第三次书法竞赛', '2024-6-20 13:30', '2024-6-29 13:30'),
     new CompetitionInfo(0,IfSignUpType.unSignUp, CompetitionType.unCutOff, '第三次书法竞赛', '2024-6-20 13:30', '2024-6-29 13:30'),
     new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.submit, '第四次竞赛', '2024-6-22 13:30', '2024-6-29 13:30'),
     new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.unSubmit, '全国大赛(2)', '2024-6-24 13:30', '2024-6-29 13:30'),
     new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.cutOff, '全国大赛(1)', '2024-6-4 13:30', '2024-6-25 13:30'),
+    */
   ]
   @State unfinishCompetition: CompetitionInfo[] = [
+    /*
     new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.finish, '第二次书法竞赛', '2024-3-3', '30', 91),
     new CompetitionInfo(0,IfSignUpType.SignUp, CompetitionType.finish, '第一次书法竞赛', '2024-3-2', '30', 90)
+    */
   ]
 
   @State excellentExercise: ExcellentWorkInfo[] = [
+    /*
     new ExcellentWorkInfo(0,WorkType.schoolWork, '','横折练习', '2024-3-3'),
     new ExcellentWorkInfo(0,WorkType.competitionWork, '','第一次书法竞赛', '2024-3-2')
+    */
   ]
+
+  @State ifConnect1: boolean = false
+  @State ifConnect2: boolean = false
+  @State ifConnect3: boolean = false
 
   //自定义组件实现tabs组件拥有图片
   @Builder TabBarBuilder(title: ResourceStr, index: number){
@@ -74,21 +76,34 @@ export default struct Tabs_Comptition {
         //1.未开始/进行中
         TabContent(){
           // Text('未开始/进行中')
-          Compition_Unfinished({ competition: $unfinishCompetition })
+          if (this.ifConnect1) {
+            Compition_Unfinished({ competition: $unfinishCompetition })
+          } else {
+            Cant_Connect()
+          }
+
         }
         .tabBar(this.TabBarBuilder($r('app.string.competition_unfinished'), 0))
 
         //2.历史竞赛
         TabContent(){
           // Text('历史竞赛')
-          Competition_Finished({ competition: $finishCompetition })
+          if (this.ifConnect2) {
+            Competition_Finished({ competition: $finishCompetition })
+          } else {
+            Cant_Connect()
+          }
         }
         .tabBar(this.TabBarBuilder($r('app.string.competition_finished'), 1))
 
         //3.优秀作业
         TabContent(){
           // Text('优秀作业')
-          Excellent_Works({ excellentWork: $excellentExercise })
+          if (this.ifConnect3) {
+            Excellent_Works({ excellentWork: $excellentExercise })
+          } else {
+            Cant_Connect()
+          }
         }
         .tabBar(this.TabBarBuilder($r('app.string.competition_excellentWorks'), 2))
 
@@ -120,46 +135,52 @@ export default struct Tabs_Comptition {
 
   //获取竞赛
   async getUnfinishCompetition(){
-    this.userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // this.userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    CompetitionService.getCompetition(this.userId, 'unfinish')
+    CompetitionService.getCompetition('unfinish')
       .then((competition: CompetitionInfo[]) => {
         console.log('Tags', '获取竞赛成功')
 
         this.unfinishCompetition = competition
+        this.ifConnect1 = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取竞赛失败')
+        this.ifConnect1 = false
       })
   }
 
   //获取竞赛
   async getFinishCompetition(){
-    this.userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // this.userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    CompetitionService.getCompetition(this.userId, 'finish')
+    CompetitionService.getCompetition('finish')
       .then((competition: CompetitionInfo[]) => {
         console.log('Tags', '获取竞赛成功')
 
         this.finishCompetition = competition
+        this.ifConnect2 = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取竞赛失败')
+        this.ifConnect2 = false
       })
   }
 
   //获取优秀作品
   async getExcellentExercise(){
-    this.userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // this.userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    ExerciseService.getExcellentExercise(this.userId, 1)
+    ExerciseService.getExcellentExercise(1)
       .then((exercise: ExcellentWorkInfo[]) => {
         console.log('Tags', '获取优秀作品成功')
 
         this.excellentExercise = exercise
+        this.ifConnect3 = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取优秀作品失败')
+        this.ifConnect3 = false
       })
   }
 

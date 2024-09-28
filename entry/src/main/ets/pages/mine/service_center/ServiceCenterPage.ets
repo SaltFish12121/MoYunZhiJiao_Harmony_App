@@ -3,6 +3,7 @@ import Common_Problem from '../../../views/mine/service_center/Common_Problem'
 import Suggestions_Feedback from '../../../views/mine/service_center/Suggestions_Feedback'
 import InformationService from '../../../service/InformationService'
 import ProblemInfo from '../../../viewmodel/ProblemInfo'
+import Cant_Connect from '../../../views/Cant_Connect'
 
 @Entry
 @Component
@@ -13,6 +14,7 @@ struct ServiceCenterPage {
 
   @State arr: number[] = []
   @State problem: ProblemInfo[] = [
+    /*
     new ProblemInfo(0,'登录', '忘记密码该怎么办', ''),
     new ProblemInfo(0,'登录', '验证码错误怎么办', ''),
     new ProblemInfo(0,'登录', '可以多设备同时登录吗', ''),
@@ -25,6 +27,7 @@ struct ServiceCenterPage {
     new ProblemInfo(0,'竞赛', '竞赛考试中途能退出吗', ''),
     new ProblemInfo(0,'科普', '视频收藏后能在哪里看到', ''),
     new ProblemInfo(0,'科普', '知识科普的搜素怎么用', ''),
+    */
   ]
 
   //自定义组件实现tabs组件拥有图片
@@ -50,6 +53,7 @@ struct ServiceCenterPage {
   }
 
   @State title: string = '单字分析'
+  @State ifConnect: boolean = false
 
   build() {
     Column(){
@@ -61,7 +65,11 @@ struct ServiceCenterPage {
         //1.常见问题
         TabContent(){
           // Text('常见问题')
-          Common_Problem({ problem: $problem, arr: $arr })
+          if (this.ifConnect) {
+            Common_Problem({ problem: $problem, arr: $arr })
+          } else {
+            Cant_Connect()
+          }
         }
         .tabBar(this.TabBarBuilder('常见问题', 0))
 
@@ -100,9 +108,11 @@ struct ServiceCenterPage {
         console.log('Tags', '获取常见问题成功')
 
         this.problem = problem
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取常见问题失败')
+        this.ifConnect = false
       })
 
     for (let index = 0; index < this.problem.length; index++) {

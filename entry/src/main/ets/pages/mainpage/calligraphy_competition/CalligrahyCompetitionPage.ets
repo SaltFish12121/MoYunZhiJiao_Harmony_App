@@ -23,6 +23,7 @@ struct CalligrahyCompetitionPage {
   @State title: string = '竞赛通知'
 
   @State competition: CompetitionInformInfo[] = [
+    /*
     new CompetitionInformInfo(1,true, '本系统第二届', '2024-5-25', $r('app.media.homepage_competition')),
     new CompetitionInformInfo(2,true, '本系统第一届', '2024-5-25', $r('app.media.homepage_competition2')),
     new CompetitionInformInfo(3,true, '本系统成人大赛', '2024-5-25', $r('app.media.homepage_competition3')),
@@ -31,6 +32,7 @@ struct CalligrahyCompetitionPage {
     new CompetitionInformInfo(6,false, '第二届书法竞赛', '2024-5-25', $r('app.media.homepage_competition3')),
     new CompetitionInformInfo(7,false, '第一届书法竞赛', '2024-5-25', $r('app.media.homepage_competition')),
     new CompetitionInformInfo(8,false, '全国书法大赛', '2024-5-25', $r('app.media.homepage_competition2'))
+    */
   ]
 
   build() {

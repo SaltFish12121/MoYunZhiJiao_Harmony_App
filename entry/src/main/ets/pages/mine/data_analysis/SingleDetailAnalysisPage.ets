@@ -24,13 +24,13 @@ struct SingleDetailAnalysisPage {
   setOption2() {
     this.option2 = `{
     title: {
-      text: '基础柱折线图'
+      text: '得分分析'
     },
     grid:{
       left:"15%"
     },
     legend:{
-      data: ['访问量']
+      data: ['得分']
     },
     xAxis: {
       type: 'category',
@@ -40,7 +40,7 @@ struct SingleDetailAnalysisPage {
       axisLabel: {
         show: true,
         formatter:(value, index)=> {
-            return value + '万';
+            return value + '分';
         }
       }
     },
@@ -48,21 +48,11 @@ struct SingleDetailAnalysisPage {
       {
         data: ${JSON.stringify(this.seriesData2)},
         type: 'line',
-        name:'访问量'
+        name:'得分'
       }
     ]
   }`
     this.myEchart2?.render(this.option2)
-  }
-
-  //接口请求获取数据
-  getData2() {
-    //模拟接口请求
-    setTimeout(() => {
-      this.xAxisData2 = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      this.seriesData2 = [120, 200, 150, 80, 70, 110, 130]
-      this.setOption2()
-    }, 2000)
   }
 
   // 组件实例
@@ -71,6 +61,7 @@ struct SingleDetailAnalysisPage {
   @State title: string = '单字分析'
 
   @State wordAnalysis: WordAnalysisInfo = new WordAnalysisInfo(0,0,[],'','',[],[])
+  @State wordId: number = 0
   @State ifCan: boolean = false
 
   build() {
@@ -86,7 +77,7 @@ struct SingleDetailAnalysisPage {
               Text('模板字')
 
               Column(){
-                Image($r('app.media.KaitiChineseStroke_train_000000001548'))
+                Image(/*$r('app.media.KaitiChineseStroke_train_000000001548')*/this.wordAnalysis.template)
                   .width(120)
                   .height(120)
 
@@ -139,8 +130,8 @@ struct SingleDetailAnalysisPage {
           //3得分折线图
           Column() {
 
-            Text('得分分析')
-              .width('95%')
+            // Text('得分分析')
+            //   .width('95%')
 
             if (this.ifCan) {
               //添加折线图组件
@@ -188,9 +179,15 @@ struct SingleDetailAnalysisPage {
                   .width('100%')
                   .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid})
                   .onClick(() => {
+                    console.log('Data', record.word)
+
                     router.pushUrl(
                       {
-                        url: "pages/exercise/exercise_detail/ExerciseEachWordPage"
+                        url: "pages/exercise/exercise_detail/ExerciseEachWordPage",
+                        params: {
+                          ifSuccess: 1,
+                          data: record.word
+                        }
                       }
                     )
                   })
@@ -218,24 +215,29 @@ struct SingleDetailAnalysisPage {
     .height('100%')
   }
 
-  onPageShow(){
-    //获取单字分析
-    this.getSingleWordAnalysis()
+  async onPageShow(){
+    const word = router.getParams() as PARAMS
 
+    if (word != null && word != undefined) {
+      this.wordId = word.wordId
+    }
+
+    //获取单字分析
+    await this.getSingleWordAnalysis()
+
+    this.getData2()
   }
 
   //获取单字分析
   async getSingleWordAnalysis(){
-    let userId = 1
-    let wordId = 1
 
-    await UserService.getSingleWordAnalysis(userId, wordId)
+    await UserService.getSingleWordAnalysis(this.wordId)
       .then((wordAnalysis: WordAnalysisInfo) => {
         console.log('Tags', '获取单字分析成功')
 
         this.wordAnalysis = wordAnalysis
 
-        console.log('Result', this.wordAnalysis.id)
+        console.log('Result', this.wordAnalysis.id, this.wordAnalysis.score)
       })
       .catch((error: string) => {
         console.log('Tags', '获取单字分析失败')
@@ -246,4 +248,19 @@ struct SingleDetailAnalysisPage {
     this.ifCan = true
   }
 
+  //接口请求获取数据
+  getData2() {
+    //模拟接口请求
+    setTimeout(() => {
+      this.xAxisData2 = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      this.seriesData2 = this.wordAnalysis.score
+      this.setOption2()
+    }, 2000)
+  }
+
+}
+
+// 声明接受参数的类型
+interface PARAMS {
+  wordId: number
 }

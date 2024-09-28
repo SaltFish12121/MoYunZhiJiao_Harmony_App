@@ -18,6 +18,7 @@ import ExerciseService from  '../../service/ExerciseService'
 import router from '@ohos.router'
 import { UserPO } from '../../common/bean/UserPO'
 import { Http } from '../../common/constants/Http'
+import Cant_Connect from '../../views/Cant_Connect'
 
 
 @Entry
@@ -28,24 +29,30 @@ struct HomePage {
   //传入的数据
   //Tabs_HomePage
   @State knowledgeShow: KnowledgeInfo[] = [
+    /*
     new KnowledgeInfo(1,KnowledgeType.famousWorks, true, '面对与超越', 666, '2024-6-4', $r('app.media.homepage_video')),
     new KnowledgeInfo(2,KnowledgeType.famousWorks, true, '博览旧书法', 666, '2024-6-4', $r('app.media.homepage_knowledge2')),
     new KnowledgeInfo(3,KnowledgeType.famousWorks, true, '上海中国书法院院展', 666, '2024-6-4', $r('app.media.homepage_knowledge3'))
+    */
   ]
   @State videoShow: VideoListInfo[] = [
+    /*
     new VideoListInfo(1, '合集', '楷书的教学视频1', '2024-4-10', $r('app.media.homepage_video')),
     new VideoListInfo(2, '合集', '楷书的教学视频2', '2024-4-10', $r('app.media.homepage_video2')),
     new VideoListInfo(3, '合集', '楷书的教学视频3', '2024-4-10', $r('app.media.homepage_video3')),
     new VideoListInfo(4, '合集', '楷书的教学视频4', '2024-4-10', $r('app.media.homepage_video4')),
     new VideoListInfo(5, '合集', '楷书的教学视频5', '2024-4-10', $r('app.media.homepage_video')),
+    */
   ]
 
 
   @State competitionInformShow: CompetitionInformInfo[] = [
+    /*
     new CompetitionInformInfo(1,true, '“第一次书法竞赛”', '2024-4-5'),
     new CompetitionInformInfo(2,true, '“第二次书法竞赛”', '2024-4-5'),
     new CompetitionInformInfo(3,true, '“全国大赛”', '2024-4-5'),
     new CompetitionInformInfo(4,true, '“全国大赛（2）”', '2024-4-5'),
+    */
   ]
 
   //Tabs_Mine
@@ -53,6 +60,7 @@ struct HomePage {
   @State userType: boolean = false
   @State ifLogin: boolean = true
 
+  @State ifConnect: boolean = false
 
   //自定义组件实现tabs组件拥有图片
   @Builder TabBarBuilder(title: ResourceStr, image: ResourceStr, index: number){
@@ -75,7 +83,11 @@ struct HomePage {
       //1.首页
       TabContent(){
         // Text('首页')
-        Tabs_HomePage({ knowledgeShow: $knowledgeShow, videoShow: $videoShow, CompetitionInformShow: $competitionInformShow })
+        if (this.ifConnect) {
+          Tabs_HomePage({ knowledgeShow: $knowledgeShow, videoShow: $videoShow, CompetitionInformShow: $competitionInformShow })
+        } else {
+          Cant_Connect()
+        }
       }
       .tabBar(this.TabBarBuilder($r('app.string.tab_homepage'), $r('app.media.homepage'), 0))
 
@@ -138,9 +150,15 @@ struct HomePage {
     }
     .width('100%')
     .height('100%')
-    .onChange(index => {
+    .onChange(async(index) => {
       this.currentIndex = index
-
+      if (this.currentIndex == 0) {
+        await Promise.all([
+          this.getShowKnowledge(),
+          this.getShowVideo(),
+          this.getShowCompetition()
+        ]);
+      }
 
       if ((this.currentIndex == 2 || this.currentIndex == 3 || this.currentIndex == 1) && this.ifLogin == false) {
         router.pushUrl({
@@ -154,6 +172,7 @@ struct HomePage {
 
   async aboutToAppear() {
     console.log('aboutToAppear', 'HomePage')
+
     await Promise.all([
       this.getShowKnowledge(),
       this.getShowVideo(),
@@ -253,10 +272,11 @@ struct HomePage {
         this.knowledgeShow = knowledge
 
         console.log('Result', this.knowledgeShow[0].cover)
-
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取书法知识失败')
+        this.ifConnect = false
       })
 
   }
@@ -272,9 +292,11 @@ struct HomePage {
         this.videoShow = video
 
         console.log('Result', this.videoShow[0].cover)
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', 'show', '获取书法教学视频失败', error)
+        this.ifConnect = false
       })
 
   }
@@ -291,9 +313,11 @@ struct HomePage {
         this.competitionInformShow = competitionInform
 
         console.log('Result', this.competitionInformShow[0].cover)
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取竞赛通知失败')
+        this.ifConnect = false
 
       })
 
@@ -306,9 +330,9 @@ struct HomePage {
   //获取个人信息
   async getPersonalInformation(){
     // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    UserService.getPersonal(userId)
+    UserService.getPersonal()
       .then((user) => {
         console.log('Tags', '获取个人信息成功')
 
@@ -317,7 +341,7 @@ struct HomePage {
       })
       .catch((error: string) => {
         console.log('Tags', '获取个人信息失败')
-
+        // this.ifConnect = false
       })
   }
 

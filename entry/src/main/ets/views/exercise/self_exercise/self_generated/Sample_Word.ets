@@ -61,9 +61,7 @@ export default struct Sample_Word {
 
       Column(){
 
-        Column(){
-
-        }
+        Column()
         .height(10)
 
 
@@ -137,7 +135,6 @@ export default struct Sample_Word {
 
 
     }
-    .width('100%')
     .align(Alignment.TopStart)
     .backgroundColor($r('app.color.mid_gray'))
     .height('100%')
@@ -149,17 +146,17 @@ export default struct Sample_Word {
         this.isLoading = true
         // 翻页
         this.pageNum++
-        this.getSampleWord()
+        this.getTemplateWord()
       }
     })
 
   }
 
   //获取样本字
-  getSampleWord(){
+  getTemplateWord(){
     console.log('SampleWord', this.search, this.radical.radical, this.structure, this.typeface)
 
-    ExerciseService.getSampleWord(this.search, this.radical.radical, this.structure, this.typeface, this.pageNum)
+    ExerciseService.getTemplateWord(this.search, this.radical.radical, this.structure, this.typeface, this.pageNum)
       .then((sampleWord: WordListInfo[]) => {
 
         //拼接

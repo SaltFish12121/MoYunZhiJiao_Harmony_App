@@ -95,7 +95,9 @@ export default struct Compition_Unfinished{
 
 
   aboutToAppear(){
-    console.log("competition", this.competition[0].ifSignUp, this.competition[0].type)
+    if (this.competition != null) {
+      console.log("competition", this.competition[0].ifSignUp, this.competition[0].type)
+    }
   }
 
 

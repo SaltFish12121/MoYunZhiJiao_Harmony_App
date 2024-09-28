@@ -10,7 +10,7 @@ struct ExerciseDetialPage {
   private  Number2: number[] = [0, 1, 2, 3, 4, 5, 6, 7]
 
   @State submit: SubmitWritingInfo = new SubmitWritingInfo(0, $r('app.media.exercise_test1'))
-
+  /*
   @State word: WordInfo[][] = [
     [
       new WordInfo($r('app.media.word1'), [$r('app.media.0009_1'), $r('app.media.0009_2'), $r('app.media.0009_3'), $r('app.media.0009_4'), $r('app.media.0009_5'), $r('app.media.0009_6'), $r('app.media.0009_1'), $r('app.media.0009_2'), $r('app.media.0009_3'), $r('app.media.0009_4'), $r('app.media.0009_5'), $r('app.media.0009_6')], 81, $r('app.media.KaitiChineseStroke_val_000000000088')),
@@ -133,112 +133,120 @@ struct ExerciseDetialPage {
       new WordInfo($r('app.media.word96'), [$r('app.media.0009_1'), $r('app.media.0009_2'), $r('app.media.0009_3'), $r('app.media.0009_4'), $r('app.media.0009_5'), $r('app.media.0009_6')])
     ]
   ]
+  */
 
   @State title: string = '详情'
+  @State connect: boolean = false
 
   build() {
-    Scroll(){
-      Column(){
-        //1头部
-        HeaderTitle({ title: this.title })
-
-        //2原图
+    if (this.connect) {
+      Scroll(){
         Column(){
-          Image(/*$r('app.media.exercise_test1')*/this.submit.submit)
+          //1头部
+          HeaderTitle({ title: this.title })
+
+          //2原图
+          Column(){
+            Image(/*$r('app.media.exercise_test1')*/this.submit.submit)
+              .width('100%')
+          }
+          .width('80%')
+          .margin({ bottom: 20})
+
+          //3详细字
+          Column(){
+            Text('可点击下方字查看细致评分')
+              .fontSize(14)
+
+            Column(){
+
+              GridRow({
+                columns: 8,
+                gutter: { x: 2, y: 5 },
+                breakpoints: { value: ["400vp", "600vp", "800vp"],
+                  reference: BreakpointsReference.WindowSize },
+                direction: GridRowDirection.Row
+              }) {
+                ForEach(
+                  this.Number,
+                  (number1: number) => {
+                    ForEach(
+                      this.Number2,
+                      (number2: number) => {
+                        GridCol(){
+
+                          Column(){
+                            Column(){
+                              Image(/*this.word[number1][number2].word*/this.submit.word[number1][number2].word)
+                                // .width('100%')
+                                .height(30)
+                            }
+                            .width('100%')
+                            .constraintSize({ minHeight: 35, maxHeight: 35})
+                            .border({ width: 1, color: $r('app.color.text_gray'), radius: 0, style: BorderStyle.Solid })
+                            .alignItems(HorizontalAlign.Center)
+                            .justifyContent(FlexAlign.Center)
+
+                            Column(){
+                              Text(`${/*this.word[number1][number2].strokeNumber*/this.submit.word[number1][number2].strokeNumber}`)
+                                .fontSize(12)
+                                .fontColor($r('app.color.text_red'))
+                            }
+                            .width('100%')
+
+                          }
+                          .width('100%')
+                          .onClick(() => {
+                            router.pushUrl(
+                              {
+                                url: 'pages/exercise/exercise_detail/ExerciseEachWordPage',
+                                params: {
+                                  data: this.submit.word[number1][number2],
+                                  ifSuccess: 1
+                                }
+                              }
+                            )
+                          })
+
+                        }
+
+
+
+
+                      }
+                    )
+                  }
+                )
+
+              }
+
+            }
             .width('100%')
-        }
-        .width('80%')
-        .margin({ bottom: 20})
-
-        //3详细字
-        Column(){
-          Text('可点击下方字查看细致评分')
-            .fontSize(14)
+          }
+          .alignItems(HorizontalAlign.Start)
+          .width('90%')
 
           Column(){
 
-            GridRow({
-              columns: 8,
-              gutter: { x: 2, y: 5 },
-              breakpoints: { value: ["400vp", "600vp", "800vp"],
-                reference: BreakpointsReference.WindowSize },
-              direction: GridRowDirection.Row
-            }) {
-              ForEach(
-                this.Number,
-                (number1: number) => {
-                  ForEach(
-                    this.Number2,
-                    (number2: number) => {
-                      GridCol(){
-
-                        Column(){
-                          Column(){
-                            Image(this.word[number1][number2].word/*this.submit.word[number1][number2].word*/)
-                              .width('100%')
-                              // .height(35)
-                          }
-                          .width('100%')
-                          .constraintSize({ minHeight: 35})
-                          .border({ width: 1, color: $r('app.color.text_gray'), radius: 0, style: BorderStyle.Solid })
-
-                          Column(){
-                            Text(/*'86'*/`${this.word[number1][number2].strokeNumber}`)
-                              .fontSize(12)
-                              .fontColor($r('app.color.text_red'))
-                          }
-                          .width('100%')
-
-                        }
-                        .width('100%')
-                        .onClick(() => {
-                          router.pushUrl(
-                            {
-                              url: 'pages/exercise/exercise_detail/ExerciseEachWordPage',
-                              params: {
-                                data: this.word[number1][number2],
-                                ifSuccess: 1
-                              }
-                            }
-                          )
-                        })
-
-                      }
-
-
-
-
-                    }
-                  )
-                }
-              )
-
-            }
-
           }
-          .width('100%')
-        }
-        .alignItems(HorizontalAlign.Start)
-        .width('90%')
-
-        Column(){
+          .height(50)
 
         }
-        .height(50)
+        .width('100%')
 
       }
-      .width('100%')
-
     }
 
   }
 
 
-  onPageShow(){
+  async  onPageShow(){
     const param = router.getParams() as PARAMS
 
     if (param != null) {
       this.submit = param.submit
+      console.log('Params', this.submit.submit, this.submit.word[0][0].word, this.submit.word[0][7].word, this.submit.word[11][0].word, this.submit.word[11][7].word)
+      this.connect = true
     }
 
     // if (param.submit.word != null  {

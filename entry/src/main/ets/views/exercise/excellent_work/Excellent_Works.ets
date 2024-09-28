@@ -99,9 +99,9 @@ export default struct Excellent_Works {
 
   //获取优秀作品
   async getExcellentExercise(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    await ExerciseService.getExcellentExercise(userId, this.pageNum)
+    await ExerciseService.getExcellentExercise(this.pageNum)
       .then((exercise: ExcellentWorkInfo[]) => {
         console.log('Tags', '获取优秀作品成功')
 
@@ -120,9 +120,9 @@ export default struct Excellent_Works {
 
   //获取优秀作品
   async getExcellentExercise2(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    await ExerciseService.getExcellentExercise(userId, this.pageNum)
+    await ExerciseService.getExcellentExercise(this.pageNum)
       .then((exercise: ExcellentWorkInfo[]) => {
         console.log('Tags', '获取优秀作品成功')
 

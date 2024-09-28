@@ -1,11 +1,19 @@
 import http from '@ohos.net.http'
 import { Http } from '../common/constants/Http'
+import PreferencesUtil from '../common/utils/PreferencesUtil'
 
 class LoginService {
   baseURL: string = `${Http.BaseURL}/LoginService`
   // context: common.UIAbilityContext
   Authorization: string = Http.Token
 
+  async getUserToken(){
+    this.Authorization = await PreferencesUtil.getPreferenceValue('MyPreferences', 'Token', '') as string
+    if (this.Authorization == null) {
+      this.Authorization = Http.Token
+    }
+    console.log('token', 'Init', this.Authorization)
+  }
 
   /**
    * get
@@ -34,19 +42,19 @@ class LoginService {
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log('查询登录者ID成功\n', resp.result.toString())
+            console.log('Service', '查询登录者ID成功\n', resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log('查询登录者ID失败1', JSON.stringify(resp))
+            console.log('Service', '查询登录者ID失败1', JSON.stringify(resp))
             reject('查询登录者ID失败')
           }
         })
         .catch((error: string) => {
           //失败
-          console.log('查询登录者ID失败2', JSON.stringify(error))
+          console.log('Service', '查询登录者ID失败2', JSON.stringify(error))
           reject('查询登录者ID失败')
         })
 
@@ -108,19 +116,19 @@ dataPreferences.getPreferences(this.context, 'userPreferences').then(preferences
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log('用户信息注册成功\n', resp.result.toString())
+            console.log('Service', '用户信息注册成功\n', resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log('用户信息注册失败1', JSON.stringify(resp))
+            console.log('Service', '用户信息注册失败1', JSON.stringify(resp))
             reject('用户信息注册失败')
           }
         })
         .catch((error: string) => {
           //失败
-          console.log('用户信息注册失败2', JSON.stringify(error))
+          console.log('Service', '用户信息注册失败2', JSON.stringify(error))
           reject('用户信息注册失败')
         })
 
@@ -152,19 +160,19 @@ dataPreferences.getPreferences(this.context, 'userPreferences').then(preferences
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log('获取手机验证码成功\n', resp.result.toString())
+            console.log('Service', '获取手机验证码成功\n', resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log('获取手机验证码失败1', JSON.stringify(resp))
+            console.log('Service', '获取手机验证码失败1', JSON.stringify(resp))
             reject('获取手机验证码失败')
           }
         })
         .catch((error: string) => {
           //失败
-          console.log('获取手机验证码失败2', JSON.stringify(error))
+          console.log('Service', '获取手机验证码失败2', JSON.stringify(error))
           reject('获取手机验证码失败')
         })
     })
@@ -196,19 +204,19 @@ dataPreferences.getPreferences(this.context, 'userPreferences').then(preferences
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log('修改密码成功\n', resp.result.toString())
+            console.log('Service', '修改密码成功\n', resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log('修改密码失败1', JSON.stringify(resp))
+            console.log('Service', '修改密码失败1', JSON.stringify(resp))
             reject('修改密码失败')
           }
         })
         .catch((error: string) => {
           //失败
-          console.log('修改密码失败2', JSON.stringify(error))
+          console.log('Service', '修改密码失败2', JSON.stringify(error))
           reject('修改密码失败')
         })
     })

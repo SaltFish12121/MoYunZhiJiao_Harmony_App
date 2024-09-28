@@ -24,7 +24,7 @@ export default struct Single_Analysis {
 
   @Link pageNum: number
   isLoading: boolean = false//是否正在加载
-  isMore: boolean = true//是否有更多数据
+  @Link isMore: boolean//是否有更多数据
 
 
   build() {
@@ -33,9 +33,7 @@ export default struct Single_Analysis {
 
       Column(){
 
-        Column(){
-
-        }
+        Column()
         .height(10)
 
 
@@ -127,7 +125,6 @@ export default struct Single_Analysis {
 
       }
       .width('100%')
-      // .height('100%')
       .backgroundColor($r('app.color.mid_gray'))
 
     }
@@ -135,32 +132,51 @@ export default struct Single_Analysis {
     .backgroundColor($r('app.color.mid_gray'))
     .height('100%')
     .width('100%')
+    .onReachStart(() => {
+      console.log('触顶！')
+      this.pageNum = 1
+      this.isMore = true
+      this.getWordAnalysisList0()
+    })
     .onReachEnd(() => {
-      console.log('触底了！')
+      console.log('触底了！', this.pageNum)
 
       if(!this.isLoading && this.isMore){
         this.isLoading = true
         // 翻页
         this.pageNum++
-        this.getSampleWord()
+        this.getWordAnalysisList()
       }
     })
 
 
   }
 
-  onPageShow(){
-    //获取分析字
-
-  }
-
   //获取所有字分析列表
-  getSampleWord(){
+  getWordAnalysisList0(){
     console.log(this.radical.radical, this.structure, this.typeface)
-    UserService.getWordAnalysisList(0, this.search, this.radical.radical, this.structure, this.typeface, this.pageNum)
+    UserService.getWordAnalysisList(this.search, this.radical.radical, this.structure, this.typeface, this.pageNum)
       .then((sampleWord: WordAnalysisListInfo[]) => {
 
         this.sampleWord = sampleWord
+      })
+      .catch((error: string) => {
+        console.log('Tags', '获取样本字', error)
+      })
+  }
+
+  //获取所有字分析列表
+  getWordAnalysisList(){
+    console.log(this.radical.radical, this.structure, this.typeface)
+    UserService.getWordAnalysisList(this.search, this.radical.radical, this.structure, this.typeface, this.pageNum)
+      .then((sampleWord: WordAnalysisListInfo[]) => {
+
+        //拼接
+        this.sampleWord = this.sampleWord.concat(sampleWord)
+        this.isLoading = false
+        if(!sampleWord || sampleWord.length === 0){
+          this.isMore = false
+        }
       })
       .catch((error: string) => {
         console.log('Tags', '获取样本字', error)

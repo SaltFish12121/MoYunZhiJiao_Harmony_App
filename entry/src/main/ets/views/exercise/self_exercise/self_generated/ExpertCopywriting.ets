@@ -85,37 +85,37 @@ export default struct ExpertCopywriting {
 
   async onPageShow(){
     //获取专家字帖
-    await this.getExpertCopybook()
+    // await this.getExpertCopybook()
   }
 
   //获取专家字帖
   async getExpertCopybook(){
-    await ExerciseService.getExpertCopybook(this.pageNum)
-      .then((expertCopybook: CopybookInfo[]) => {
-        console.log('Tags', '获取专家字帖成功')
-
-        // this.exercise = expertCopybook
-      })
-      .catch(() => {
-        console.log('Tags', '获取专家字帖失败')
-      })
+    // await ExerciseService.getExpertCopybook(this.pageNum)
+    //   .then((expertCopybook: CopybookInfo[]) => {
+    //     console.log('Tags', '获取专家字帖成功')
+    //
+    //     // this.exercise = expertCopybook
+    //   })
+    //   .catch(() => {
+    //     console.log('Tags', '获取专家字帖失败')
+    //   })
   }
 
   //获取专家字帖
   getExpertCopybook2(){
-    ExerciseService.getExpertCopybook(this.pageNum)
-      .then((expertCopybook: CopybookInfo[]) => {
-        console.log('Tags', '获取专家字帖成功')
-
-        // //拼接
-        // this.exercise = this.exercise.concat(expertCopybook)
-        // this.isLoading = false
-        // if(!expertCopybook || expertCopybook.length === 0){
-        //   this.isMore = false
-        // }
-      })
-      .catch(() => {
-        console.log('Tags', '获取专家字帖失败')
-      })
+    // ExerciseService.getExpertCopybook(this.pageNum)
+    //   .then((expertCopybook: CopybookInfo[]) => {
+    //     console.log('Tags', '获取专家字帖成功')
+    //
+    //     // //拼接
+    //     // this.exercise = this.exercise.concat(expertCopybook)
+    //     // this.isLoading = false
+    //     // if(!expertCopybook || expertCopybook.length === 0){
+    //     //   this.isMore = false
+    //     // }
+    //   })
+    //   .catch(() => {
+    //     console.log('Tags', '获取专家字帖失败')
+    //   })
   }
 }

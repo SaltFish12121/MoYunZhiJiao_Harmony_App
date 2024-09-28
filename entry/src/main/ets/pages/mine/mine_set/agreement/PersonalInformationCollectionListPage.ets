@@ -1,12 +1,13 @@
 import { HeaderTitle } from '../../../../common/components/CommonComponents';
 import web_webview from '@ohos.web.webview';
 import InformationService from '../../../../service/InformationService'
+import Cant_Connect from '../../../../views/Cant_Connect';
 
 @Entry
 @Component
 struct PersonalInformationCollectionListPage {
   webviewController: web_webview.WebviewController = new web_webview.WebviewController();
-  @State content: string =`
+  /*@State content: string =`
 本政策仅适用于{公司名}的{产品名}产品或服务。 最近更新日期：{隐私政策更新时间}
 本政策将帮助您了解以下内容：
 一、我们如何收集和使用您的用户信息
@@ -178,12 +179,13 @@ struct PersonalInformationCollectionListPage {
 
 
 
-`
+`*/
 
 
   @State title: string = '个人信息收集清单'
 
   @State agreement: string = ''
+  @State ifConnect: boolean = false
 
   build() {
     Scroll(){
@@ -191,20 +193,15 @@ struct PersonalInformationCollectionListPage {
         //1头部
         HeaderTitle({ title: $title })
 
-        //2内容（模拟）
-        Column(){
-          Text('隐私政策（博客论坛类模板）')
-            .fontSize(20)
-            .fontWeight(500)
-
-          Text(this.agreement)
-
-          Text(this.content)
+        if (this.ifConnect) {
+          //2内容（模拟）
+          RichText(this.agreement)
+        } else {
+          Cant_Connect()
         }
-        .width('95%')
 
         // 组件创建时，加载www.example.com
-        Web({ src: 'www.example.com', controller: this.webviewController})
+        // Web({ src: 'www.example.com', controller: this.webviewController})
 
 
       }
@@ -224,9 +221,11 @@ struct PersonalInformationCollectionListPage {
         console.log('Tags', '获取个人信息收集清单成功')
 
         this.agreement = agreement
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取个人信息收集清单失败')
+        this.ifConnect = false
       })
   }
 

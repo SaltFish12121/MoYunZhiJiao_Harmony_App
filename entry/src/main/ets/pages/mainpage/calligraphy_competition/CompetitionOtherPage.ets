@@ -149,8 +149,9 @@ QQ 3群：813435457
             Text(this.competition.title)
               .fontSize(30)
 
-            Text(this.content)
+            // Text(this.content)
 
+            RichText(this.competition.content)
           }
           .margin({ top: 50, bottom: 60})
           .width('90%')

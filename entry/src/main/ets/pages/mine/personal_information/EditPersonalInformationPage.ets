@@ -72,7 +72,7 @@ struct EditPersonalInformationPage {
           Blank()
 
           Column(){
-            Image($r('app.media.userhead_example2'))
+            Image(/*$r('app.media.userhead_example2')*/this.userPersonal.otherName)
               .clip(new Circle({ width: '55', height: '55' }))
               .width(55)
           }

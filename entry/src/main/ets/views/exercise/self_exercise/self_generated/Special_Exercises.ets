@@ -4,6 +4,7 @@ import { Radical } from '../../../../data/Radical'
 import Sample_Word from './Sample_Word'
 import ExerciseService from '../../../../service/ExerciseService'
 import WordListInfo from '../../../../viewmodel/WordListInfo'
+import Cant_Connect from '../../../Cant_Connect'
 
 @Extend(Row) function content_formant(){
   // .padding({top: 30, bottom: 35})
@@ -46,6 +47,8 @@ export default struct Special_Exercises {
   @State selectId: number[] = []
   @State search: string = ''
 
+  @Prop ifConnect: boolean
+
   build() {
 
 
@@ -62,6 +65,11 @@ export default struct Special_Exercises {
             })
 
           Text('搜索')
+            .fontSize(18)
+            .fontColor($r('app.color.blue'))
+            .onClick(() => {
+              this.getTemplateWord()
+            })
         }
         .justifyContent(FlexAlign.Center)
         .width('95%')
@@ -144,7 +152,7 @@ export default struct Special_Exercises {
                 console.info('Select:' + index)
                 this.structure = v
 
-                this.getSampleWord()
+                this.getTemplateWord()
               })
           }
           .content_formant()
@@ -165,7 +173,7 @@ export default struct Special_Exercises {
                 console.info('Select:' + index)
 
                 this.typeface = value
-                this.getSampleWord()
+                this.getTemplateWord()
               })
           }
           .content_formant()
@@ -188,10 +196,14 @@ export default struct Special_Exercises {
       })
 
 
-
       Scroll(){
-        //3系统样本字
-        Sample_Word({ selectNumber: $selectNumber, sampleWord: $sampleWord, selectId: $selectId, radical: $radical, typeface: this.typeface, structure: this.structure ,search: this.search })
+        if (this.ifConnect) {
+          //3系统样本字
+          Sample_Word({ selectNumber: $selectNumber, sampleWord: $sampleWord, selectId: $selectId, radical: $radical, typeface: this.typeface, structure: this.structure ,search: this.search })
+        } else {
+          Cant_Connect()
+        }
+
       }
       .width('100%')
       .height('68%')
@@ -249,16 +261,18 @@ export default struct Special_Exercises {
 
 
   //获取样本字
-  getSampleWord(){
+  getTemplateWord(){
     console.log(this.radical.radical, this.structure, this.typeface)
 
-    ExerciseService.getSampleWord(this.search, this.radical.radical, this.structure, this.typeface, 1)
+    ExerciseService.getTemplateWord(this.search, this.radical.radical, this.structure, this.typeface, 1)
       .then((sampleWord: WordListInfo[]) => {
 
         this.sampleWord = sampleWord
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取样本字', error)
+        this.ifConnect = false
       })
   }
 }

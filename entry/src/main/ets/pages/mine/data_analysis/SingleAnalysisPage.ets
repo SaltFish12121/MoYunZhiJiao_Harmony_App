@@ -24,16 +24,19 @@ import WordAnalysisListInfo from  '../../../viewmodel/analysis/WordAnalysisListI
 @Component
 struct SingleAnalysisPage {
   @State radical: Radical = new Radical(0, '', '')
-  @State structure: string = '左右结构'
-  @State typeface: string = '楷书'
+  @State structure: string = ''
+  @State typeface: string = ''
   @State search: string = ''
 
+  @State isMore: boolean = true//是否有更多数据
   @State pageNum: number = 1
 
   @State selectNumber: number = 0
 
   @State title: string = '单字分析'
   @State sampleWord: WordAnalysisListInfo[] = []
+
+  scroller: Scroller = new Scroller()
 
   build() {
     Column(){
@@ -56,8 +59,12 @@ struct SingleAnalysisPage {
             .fontColor($r('app.color.blue'))
             .onClick(() => {
               this.pageNum = 1
+              this.isMore = true
               //获取所有字分析列表
-              this.getSampleWord()
+              this.getWordAnalysisList()
+
+              // 点击后回到顶部
+              this.scroller.scrollEdge(Edge.Top)
             })
         }
         .justifyContent(FlexAlign.Center)
@@ -131,7 +138,7 @@ struct SingleAnalysisPage {
                 console.info('Select:' + index)
                 this.structure = v
 
-                this.getSampleWord()
+                this.getWordAnalysisList()
               })
           }
           .content_formant()
@@ -152,7 +159,7 @@ struct SingleAnalysisPage {
                 console.info('Select:' + index)
 
                 this.typeface = value
-                this.getSampleWord()
+                this.getWordAnalysisList()
               })
           }
           .content_formant()
@@ -176,7 +183,7 @@ struct SingleAnalysisPage {
 
       //3练习的样本字
       Scroll(){
-        Single_Analysis({ selectNumber: $selectNumber, radical: $radical, sampleWord: $sampleWord, typeface: $typeface, structure: $structure, search: $search, pageNum: $pageNum })
+        Single_Analysis({ selectNumber: $selectNumber, radical: $radical, sampleWord: $sampleWord, typeface: $typeface, structure: $structure, search: $search, pageNum: $pageNum, isMore: $isMore })
       }
       .width('100%')
       .height('74%')
@@ -191,6 +198,8 @@ struct SingleAnalysisPage {
   onPageShow(){
     const radical = router.getParams() as PARAMS
 
+    this.pageNum = 1
+
     if (radical != null && radical.success) {
       this.radical = radical.radical
     }
@@ -198,13 +207,13 @@ struct SingleAnalysisPage {
     console.log(`${this.radical.id}`, this.radical.radical, this.radical.name)
 
     //获取所有字分析列表
-    this.getSampleWord()
+    this.getWordAnalysisList()
   }
 
   //获取所有字分析列表
-  getSampleWord(){
+  getWordAnalysisList(){
     console.log(this.radical.radical, this.structure, this.typeface)
-    UserService.getWordAnalysisList(0, this.search, this.radical.radical, this.structure, this.typeface, this.pageNum)
+    UserService.getWordAnalysisList(this.search, this.radical.radical, this.structure, this.typeface, this.pageNum)
       .then((sampleWord: WordAnalysisListInfo[]) => {
 
         this.sampleWord = sampleWord

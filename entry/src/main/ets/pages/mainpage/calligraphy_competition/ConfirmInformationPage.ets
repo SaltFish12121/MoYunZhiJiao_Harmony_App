@@ -133,9 +133,9 @@ struct ConfirmInformationPage {
   //获取个人信息
   async getPersonalInformation(){
     // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    await UserService.getPersonal(userId)
+    await UserService.getPersonal()
       .then((user) => {
         console.log('Tags', '获取个人信息成功')
 

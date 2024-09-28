@@ -25,16 +25,14 @@ import UserService from '../../service/UserService'
 
 @Component
 export default struct Tabs_Mine {
-  // user: UserInfo = new UserInfo( 0, '用户1', '', '', new RegionInfo(), '', '', new KlassInfo(0, '1', '盘城小学', '一年级'))
-  // @State user1: UserInfo = new UserInfo( 0, '用户1', '', '', new RegionInfo(), '', '', new KlassInfo(0, '1', '盘城小学', '一年级'))
 
   @Link userPersonal: UserInfo/* = new UserInfo( 0, '王小明', '202283290123', '123456', new RegionInfo(1, '南京'), '男', '', new KlassInfo(0, '（1）', '盘城小学', '一年级', '李梅'), '18912345678', '123456789@qq.com', '', true)*/
 
 
   build() {
     Column(){
-      //1 首部
-      if (this.userPersonal.id != 0 && this.userPersonal.id != undefined){
+      //1 首部(已登录/有账号）
+      if (this.userPersonal!= null && this.userPersonal.id != 0 && this.userPersonal.id != undefined){
         Column(){
           Row(){
             //1 头像
@@ -164,7 +162,11 @@ export default struct Tabs_Mine {
           offsetY: 2,
         })
         .onClick(() => {
-          console.log('Tabs',`Mine user.gender = ${this.userPersonal.gender}`)
+          if (this.userPersonal != null) {
+            console.log('Tabs',`Mine user.gender = ${this.userPersonal.gender}`)
+          } else {
+            console.log('Tag', 'Mine：aboutToAppear', 'user == null')
+          }
 
           router.replaceUrl(
             {
@@ -349,6 +351,7 @@ export default struct Tabs_Mine {
           )
         })
 
+        /*
         // 测试图片上传
         Column(){
           Text('测试图片上传')
@@ -361,7 +364,7 @@ export default struct Tabs_Mine {
               }
             )
           })
-
+        */
 
       }
       .margin({top: 20})
@@ -379,11 +382,19 @@ export default struct Tabs_Mine {
 
 
   async aboutToAppear(){
-    console.log('Tag', 'Mine：aboutToAppear')
+    if (this.userPersonal != null) {
+      console.log('Tag', 'Mine：aboutToAppear', this.userPersonal.id)
+    } else {
+      console.log('Tag', 'Mine：aboutToAppear', 'user == null')
+    }
 
+
+    if (this.userPersonal.id != 0 && this.userPersonal.id != undefined) {
+      await this.getPersonalInformation()
+    }
     // this.user1.name = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserName', '默认名') as string
 
-    // await this.getPersonalInformation()
+
 
     // console.log('Tag', this.user1.name)
   }
@@ -392,9 +403,9 @@ export default struct Tabs_Mine {
   //获取个人信息
   async getPersonalInformation(){
     // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    UserService.getPersonal(userId)
+    UserService.getPersonal()
       .then((user) => {
         console.log('Tags', '获取个人信息成功')
 

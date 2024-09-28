@@ -17,7 +17,11 @@ class UserService{
   Authorization: string = Http.Token
 
   async getUserToken(){
-    return await PreferencesUtil.getPreferenceValue('MyPreferences', 'Token', '') as string
+    this.Authorization = await PreferencesUtil.getPreferenceValue('MyPreferences', 'Token', '') as string
+    if (this.Authorization == null) {
+      this.Authorization = Http.Token
+    }
+    console.log('token', 'Init', this.Authorization)
   }
   /**
    * get
@@ -25,7 +29,7 @@ class UserService{
    * @param userId
    * @returns 个人基本信息
    */
-  getPersonal(userId: number): Promise<UserInfo>{
+  getPersonal(): Promise<UserInfo>{
     return new Promise(async(resolve, reject) => {
       let title: string = '获取个人基本信息'
       console.log('token', 'getPersonal', this.Authorization)
@@ -38,7 +42,7 @@ class UserService{
         `${this.baseURL}/getPersonal`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId },
+          // extraData: { userId: userId },
           header: {Authorization: this.Authorization}
         }
       )
@@ -46,19 +50,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString(), this.Authorization, 'end')
+            console.log('Service', `${title}成功\n`, resp.result.toString(), this.Authorization, 'end')
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
 
@@ -71,7 +75,7 @@ class UserService{
    * @param userId
    * @returns 个人收藏信息
    */
-  getExerciseCollect(userId: number = 0, pageNum: number = 0): Promise<CollectInfo[]>{
+  getExerciseCollect(pageNum: number): Promise<CollectInfo[]>{
     return new Promise((resolve, reject) => {
       let title: string = '获取个人练习收藏信息'
 
@@ -90,19 +94,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`,  resp.result.toString())
+            console.log('Service', `${title}成功\n`,  resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -115,7 +119,7 @@ class UserService{
    * @param userId
    * @returns
    */
-  getKnowledgeCollect(userId: number, pageNum: number): Promise<KnowledgeInfo[]>{
+  getKnowledgeCollect(pageNum: number): Promise<KnowledgeInfo[]>{
     return new Promise((resolve, reject) => {
       let title: string = '获取个人知识收藏'
 
@@ -127,7 +131,7 @@ class UserService{
         `${this.baseURL}/getKnowledgeCollect/${pageNum}`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId, pageNum: pageNum },
+          // extraData: { pageNum: pageNum },
           header: {Authorization: this.Authorization}
         }
       )
@@ -135,19 +139,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`,  resp.result.toString())
+            console.log('Service', `${title}成功\n`,  resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -159,7 +163,7 @@ class UserService{
    * @param userId
    * @returns
    */
-  getVideoCollect(userId: number, pageNum: number): Promise<VideoListInfo[]>{
+  getVideoCollect(pageNum: number): Promise<VideoListInfo[]>{
     return new Promise((resolve, reject) => {
       let title: string = '获取个人视频收藏'
 
@@ -171,7 +175,7 @@ class UserService{
         `${this.baseURL}/getVideoCollect/${pageNum}`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId, pageNum: pageNum },
+          extraData: { pageNum: pageNum },
           header: {Authorization: this.Authorization}
         }
       )
@@ -179,19 +183,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`,  resp.result.toString())
+            console.log('Service', `${title}成功\n`,  resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -204,7 +208,7 @@ class UserService{
    * @param messageType
    * @returns 个人消息
    */
-  getMineMessage(userId: number, messageType: number, pageNum: number): Promise<MessageInfo[]>{
+  getMineMessage(messageType: number, pageNum: number): Promise<MessageInfo[]>{
     return new Promise((resolve, reject) => {
       let title: string = '获取个人消息'
 
@@ -216,7 +220,7 @@ class UserService{
         `${this.baseURL}/getMineMessage/${messageType}/${pageNum}`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId, messageType: messageType, pageNum: pageNum },
+          // extraData: { messageType: messageType, pageNum: pageNum },
           header: {Authorization: this.Authorization}
         }
       )
@@ -224,19 +228,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -248,7 +252,7 @@ class UserService{
    * @param userId
    * @returns 个人意见反馈记录
    */
-  getMineFeedback(userId: number): Promise<FeedbackInfo[]>{
+  getMineFeedback(): Promise<FeedbackInfo[]>{
     return new Promise((resolve, reject) => {
       let title: string = '获取个人意见反馈记录'
 
@@ -260,7 +264,7 @@ class UserService{
         `${this.baseURL}/getMineFeedback`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId },
+          // extraData: { userId: userId },
           header: {Authorization: this.Authorization}
         }
       )
@@ -268,19 +272,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -292,7 +296,7 @@ class UserService{
    * @param userId
    * @returns
    */
-  getExerciseAnalysis(userId: number): Promise<ExerciseAnalysisInfo>{
+  getExerciseAnalysis(): Promise<ExerciseAnalysisInfo>{
     return new Promise((resolve, reject) => {
       let title: string = '获取练习总体分析'
 
@@ -304,7 +308,7 @@ class UserService{
         `${this.baseURL}/getExerciseAnalysis`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId },
+          // extraData: { userId: userId },
           header: {Authorization: this.Authorization}
         }
       )
@@ -312,19 +316,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -337,7 +341,7 @@ class UserService{
    * @param wordId
    * @returns
    */
-  getSingleWordAnalysis(userId: number, wordId: number): Promise<WordAnalysisInfo>{
+  getSingleWordAnalysis(wordId: number): Promise<WordAnalysisInfo>{
     return new Promise((resolve, reject) => {
       let title: string = '获取单字练习分析'
 
@@ -349,7 +353,7 @@ class UserService{
         `${this.baseURL}/getSingleWordAnalysis/${wordId}`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId },
+          // extraData: { userId: userId },
           header: {Authorization: this.Authorization}
         }
       )
@@ -357,19 +361,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -384,7 +388,7 @@ class UserService{
    * @param typeface
    * @returns
    */
-  getWordAnalysisList(userId: number, search: string, radical: string, structure: string, typeface: string, pageNum: number): Promise<WordAnalysisListInfo[]> {
+  getWordAnalysisList(search: string, radical: string, structure: string, typeface: string, pageNum: number): Promise<WordAnalysisListInfo[]> {
     return new Promise((resolve, reject) => {
       let title: string = '获取样本分析字列表'
 
@@ -396,7 +400,7 @@ class UserService{
         `${this.baseURL}/getWordAnalysisList/${pageNum}`,
         {
           method: http.RequestMethod.GET,
-          extraData: { userId: userId, search: search, radical: radical, structure: structure, typeface: typeface },
+          extraData: { search: search, radical: radical, structure: structure, typeface: typeface },
           header: {Authorization: this.Authorization}
         }
       )
@@ -404,19 +408,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -449,19 +453,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -494,19 +498,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -539,19 +543,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -584,19 +588,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -629,19 +633,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -677,19 +681,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -722,19 +726,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -769,19 +773,19 @@ class UserService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })

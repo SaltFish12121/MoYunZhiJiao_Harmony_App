@@ -8,6 +8,7 @@ import InformationService from  '../../../service/InformationService'
 
 import KnowledgeInfo from '../../../viewmodel/KnowledgeInfo'
 import { KnowledgeType } from '../../../viewmodel/KnowledgeInfo'
+import Cant_Connect from '../../../views/Cant_Connect'
 
 @Entry
 @Component
@@ -42,38 +43,34 @@ struct CalligraphyKnowledgePage {
     return this.currentIndex === index ? $r('app.color.pink') : $r('app.color.black')
   }
 
-  /*
-  @State knowledge: KnowledgeInfo[] = [
-    new KnowledgeInfo(4,KnowledgeType.Hanzi, true , '汉字的演变过程', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(5,KnowledgeType.famousWorks, false , '《洛神赋十三行》王献之', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(7,KnowledgeType.biography, false, '王羲之的童年时期', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(8,KnowledgeType.biography, false, '颜真卿的人物传记', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(9,KnowledgeType.biography, false, '李斯的生平', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(9,KnowledgeType.Hanzi, false, '汉字的演变过程', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(10,KnowledgeType.Hanzi, false, '楷书的发展', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(11,KnowledgeType.famousWorks, true , '《洛神赋十三行》王献之', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(12,KnowledgeType.culture, false , '中华文化发展', 666, '2024-4-10', $r('app.media.show_knoledge')),
-  ]
-  */
-
   @State recommendKnowledge: KnowledgeInfo[] = [
+    /*
     new KnowledgeInfo(4,KnowledgeType.Hanzi, true , '汉字的演变过程', 666, '2024-4-10', $r('app.media.show_knoledge')),
     new KnowledgeInfo(11,KnowledgeType.famousWorks, true , '《洛神赋十三行》王献之', 666, '2024-4-10', $r('app.media.show_knoledge')),
+  */
   ]
   @State biographyKnowledge: KnowledgeInfo[] = [
+  /*
     new KnowledgeInfo(7,KnowledgeType.biography, false, '王羲之的童年时期', 666, '2024-4-10', $r('app.media.show_knoledge')),
     new KnowledgeInfo(8,KnowledgeType.biography, false, '颜真卿的人物传记', 666, '2024-4-10', $r('app.media.show_knoledge')),
     new KnowledgeInfo(9,KnowledgeType.biography, false, '李斯的生平', 666, '2024-4-10', $r('app.media.show_knoledge')),
+  */
   ]
   @State HanziKnowledge: KnowledgeInfo[] = [
+  /*
     new KnowledgeInfo(9,KnowledgeType.Hanzi, false, '汉字的演变过程', 666, '2024-4-10', $r('app.media.show_knoledge')),
     new KnowledgeInfo(10,KnowledgeType.Hanzi, false, '楷书的发展', 666, '2024-4-10', $r('app.media.show_knoledge')),
+  */
   ]
   @State famousWorksKnowledge: KnowledgeInfo[] = [
+  /*
     new KnowledgeInfo(11,KnowledgeType.famousWorks, true , '《洛神赋十三行》王献之', 666, '2024-4-10', $r('app.media.show_knoledge')),
+  */
   ]
   @State cultureKnowledge: KnowledgeInfo[] = [
+  /*
     new KnowledgeInfo(12,KnowledgeType.culture, false , '中华文化发展', 666, '2024-4-10', $r('app.media.show_knoledge')),
+  */
   ]
 
   @State pageNumRecommend: number = 1
@@ -81,6 +78,8 @@ struct CalligraphyKnowledgePage {
   @State pageNumHanzi: number = 1
   @State pageNumFamousWorks: number = 1
   @State pageNumCulture: number = 1
+
+  @State ifConnect: boolean = false
 
   build() {
     Column(){
@@ -104,7 +103,9 @@ struct CalligraphyKnowledgePage {
             this.pageNumHanzi = 1
             this.pageNumFamousWorks = 1
             this.pageNumCulture = 1
+
             //获取书法知识
+            this.ifConnect = true
             await Promise.all([
               this.getRecommendKnowledge(),
               this.getBiographyKnowledge(),
@@ -115,56 +116,60 @@ struct CalligraphyKnowledgePage {
           })
       }
 
+      if (this.ifConnect) {
+        //2 导航栏+内容
+        Tabs({barPosition: BarPosition.Start}){
+          //1.推荐
+          TabContent(){
+            // Text('推荐')
+            Knowledge_Recommend({ knowledge: $recommendKnowledge, search: $search, pageNum: this.pageNumRecommend })
+          }
+          .tabBar(this.TabBarBuilder($r('app.string.knowledge_recommend'), 0))
 
-      //2 导航栏+内容
-      Tabs({barPosition: BarPosition.Start}){
-        //1.推荐
-        TabContent(){
-          // Text('推荐')
-          Knowledge_Recommend({ knowledge: $recommendKnowledge, search: $search, pageNum: this.pageNumRecommend })
+          //2.人物传记
+          TabContent(){
+            // Text('人物传记')
+            Knowledge_Biography({ knowledge: $biographyKnowledge, search: $search, pageNum: this.pageNumBiography })
+          }
+          .tabBar(this.TabBarBuilder($r('app.string.knowledge_biography'), 1))
+
+          //3.汉字
+          TabContent(){
+            // Text('汉字')
+            Knowledge_Hanzi({ knowledge: $HanziKnowledge, search: $search, pageNum: this.pageNumHanzi })
+          }
+          .tabBar(this.TabBarBuilder($r('app.string.knowledge_Hanzi'), 2))
+
+          //4.名家作品
+          TabContent(){
+            // Text('名家作品')
+            Knowledge_FamousWorks({ knowledge: $famousWorksKnowledge, search: $search, pageNum: this.pageNumFamousWorks })
+          }
+          .tabBar(this.TabBarBuilder($r('app.string.knowledge_famousWorks'), 3))
+
+          //5.文化
+          TabContent(){
+            // Text('文化')
+            Knowledge_Culture({ knowledge: $cultureKnowledge, search: $search, pageNum: this.pageNumCulture })
+          }
+          .tabBar(this.TabBarBuilder($r('app.string.knowledge_culture'), 4))
+
+
         }
-        .tabBar(this.TabBarBuilder($r('app.string.knowledge_recommend'), 0))
-
-        //2.人物传记
-        TabContent(){
-          // Text('人物传记')
-          Knowledge_Biography({ knowledge: $biographyKnowledge, search: $search, pageNum: this.pageNumBiography })
-        }
-        .tabBar(this.TabBarBuilder($r('app.string.knowledge_biography'), 1))
-
-        //3.汉字
-        TabContent(){
-          // Text('汉字')
-          Knowledge_Hanzi({ knowledge: $HanziKnowledge, search: $search, pageNum: this.pageNumHanzi })
-        }
-        .tabBar(this.TabBarBuilder($r('app.string.knowledge_Hanzi'), 2))
-
-        //4.名家作品
-        TabContent(){
-          // Text('名家作品')
-          Knowledge_FamousWorks({ knowledge: $famousWorksKnowledge, search: $search, pageNum: this.pageNumFamousWorks })
-        }
-        .tabBar(this.TabBarBuilder($r('app.string.knowledge_famousWorks'), 3))
-
-        //5.文化
-        TabContent(){
-          // Text('文化')
-          Knowledge_Culture({ knowledge: $cultureKnowledge, search: $search, pageNum: this.pageNumCulture })
-        }
-        .tabBar(this.TabBarBuilder($r('app.string.knowledge_culture'), 4))
-
-
+        .width('100%')
+        .height('100%')
+        .onChange(index => {
+          this.currentIndex = index
+        })
+      } else {
+        Cant_Connect()
       }
-      .width('100%')
-      .height('100%')
-      .onChange(index => {
-        this.currentIndex = index
-      })
 
     }
   }
 
   async onPageShow(){
+    this.ifConnect = true
     //获取书法知识
     await Promise.all([
       this.getRecommendKnowledge(),
@@ -187,6 +192,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
+        this.ifConnect = false
       })
 
   }
@@ -203,6 +209,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
+        this.ifConnect = false
       })
 
   }
@@ -219,6 +226,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
+        this.ifConnect = false
       })
 
   }
@@ -235,6 +243,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
+        this.ifConnect = false
       })
 
   }
@@ -251,6 +260,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
+        this.ifConnect = false
       })
 
   }

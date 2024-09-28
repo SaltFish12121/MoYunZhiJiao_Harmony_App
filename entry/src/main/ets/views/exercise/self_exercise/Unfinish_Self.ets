@@ -87,9 +87,9 @@ export default struct Unfinish_Self {
   //获取自我练习
   async getSelfExercise(){
     // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    ExerciseService.getMineExercise(userId, 'unfinish', this.pageNum)
+    ExerciseService.getMineExercise('unfinish', this.pageNum)
       .then((exercise: ExerciseInfo[]) => {
         console.log('Tags', '获取自我练习成功')
 
@@ -108,9 +108,9 @@ export default struct Unfinish_Self {
   //获取自我练习
   async getSelfExercise2(){
     // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    ExerciseService.getMineExercise(userId, 'unfinish', this.pageNum)
+    ExerciseService.getMineExercise('unfinish', this.pageNum)
       .then((exercise: ExerciseInfo[]) => {
         console.log('Tags', '获取自我练习成功')
 

@@ -85,9 +85,9 @@ export default struct Video_Collect {
 
   //获取教学收藏
   async getVideoCollect(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    await UserService.getVideoCollect(userId, this.pageNum)
+    await UserService.getVideoCollect(this.pageNum)
       .then((collect: VideoInfo[]) => {
         console.log('Tags', '获取个人视频收藏成功')
 
@@ -114,9 +114,9 @@ export default struct Video_Collect {
 
   //获取教学收藏
   async getVideoCollect2(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    await UserService.getVideoCollect(userId, this.pageNum)
+    await UserService.getVideoCollect(this.pageNum)
       .then((collect: VideoInfo[]) => {
         console.log('Tags', '获取个人视频收藏成功')
 

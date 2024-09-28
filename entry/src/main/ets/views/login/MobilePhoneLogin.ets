@@ -1,7 +1,12 @@
 import router from '@ohos.router'
-import LoginService from '../../service/LoginService'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
 import { Http } from '../../common/constants/Http'
+
+import InformationService from  '../../service/InformationService'
+import UserService from '../../service/UserService'
+import ExerciseService from '../../service/ExerciseService'
+import CompetitionService from '../../service/CompetitionService'
+import LoginService from '../../service/LoginService'
 
 @Component
 export default struct MobilePhoneLogin {
@@ -173,12 +178,7 @@ export default struct MobilePhoneLogin {
             console.log('Result', 'userId', this.userId)
 
             //用户数据持久化
-            this.preferenceUser(login.id)
-            //token持久化
-            console.log('MyPreferences', 'token', login.token)
-            PreferencesUtil.putPreferenceValue('MyPreferences', 'token', login.token)
-            //零时保存
-            // Http.Token = login.token
+            this.preferenceUser(login.id, login.token)
 
             if (this.userId != 0 && this.userId != undefined ) {
               console.log('Tags', '验证码登录成功')
@@ -246,10 +246,28 @@ export default struct MobilePhoneLogin {
   }
 
   //用户持久化
-  preferenceUser(userId: number) {
+  preferenceUser(userId: number, token: string) {
     console.log('MyPreferences', 'UserId', userId)
-    // user.name = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserName', '默认名') as string
+    // user.name = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserName', '默认名') as string
     PreferencesUtil.putPreferenceValue('MyPreferences', 'UserId', userId)
+
+    //token持久化
+    console.log('MyPreferences', 'Token', token)
+    PreferencesUtil.putPreferenceValue('MyPreferences', 'Token', token)
+
+    //修改token？是否出现顺序问题
+    this.getToken()
+  }
+
+  //初始化/修改所有服务的token
+  async getToken(){
+    await Promise.all([
+      CompetitionService.getUserToken(),
+      ExerciseService.getUserToken(),
+      InformationService.getUserToken(),
+      LoginService.getUserToken(),
+      UserService.getUserToken()
+    ])
   }
 }
 

@@ -41,14 +41,12 @@ struct ExerciseEachWordPage {
               Text('所写字')
 
               Column(){
-                /*
                 Image(this.word.word)
-                  .width(120)
                   .height(120)
-                */
-                Image($r('app.media.HandwrittenChineseStroke_test_0000000038')/*this.word.word*/)
-                  .width(120)
-                  .height(120)
+
+                // Image($r('app.media.HandwrittenChineseStroke_test_0000000038'))
+                //   .width(120)
+                //   .height(120)
               }
               .alignItems(HorizontalAlign.Center)
               .justifyContent(FlexAlign.Center)
@@ -274,12 +272,13 @@ struct ExerciseEachWordPage {
 
 
   onPageShow(){
-    // const word = router.getParams() as PARAMS
+    const word = router.getParams() as PARAMS
 
-    /*if (word.ifSuccess == 1) {
+    if (word != null && word.ifSuccess == 1) {
       this.word = word.data
       this.content = word.data.comment
-    }*/
+      console.log('Params template', this.word.templateWord, this.word.strokes , this.content )
+    }
     /**
      * 传入Id，数据库获取
      */

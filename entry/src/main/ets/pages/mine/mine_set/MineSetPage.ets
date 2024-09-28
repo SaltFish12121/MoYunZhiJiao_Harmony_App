@@ -238,15 +238,17 @@ struct MineSetPage {
 
   async logout(){
     let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    let token = await PreferencesUtil.getPreferenceValue('MyPreferences', 'Token', '') as string
 
-    console.log('logout', userId)
+    console.log('logout', userId, token)
 
     //将用户持久化数据清空
     PreferencesUtil.putPreferenceValue('MyPreferences', 'UserId', 0)
+    PreferencesUtil.putPreferenceValue('MyPreferences', 'Token', '')
 
     userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-    console.log('logout', 'finish', userId)
+    console.log('logout', 'finish', userId, token)
 
     router.back()
   }

@@ -5,6 +5,7 @@ import VideoItem from '../../../viewitem/VideoItem'
 import VideoInfo from '../../../viewmodel/VideoListInfo'
 import LabelInfo from '../../../viewmodel/LabelInfo'
 import InformationService from  '../../../service/InformationService'
+import Cant_Connect from '../../../views/Cant_Connect'
 
 @Extend(GridCol) function video_List(){
   .borderRadius(CommonConstants.DEFAULT_10)
@@ -24,7 +25,10 @@ struct CalligraphyTeachingPage {
   isLoading: boolean = false//是否正在加载
   isMore: boolean = true//是否有更多数据
 
+  @State ifConnect: boolean = false
+
   @State video: VideoInfo[] = [
+    /*
     new VideoInfo(1, '', '楷书的教学视频1', '2024-4-10', $r('app.media.show_knoledge')),
     new VideoInfo(2, '', '楷书的教学视频2', '2024-4-10', $r('app.media.show_knoledge')),
     new VideoInfo(3, '','楷书的教学视频3', '2024-4-10', $r('app.media.show_knoledge')),
@@ -32,44 +36,9 @@ struct CalligraphyTeachingPage {
     new VideoInfo(5, '','楷书的教学视频5', '2024-4-10', $r('app.media.show_knoledge')),
     new VideoInfo(6, '','楷书的教学视频6', '2024-4-10', $r('app.media.show_knoledge')),
     new VideoInfo(7, '','楷书的教学视频7', '2024-4-10', $r('app.media.show_knoledge'))
+    */
   ]
-  /*
-  @State video: VideoInfo[] = [
-    new VideoInfo(1,'楷书的教学视频1', '2024-4-10', $r('app.media.show_knoledge'), [
-      new LabelInfo('楷书叔'),
-      new LabelInfo('教育'),
-      new LabelInfo('学习'),
-      new LabelInfo('横折练习'),
-      new LabelInfo('弯钩'),
-      new LabelInfo('撇捺'),
-      new LabelInfo('笔画'),
-    ]),
-    new VideoInfo(2,'楷书的教学视频2', '2024-4-10', $r('app.media.show_knoledge'), [
-      new LabelInfo('楷书'),
-      new LabelInfo('基础')
-    ]),
-    new VideoInfo(3,'楷书的教学视频3', '2024-4-10', $r('app.media.show_knoledge'), [
-      new LabelInfo('楷书'),
-      new LabelInfo('基础')
-    ]),
-    new VideoInfo(4,'楷书的教学视频4', '2024-4-10', $r('app.media.show_knoledge'), [
-      new LabelInfo('楷书'),
-      new LabelInfo('基础')
-    ]),
-    new VideoInfo(5,'楷书的教学视频5', '2024-4-10', $r('app.media.show_knoledge'), [
-      new LabelInfo('楷书'),
-      new LabelInfo('基础')
-    ]),
-    new VideoInfo(6,'楷书的教学视频6', '2024-4-10', $r('app.media.show_knoledge'), [
-      new LabelInfo('楷书'),
-      new LabelInfo('基础')
-    ]),
-    new VideoInfo(7,'楷书的教学视频7', '2024-4-10', $r('app.media.show_knoledge'), [
-      new LabelInfo('楷书'),
-      new LabelInfo('基础')
-    ])
-  ]
-  */
+
   scroller: Scroller = new Scroller()
 
   build(){
@@ -98,124 +67,59 @@ struct CalligraphyTeachingPage {
           })
       }
 
-      //2.视频 排列??
-      /*
-      Scroll(this.scroller){
-        Column(){
-          Column(){
-
-          }
+      if (this.ifConnect) {
+        //2.视频 排列
+        List({ scroller: this.scroller}) {
+          ListItem() {}
           .height(5)
 
-          GridRow({
-            columns: 2,
-            gutter: { x: 5, y: 10 },
-            breakpoints: { value: ["400vp", "600vp", "800vp"],
-              reference: BreakpointsReference.WindowSize },
-            direction: GridRowDirection.Row
-          }) {
-
-            ForEach(
-              this.video ,
-              (video: VideoInfo) => {
+          ListItem() {
+            GridRow({
+              columns: 2,
+              gutter: { x: 5, y: 10 },
+              breakpoints: { value: ["400vp", "600vp", "800vp"], reference: BreakpointsReference.WindowSize },
+              direction: GridRowDirection.Row
+            }) {
+              ForEach(this.video, (video: VideoInfo) => {
                 GridCol({ span: { xs: 1, sm: 2, md: 3, lg: 4 } }) {
-
                   VideoItem({ video: video })
-
                 }
                 .video_List()
-
-
-              }
-            )
-
-
-          }
-          .width("98%")
-          .onBreakpointChange((breakpoint) => {
-            // this.currentBp = breakpoint
-            // console.log(`this==${this.currentBp}`)
-          })
-
-          Column(){
-
-          }
-          .height(150)
-
-        }
-        .margin({top: 5})
-
-
-      }
-      .width('100%')
-      .onScrollStart(() => {
-        console.log('触顶！')
-
-        this.pageNum = 1
-        this.getTeachingVideo1()
-      })
-      .onReachEnd(() => {
-        console.log('触底了！')
-
-        if(!this.isLoading && this.isMore){
-          this.isLoading = true
-          // 翻页
-          this.pageNum++
-          // page = ShopModel.pageNo
-          this.getTeachingVideo2()
-        }
-      })
-      */
-
-      //2.视频 排列
-      List({ scroller: this.scroller}) {
-        ListItem() {}
-        .height(5)
-
-        ListItem() {
-          GridRow({
-            columns: 2,
-            gutter: { x: 5, y: 10 },
-            breakpoints: { value: ["400vp", "600vp", "800vp"], reference: BreakpointsReference.WindowSize },
-            direction: GridRowDirection.Row
-          }) {
-            ForEach(this.video, (video: VideoInfo) => {
-              GridCol({ span: { xs: 1, sm: 2, md: 3, lg: 4 } }) {
-                VideoItem({ video: video })
-              }
-              .video_List()
+              })
+            }
+            .width("98%")
+            .onBreakpointChange((breakpoint) => {
+              // this.currentBp = breakpoint
+              // console.log(`this==${this.currentBp}`)
             })
+
           }
-          .width("98%")
-          .onBreakpointChange((breakpoint) => {
-            // this.currentBp = breakpoint
-            // console.log(`this==${this.currentBp}`)
-          })
+
+          ListItem()
+            .height(150)
 
         }
-
-        ListItem()
-          .height(150)
-
+        .margin({ top: 5 })
+        .width('100%')
+        .onReachStart(() => {
+          console.log('触顶！')
+          this.pageNum = 1
+          this.isMore = true
+          this.getTeachingVideo1()
+        })
+        .onReachEnd(() => {
+          console.log('触底了！')
+          if (!this.isLoading && this.isMore) {
+            this.isLoading = true
+            // 翻页
+            this.pageNum++
+            // page = ShopModel.pageNo
+            this.getTeachingVideo2()
+          }
+        })
+      } else {
+        Cant_Connect()
       }
-      .margin({ top: 5 })
-      .width('100%')
-      .onReachStart(() => {
-        console.log('触顶！')
-        this.pageNum = 1
-        this.isMore = true
-        this.getTeachingVideo1()
-      })
-      .onReachEnd(() => {
-        console.log('触底了！')
-        if (!this.isLoading && this.isMore) {
-          this.isLoading = true
-          // 翻页
-          this.pageNum++
-          // page = ShopModel.pageNo
-          this.getTeachingVideo2()
-        }
-      })
 
     }
 
@@ -236,9 +140,11 @@ struct CalligraphyTeachingPage {
         this.video = video
 
         console.log('test', this.video[0].cover)
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', 'show', '获取书法教学视频失败', error)
+        this.ifConnect = false
       })
 
   }
@@ -258,9 +164,11 @@ struct CalligraphyTeachingPage {
         }
 
         console.log('test', this.video[0].cover)
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', 'show', '获取书法教学视频失败', error)
+        this.ifConnect = false
       })
 
   }

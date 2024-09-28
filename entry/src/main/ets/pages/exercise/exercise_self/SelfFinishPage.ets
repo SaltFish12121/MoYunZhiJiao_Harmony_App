@@ -5,6 +5,7 @@ import Exercise_Top_Self from '../../../views/exercise/exercise_detial/Exercise_
 import SelfFinishExerciseDetailInfo from '../../../viewmodel/exerciseDetial/SelfFinishExerciseDetailInfo'
 import ExerciseService from '../../../service/ExerciseService'
 import SubmitWritingInfo from '../../../viewmodel/exerciseDetial/SubmitWritingInfo'
+import Cant_Connect from '../../../views/Cant_Connect'
 
 @Entry
 @Component
@@ -23,7 +24,7 @@ struct SelfFinishPage {
     ], 88, '分学区话它样界出线先北统列程处。北资百长而场划包族系件期社革消引。因当发东理阶们样由商道处。至正活听加资目强后无白三验科。新革同拉飞可影验四际个的回身斯。书劳车主观个原提性反指本文委。')
 
 
-  @State success: boolean = false
+  @State ifConnect: boolean = false
 
   build(){
     Scroll(){
@@ -31,38 +32,37 @@ struct SelfFinishPage {
         //1 头部
         HeaderTitleCollect({ title: $title, ifCollect: $ifCollect, collectId: $collectId, type: 'SelfExercise' })
 
-        //2内容
-        if (this.success) {
+        if (this.ifConnect) {
+          //2内容
           Exercise_Top_Self({ selfExercise: $selfFinish })
+
+          //3练习情况
+          Exercise_ShowDetail_Self({ exercise: $selfFinish })
+            .margin({ top: 10 })
+
+
+          //4关闭
+          Column(){
+            Text('关闭')
+              .fontSize(20)
+              .onClick((event: ClickEvent) => {
+                router.back()
+              })
+          }
+          .margin({top: 50})
+          .alignItems(HorizontalAlign.Center)
+          .justifyContent(FlexAlign.Center)
+          .width(120)
+          .height(45)
+          .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
+
+
+          Column()
+            .height(50)
+        } else {
+          Cant_Connect()
         }
 
-
-
-        //3练习情况
-        Exercise_ShowDetail_Self({ exercise: $selfFinish })
-        .margin({ top: 10 })
-
-
-        //4关闭
-        Column(){
-          Text('关闭')
-            .fontSize(20)
-            .onClick((event: ClickEvent) => {
-              router.back()
-            })
-        }
-        .margin({top: 50})
-        .alignItems(HorizontalAlign.Center)
-        .justifyContent(FlexAlign.Center)
-        .width(120)
-        .height(45)
-        .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
-
-
-        Column(){
-
-        }
-        .height(50)
 
       }
 
@@ -92,29 +92,27 @@ struct SelfFinishPage {
   //获取自我完成练习
   async getSelfFinish(){
 
-    await ExerciseService.getMineFinish(this.uerId, this.exerciseId)
+    await ExerciseService.getMineFinish(this.exerciseId)
       .then((selfFinish: SelfFinishExerciseDetailInfo) => {
         console.log('Tags', '获取自我完成练习成功')
 
         this.selfFinish = selfFinish
 
-        this.success = true
+        this.ifConnect = true
+
+        this.title = this.selfFinish.title
+
+        this.ifCollect = this.selfFinish.ifCollect
+
+        this.collectId = this.selfFinish.id
 
         console.log('Result', this.selfFinish.title, this.selfFinish.example)
 
       })
       .catch((error: string) => {
-        this.success = true
+        this.ifConnect = false
         console.log('Tags', '获取自我完成练习失败')
       })
-
-    // this.change(this.knowledgeShow)
-
-    this.title = this.selfFinish.title
-
-    this.ifCollect = this.selfFinish.ifCollect
-
-    this.collectId = this.selfFinish.id
 
   }
 

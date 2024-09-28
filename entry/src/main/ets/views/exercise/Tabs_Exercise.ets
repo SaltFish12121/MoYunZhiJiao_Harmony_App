@@ -8,6 +8,7 @@ import { ExerciseType } from '../../viewmodel/ExerciseInfo'
 import ExcellentWorkInfo from '../../viewmodel/ExcellentWorkInfo'
 import { WorkType } from '../../viewmodel/ExcellentWorkInfo'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
+import Cant_Connect from '../Cant_Connect'
 
 @Component
 export default struct Tabs_Exercise {
@@ -15,39 +16,40 @@ export default struct Tabs_Exercise {
 
   userId: number = 0
   //接收的数据
-  /*@State schoolExercise: ExerciseInfo[] = [
-    new ExerciseInfo(0,ExerciseType.schoolExercise, false, '笔画练习（一）', '2024-3-3', '', 0, true),
-    new ExerciseInfo(0,ExerciseType.schoolExercise, true, '将进酒', '2024-3-2', '', 0, true),
-    new ExerciseInfo(0,ExerciseType.schoolExercise,false ,'笔画练习（一）', '2024-3-3', '', 0, false),
-    new ExerciseInfo(0,ExerciseType.schoolExercise,false ,'横折练习', '2024-3-2', '', 0, false)
-  ]*/
   @State schoolFinishExercise: ExerciseInfo[] = [
+    /*
     new ExerciseInfo(0,ExerciseType.schoolExercise, false, '笔画练习（一）', '2024-3-3', '', 0, true),
     new ExerciseInfo(0,ExerciseType.schoolExercise, true, '将进酒', '2024-3-2', '', 0, true)
+    */
   ]
   @State schoolUnfinishExercise: ExerciseInfo[] = [
+    /*
     new ExerciseInfo(0,ExerciseType.schoolExercise,false ,'笔画练习（一）', '2024-3-3', '', 0, false),
     new ExerciseInfo(0,ExerciseType.schoolExercise,false ,'横折练习', '2024-3-2', '', 0, false)
+    */
   ]
-  /*@State selfExercise: ExerciseInfo[] = [
-    new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(2)', '2024-3-3', '', 90, true),
-    new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(1)', '2024-3-2', '', 91, true),
-    new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(2)', '2024-3-3', '', 90, false),
-    new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(1)', '2024-3-2', '', 91, false)
-  ]*/
   @State selfFinishExercise: ExerciseInfo[] = [
+    /*
     new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(2)', '2024-3-3', '', 90, true),
     new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(1)', '2024-3-2', '', 91, true)
+    */
   ]
   @State selfUnfinishExercise: ExerciseInfo[] = [
+    /*
     new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(2)', '2024-3-3', '', 90, false),
     new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(1)', '2024-3-2', '', 91, false)
+    */
   ]
   @State excellentExercise: ExcellentWorkInfo[] = [
+    /*
     new ExcellentWorkInfo(0,WorkType.schoolWork, '','横折练习', '2024-3-3'),
     new ExcellentWorkInfo(0,WorkType.competitionWork, '','第一次书法竞赛', '2024-3-2')
+    */
   ]
 
+  @State ifConnect1: boolean = false
+  @State ifConnect2: boolean = false
+  @State ifConnect3: boolean = false
 
   //自定义组件实现tabs组件拥有图片
   @Builder TabBarBuilder(title: ResourceStr, index: number){
@@ -82,21 +84,34 @@ export default struct Tabs_Exercise {
         //1.学校作业
         TabContent(){
           // Text('学校作业')
-          School_Exercise({ schoolFinishExercise: $schoolFinishExercise, schoolUnfinishExercise: $schoolUnfinishExercise  })
+          if (this.ifConnect1) {
+            School_Exercise({ schoolFinishExercise: $schoolFinishExercise, schoolUnfinishExercise: $schoolUnfinishExercise  })
+          } else {
+            Cant_Connect()
+          }
         }
         .tabBar(this.TabBarBuilder($r('app.string.exercise_homework'), 0))
 
         //2.自我练习
         TabContent(){
           // Text('自我练习')
-          Self_Exercise({ selfFinishExercise: $selfFinishExercise, selfUnfinishExercise: $selfUnfinishExercise })
+          if (this.ifConnect2) {
+            Self_Exercise({ selfFinishExercise: $selfFinishExercise, selfUnfinishExercise: $selfUnfinishExercise })
+          }
+          else {
+            Cant_Connect()
+          }
         }
         .tabBar(this.TabBarBuilder($r('app.string.exercise_selfExercise'), 1))
 
         //3.优秀作业
         TabContent(){
           // Text('优秀作业')
-          Excellent_Works({ excellentWork: $excellentExercise })
+          if (this.ifConnect3) {
+            Excellent_Works({ excellentWork: $excellentExercise })
+          } else {
+            Cant_Connect()
+          }
         }
         .tabBar(this.TabBarBuilder($r('app.string.exercise_excellentWorks'), 2))
 
@@ -146,62 +161,72 @@ export default struct Tabs_Exercise {
 
   //获取学校作业
   async getSchoolFinishExercise(){
-    await ExerciseService.getSchoolExercise(this.userId, 'finish', 1)
+    await ExerciseService.getSchoolExercise('finish', 1)
       .then((exercise: ExerciseInfo[]) => {
         console.log('Tags', '获取学校作业成功')
 
         this.schoolFinishExercise = exercise
+        this.ifConnect1 = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取学校作业失败')
+        this.ifConnect1 = false
       })
   }
   async getSchoolUnfinishExercise(){
-    await ExerciseService.getSchoolExercise(this.userId, 'unfinish', 1)
+    await ExerciseService.getSchoolExercise('unfinish', 1)
       .then((exercise: ExerciseInfo[]) => {
         console.log('Tags', '获取学校作业成功')
 
         this.schoolUnfinishExercise = exercise
+        this.ifConnect1 = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取学校作业失败')
+        this.ifConnect1 = false
       })
   }
 
   //获取自我练习
   async getSelfFinishExercise(){
-    await ExerciseService.getMineExercise(this.userId, 'finish', 1)
+    await ExerciseService.getMineExercise('finish', 1)
       .then((exercise: ExerciseInfo[]) => {
         console.log('Tags', '获取自我练习成功')
 
         this.selfFinishExercise = exercise
+        this.ifConnect2 = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取自我练习失败')
+        this.ifConnect2 = false
       })
   }
   async getSelfUnfinishExercise(){
-    await ExerciseService.getMineExercise(this.userId, 'unfinish', 1)
+    await ExerciseService.getMineExercise('unfinish', 1)
       .then((exercise: ExerciseInfo[]) => {
         console.log('Tags', '获取自我练习成功')
 
         this.selfUnfinishExercise = exercise
+        this.ifConnect2 = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取自我练习失败')
+        this.ifConnect2 = false
       })
   }
 
   //获取优秀作品
   async getExcellentExercise(){
-    await ExerciseService.getExcellentExercise(this.userId, 1)
+    await ExerciseService.getExcellentExercise(1)
       .then((exercise: ExcellentWorkInfo[]) => {
         console.log('Tags', '获取优秀作品成功')
 
         this.excellentExercise = exercise
+        this.ifConnect3 = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取优秀作品失败')
+        this.ifConnect3 = false
       })
   }
 

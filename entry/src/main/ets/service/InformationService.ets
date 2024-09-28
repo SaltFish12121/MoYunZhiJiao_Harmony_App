@@ -7,10 +7,19 @@ import ProblemInfo from '../viewmodel/ProblemInfo'
 import http from '@ohos.net.http'
 import { Http } from '../common/constants/Http'
 import VideoContentInfo from  '../viewmodel/VideoContentInfo'
+import PreferencesUtil from '../common/utils/PreferencesUtil'
 
 class InformationService{
   baseURL: string =  `${Http.BaseURL}/InformationService`
   Authorization: string = Http.Token
+
+  async getUserToken(){
+    this.Authorization = await PreferencesUtil.getPreferenceValue('MyPreferences', 'Token', '') as string
+    if (this.Authorization == null) {
+      this.Authorization = Http.Token
+    }
+    console.log('token', 'Init', this.Authorization)
+  }
 
   /**
    * get
@@ -36,19 +45,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString(), this.Authorization )
+            console.log('Service', `${title}成功\n`, resp.result.toString(), this.Authorization )
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -76,19 +85,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log('获取首页知识展示成功\n', resp.result.toString(), this.Authorization)
+            console.log('Service', '获取首页知识展示成功\n', resp.result.toString(), this.Authorization)
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log('获取首页知识展示失败1', JSON.stringify(resp), this.Authorization)
+            console.log('Service', '获取首页知识展示失败1', JSON.stringify(resp), this.Authorization)
             reject('获取首页知识展示失败')
           }
         })
         .catch((error: string) => {
           //失败
-          console.log('获取首页知识展示失败2', JSON.stringify(error))
+          console.log('Service', '获取首页知识展示失败2', JSON.stringify(error))
           reject('获取首页知识展示失败')
         })
     })
@@ -121,19 +130,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString(), JSON.stringify(resp))
+            console.log('Service', `${title}成功\n`, resp.result.toString(), JSON.stringify(resp))
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -163,19 +172,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -206,19 +215,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -250,19 +259,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -294,19 +303,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -336,19 +345,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -378,19 +387,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
 
@@ -422,19 +431,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
 
@@ -468,19 +477,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -511,19 +520,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
@@ -554,19 +563,19 @@ class InformationService{
           //成功
           if (resp.responseCode === 200) {
             //查询成功
-            console.log(`${title}成功\n`, resp.result.toString())
+            console.log('Service', `${title}成功\n`, resp.result.toString())
 
             resolve(JSON.parse(resp.result.toString()).data)
 
           } else {
             //失败
-            console.log(`${title}失败1`, JSON.stringify(resp))
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
             reject(`${title}失败`)
           }
         })
         .catch((error: string) => {
           //失败
-          console.log(`${title}失败2`, JSON.stringify(error))
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
           reject(`${title}失败`)
         })
     })
