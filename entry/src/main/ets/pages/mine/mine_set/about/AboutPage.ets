@@ -100,7 +100,7 @@ struct AboutPage {
           abilityName: 'com.huawei.hmos.settings.MainAbility',//设置应用abilityName
           uri: 'application_info_entry',//跳转到应用信息页面
           parameters: {
-            pushParams: "com.example.mjy.shufapingjia06"//拉起放包名
+            pushParams: context.abilityInfo.bundleName//拉起方应用包名
           }
         }
         context.startAbility(want)

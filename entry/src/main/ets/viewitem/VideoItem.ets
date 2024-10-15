@@ -35,7 +35,7 @@ export default struct VideoItem {
 
       router.pushUrl(
         {
-          url: 'pages/mainpage/calligraphy_teachingVideo/TeachingVideoDetialPage',
+          url: 'pages/mainpage/calligraphy_teachingVideo/TeachingVideoDetailPage',
           params: {
             video: this.video,
           }

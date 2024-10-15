@@ -46,7 +46,7 @@ export default struct KnowledgeItem {
     .onClick(() => {
       router.pushUrl(
         {
-          url: 'pages/mainpage/calligraphy_knowledge/KnowledgeDetialPage',
+          url: 'pages/mainpage/calligraphy_knowledge/KnowledgeDetailPage',
           params: {
             id: this.knowledge.id,
             content: this.knowledge.content,

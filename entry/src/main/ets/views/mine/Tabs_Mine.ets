@@ -109,7 +109,7 @@ export default struct Tabs_Mine {
 
           router.pushUrl(
             {
-              url: 'pages/mine/personal_information/PersonalnformationPage',
+              url: 'pages/mine/personal_information/PersonalInformationPage',
               params: {
                 data: this.userPersonal,
                 ifSuccess: 1

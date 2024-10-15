@@ -40,7 +40,7 @@ export default struct Calligraphy_Knowledge {
 
                 router.pushUrl(
                   {
-                    url: 'pages/mainpage/calligraphy_knowledge/KnowledgeDetialPage',
+                    url: 'pages/mainpage/calligraphy_knowledge/KnowledgeDetailPage',
                     params: {
                       id: knowledgeShow.id,
                       content: knowledgeShow.content,

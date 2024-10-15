@@ -1,6 +1,6 @@
 import KnowledgeInfo from '../../viewmodel/KnowledgeInfo'
 import { KnowledgeType } from '../../viewmodel/KnowledgeInfo'
-import Calligraphy_Compition from './calligraphy_compition/Calligraphy_Compition'
+import Calligraphy_Competition from './calligraphy_competition/Calligraphy_Competition'
 import Calligraphy_Knowledge from './calligraphy_knowledge/Calligraphy_Knowledge'
 import Calligraphy_Teaching from './calligraphy_teaching/Calligraphy_Teaching'
 import VideoInfo from '../../viewmodel/VideoListInfo'
@@ -37,7 +37,7 @@ export default struct Tabs_HomePage {
             .margin({top:30})
 
           //3 竞赛通知
-          Calligraphy_Compition({ CompetitionInformShow: $CompetitionInformShow })
+          Calligraphy_Competition({ CompetitionInformShow: $CompetitionInformShow })
             .margin({top:30})
 
         }

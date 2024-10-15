@@ -20,8 +20,8 @@ struct TeachingVideoDetailPage {
   private order1: ResourceStr = $r('app.media.inverted_order')
   private temp: ResourceStr = ''
 
-  @State videoSrc: Resource = $rawfile('video1.mp4')
-  @State previewUri: Resource = $r('app.media.show_knoledge')
+  @State videoSrc: ResourceStr = ''
+  @State previewUri: ResourceColor = ''
   @State curRate: PlaybackSpeed = PlaybackSpeed.Speed_Forward_1_00_X
   @State isAutoPlay: boolean = false
   @State showControls: boolean = true

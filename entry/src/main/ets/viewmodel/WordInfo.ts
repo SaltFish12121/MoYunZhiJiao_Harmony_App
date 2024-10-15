@@ -7,7 +7,7 @@ export default class WordInfo{
   templateWord: any //样本字
   comment: string //字的评语
 
-  constructor(name: string, word: any, strokes: any[], strokeNumber: number = 80, templateWord: any = '', comment: string = '') {
+  constructor(name: string, word: any, strokes: any[], strokeNumber: number = 0, templateWord: any = '', comment: string = '') {
     this.name = name;
     this.word = word
     this.strokes = strokes

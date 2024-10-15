@@ -9,22 +9,14 @@ import { window } from '@kit.ArkUI'
 @Entry
 @Component
 struct ExerciseEachWordPage {
-  @State content: string =
-`优点
-    总体大小适中，位置合理
+  @State content: string = ''
 
-
-
-
-不足
-    这个字整体过于分离左右结构，左右分的太开右半部分，撇点与点过小`
-
-  @State word: WordInfo = new WordInfo('', '', [$r('app.media.0009_1'), $r('app.media.0009_2'), $r('app.media.0009_3')])
+  @State word: WordInfo = new WordInfo('', '', [])
 
   @State title: string = '详情'
 
-  @State videoSrc: Resource = $rawfile('video1.mp4')
-  @State previewUri: Resource = $r('app.media.show_knoledge')
+  @State videoSrc: ResourceStr = ''
+  @State previewUri: ResourceStr = ''
   @State curRate: PlaybackSpeed = PlaybackSpeed.Speed_Forward_1_00_X
   @State isAutoPlay: boolean = false
   @State showControls: boolean = true
@@ -66,10 +58,6 @@ struct ExerciseEachWordPage {
               Column(){
                 if (this.word.templateWord != ''){
                   Image(/*$r('app.media.KaitiChineseStroke_train_000000001548')*/this.word.templateWord)
-                    .width(80)
-                    .height(80)
-                } else {
-                  Image($r('app.media.KaitiChineseStroke_train_000000001548')/*this.word.templateWord*/)
                     .width(80)
                     .height(80)
                 }

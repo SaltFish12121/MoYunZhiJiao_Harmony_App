@@ -3,7 +3,7 @@ import { CommonConstants } from '../../../common/constants/CommonConstants'
 import CompetitionInformInfo from '../../../viewmodel/CompetitionInformInfo'
 
 @Component
-export default struct Calligraphy_Compition {
+export default struct Calligraphy_Competition {
   @Link CompetitionInformShow: CompetitionInformInfo[]
 
   build() {
@@ -21,7 +21,7 @@ export default struct Calligraphy_Compition {
       .onClick(() => {
         router.pushUrl(
           {
-            url: 'pages/mainpage/calligraphy_competition/CalligrahyCompetitionPage'
+            url: 'pages/mainpage/calligraphy_competition/CalligraphyCompetitionPage'
           }
         )
       })

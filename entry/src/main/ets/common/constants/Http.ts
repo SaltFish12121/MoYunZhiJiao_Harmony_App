@@ -4,10 +4,10 @@ export class Http{
    * localhost:8086
    */
   //改成服务器地址
-  static readonly BaseURL: string = 'http://10.0.207.122:8086'
+  static readonly BaseURL: string = 'http://10.0.117.69:8086'
 
   //如果不开虚拟机用预览请在这里复制控制台显示的token
-  static readonly Token: string = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiIsImV4cCI6MTcyODk1MTA2OH0.M_nak0T3gYx1xz9e77InPMI0izbzzujULMSdVNzgHq8'
+  static readonly Token: string = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiIsImV4cCI6MTcyOTA2NTc3OH0.9NGEKmML_9m5xUWg5E0yczgyM6DdMFCu97t87rlPURA'
 
   /*
     登录用账号：222
