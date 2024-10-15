@@ -131,12 +131,15 @@ export default struct Detail_Information {
 
         if (this.user.ifBinding) {
           Text(this.user.klass.school)
+            .fontSize(14)
 
           Blank()
 
           Text(this.user.klass.grade)
+            .fontSize(14)
 
-          Text(this.user.klass.name+'班')
+          Text(this.user.klass.name)//+'班'
+            .fontSize(14)
 
           Blank()
 

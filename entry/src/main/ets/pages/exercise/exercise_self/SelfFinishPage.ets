@@ -18,7 +18,7 @@ struct SelfFinishPage {
   @State uerId: number = 0
   @State exerciseId: number = 0
   @State selfFinish: SelfFinishExerciseDetailInfo = new SelfFinishExerciseDetailInfo(0, '笔画练习（一）', false, '行书',
-    /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'),
+    ['https://dummyimage.com/120x240'],
     [
       new SubmitWritingInfo(50, /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'), [])
     ], 88, '分学区话它样界出线先北统列程处。北资百长而场划包族系件期社革消引。因当发东理阶们样由商道处。至正活听加资目强后无白三验科。新革同拉飞可影验四际个的回身斯。书劳车主观个原提性反指本文委。')

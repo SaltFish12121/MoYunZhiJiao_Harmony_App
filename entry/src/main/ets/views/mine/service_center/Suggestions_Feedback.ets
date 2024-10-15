@@ -38,12 +38,19 @@ export default struct Suggestions_Feedback {
               .fontColor($r('app.color.blue'))
           }
           .alignItems(HorizontalAlign.End)
-          .onClick(() => {
-            router.pushUrl(
-              {
-                url: 'pages/mine/service_center/MineFeedbackPage'
-              }
-            )
+          .onClick(async() => {
+            let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+
+            if (userId != 0 && userId != null) {
+              router.pushUrl({
+                  url: 'pages/mine/service_center/MineFeedbackPage'
+                })
+            } else {// 跳转登录
+              router.pushUrl({
+                url: 'pages/login/LoginPage'
+              })
+            }
+
           })
         }
         .width('95%')
@@ -85,44 +92,55 @@ export default struct Suggestions_Feedback {
         .margin({top: 20})
         .width('85%')
         .onClick(async (event: ClickEvent) => {
-          //能否提交
-          if (this.type != '' && this.feedback != '') {
-            //提交反馈
-            await this.uploadFeedback()
+          let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
-            //是否成功
-            console.log( 'success' ,this.success)
-            if (this.success) {
-              AlertDialog.show({
-                message: '提交反馈成功',
-                confirm: {
-                  value: '确定',
-                  action: ()=>{
+          if (userId != 0 && userId != null) {
+
+            //能否提交
+            if (this.type != '' && this.feedback != '') {
+              //提交反馈
+              await this.uploadFeedback()
+
+              //是否成功
+              console.log( 'success' ,this.success)
+              if (this.success) {
+                AlertDialog.show({
+                  message: '提交反馈成功',
+                  confirm: {
+                    value: '确定',
+                    action: ()=>{
+                    }
                   }
-                }
-              })
+                })
 
-              this.feedback = ''
+                this.feedback = ''
+              } else {
+                AlertDialog.show({
+                  message: '提交反馈失败',
+                  confirm: {
+                    value: '确定',
+                    action: ()=>{
+                    }
+                  }
+                })
+              }
+
             } else {
               AlertDialog.show({
-                message: '提交反馈失败',
+                message: '没有选择建议与反馈',
                 confirm: {
                   value: '确定',
-                  action: ()=>{
-                  }
+                  action: ()=>{}
                 }
               })
             }
 
-          } else {
-            AlertDialog.show({
-              message: '没有选择建议与反馈',
-              confirm: {
-                value: '确定',
-                action: ()=>{}
-              }
+          } else {// 跳转登录
+            router.pushUrl({
+              url: 'pages/login/LoginPage'
             })
           }
+
 
         })
 

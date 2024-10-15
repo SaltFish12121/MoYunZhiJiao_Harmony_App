@@ -1,13 +1,13 @@
 import MessageInfo from '../viewmodel/MessageInfo'
 import UserInfo from '../viewmodel/user/UserInfo'
 import CollectInfo from '../viewmodel/CollectInfo'
-import ExcellentWorkInfo from '../viewmodel/ExcellentWorkInfo'
 import KnowledgeInfo from '../viewmodel/KnowledgeInfo'
 import VideoListInfo from '../viewmodel/VideoListInfo'
 import FeedbackInfo from '../viewmodel/FeedbackInfo'
 import ExerciseAnalysisInfo from '../viewmodel/analysis/ExerciseAnalysisInfo'
 import WordAnalysisInfo from '../viewmodel/analysis/WordAnalysisInfo'
 import WordAnalysisListInfo from '../viewmodel/analysis/WordAnalysisListInfo'
+
 import http from '@ohos.net.http'
 import PreferencesUtil from '../common/utils/PreferencesUtil'
 import { Http } from '../common/constants/Http'
@@ -296,7 +296,7 @@ class UserService{
    * @param userId
    * @returns
    */
-  getExerciseAnalysis(): Promise<ExerciseAnalysisInfo>{
+  getExerciseAnalysis(year: string, month: string): Promise<ExerciseAnalysisInfo[]>{
     return new Promise((resolve, reject) => {
       let title: string = '获取练习总体分析'
 
@@ -308,7 +308,7 @@ class UserService{
         `${this.baseURL}/getExerciseAnalysis`,
         {
           method: http.RequestMethod.GET,
-          // extraData: { userId: userId },
+          extraData: { year: year, month: month },
           header: {Authorization: this.Authorization}
         }
       )
@@ -333,6 +333,7 @@ class UserService{
         })
     })
   }
+
 
   /**
    * get
@@ -523,43 +524,43 @@ class UserService{
    * @param avatar
    * @returns
    */
-  alterAvatar(userId: number, avatar: ResourceStr): Promise<boolean>{
-    return new Promise((resolve, reject) => {
-      let title: string = '修改头像'
-
-      //1.创建http请求对象
-      let httpRequest = http.createHttp()
-
-      //2.发出请求
-      httpRequest.request(
-        `${this.baseURL}/alterAvatar`,
-        {
-          method: http.RequestMethod.POST,
-          extraData: { userId: userId, avatar: avatar },
-          header: {Authorization: this.Authorization}
-        }
-      )
-        .then(resp => {
-          //成功
-          if (resp.responseCode === 200) {
-            //查询成功
-            console.log('Service', `${title}成功\n`, resp.result.toString())
-
-            resolve(JSON.parse(resp.result.toString()).data)
-
-          } else {
-            //失败
-            console.log('Service', `${title}失败1`, JSON.stringify(resp))
-            reject(`${title}失败`)
-          }
-        })
-        .catch((error: string) => {
-          //失败
-          console.log('Service', `${title}失败2`, JSON.stringify(error))
-          reject(`${title}失败`)
-        })
-    })
-  }
+  // alterAvatar(userId: number, avatar: ResourceStr): Promise<boolean>{
+  //   return new Promise((resolve, reject) => {
+  //     let title: string = '修改头像'
+  //
+  //     //1.创建http请求对象
+  //     let httpRequest = http.createHttp()
+  //
+  //     //2.发出请求
+  //     httpRequest.request(
+  //       `${this.baseURL}/alterAvatar`,
+  //       {
+  //         method: http.RequestMethod.POST,
+  //         extraData: { userId: userId, avatar: avatar },
+  //         header: {Authorization: this.Authorization}
+  //       }
+  //     )
+  //       .then(resp => {
+  //         //成功
+  //         if (resp.responseCode === 200) {
+  //           //查询成功
+  //           console.log('Service', `${title}成功\n`, resp.result.toString())
+  //
+  //           resolve(JSON.parse(resp.result.toString()).data)
+  //
+  //         } else {
+  //           //失败
+  //           console.log('Service', `${title}失败1`, JSON.stringify(resp))
+  //           reject(`${title}失败`)
+  //         }
+  //       })
+  //       .catch((error: string) => {
+  //         //失败
+  //         console.log('Service', `${title}失败2`, JSON.stringify(error))
+  //         reject(`${title}失败`)
+  //       })
+  //   })
+  // }
 
   /**
    * post

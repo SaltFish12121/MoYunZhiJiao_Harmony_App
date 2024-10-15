@@ -1,54 +1,39 @@
 import router from '@ohos.router'
 import { Header_close_2 } from '../../../../common/components/CommonComponents'
 import UserService from '../../../../service/UserService'
-import ImageUploadDialog from '../../../../common/components/ImageUploadDialog/ImageUploadDialog'
-import { promptAction } from '@kit.ArkUI'
-import UserDBService from '../../../../DBservice/UserDBService'
 import PreferencesUtil from '../../../../common/utils/PreferencesUtil'
+import { imageUploadModule } from '../../../../model/ImageUploadModule'
 
+//修改头像
 @Entry
 @Component
 struct AvatarPage {
   @State userId: number = 0
-  @State avatar: ResourceStr = ''
+  @State avatar: string = ''
   @State success: boolean = false //使用中请修改为false
   @State success2: boolean = false
 
-  @State dialogController: CustomDialogController | null = null //选择上传类型弹窗控制器
-  aboutToAppear(): void {
-    this.dialogController= new CustomDialogController({
-      builder: ImageUploadDialog({
-        uploadURL: 'http://xxxxxxxxx',//上传地址
-        success:e=>{//上传成功回调，e上传成功接口返回数据
-          let res= JSON.parse(e.body) as object //接口上传成功返回数据
-          console.log(JSON.stringify(res),'上传成功')
-          //根据实际接口返回字段获取图片url
-          //url=res['data']
-        },
-        fail:e=>{//上传失败回调
-          console.log(JSON.stringify(e))
-          promptAction.showToast({message:'上传失败'})
-        },
-        complete:e=>{//上传完成回调
-          console.log(JSON.stringify(e),'complete')
-          this.success = this.success
-        }
-      }),
-      alignment: DialogAlignment.Bottom,//弹窗居于底部
-      customStyle: true,//自定义样式
-    })
-  }
+  @State selectedPaths: string[] | null = null
 
   build() {
     Scroll(){
       Column(){
         //1头部
-        Header_close_2()
+        Header_close_2({ avatar: $avatar})
 
         //2头像
-        Image(/*$r('app.media.userhead_example2')*/this.avatar)
-          .width('300')
-          .margin({top: 100, bottom: 50})
+        if (this.avatar) {
+          Image(/*$r('app.media.userhead_example2')*/this.avatar)
+            .width('300')
+            .height(400)
+            .margin({top: 100, bottom: 50})
+        } else {
+          Image($r('app.media.userhead_example2'))
+            .width('300')
+            .height(400)
+            .margin({top: 100, bottom: 50})
+        }
+
 
         Column({space: 25}){
           //3更换头像
@@ -64,40 +49,51 @@ struct AvatarPage {
           .alignItems(HorizontalAlign.Center)
           .justifyContent(FlexAlign.Center)
           .onClick(async () => {
-            await this.dialogController?.open() //使用请用这个
+            try {
+              // 选择图片
+              const selectedPaths = await imageUploadModule.pickerAvatar(1);
+              console.log('ImageFile', '选择的图片路径:', selectedPaths);
+              this.selectedPaths = selectedPaths;
 
-            if (this.success) {
-              await this.alterAvatar()
-
-              if (this.success2) {
-                let avatar2 = this.avatar as string
-                UserDBService.updateUserColumnById(this.userId, 'otherName', avatar2/*'https://dummyimage.com/120x140'*/)
-                console.log('DB', 'update', this.userId, 'otherName', this.avatar)
-                AlertDialog.show({
-                  message: '更改头像成功',
-                  confirm: {
-                    value: '确定',
-                    action: ()=>{
-                      router.back()
-                    }
-                  }
-                })
-              }  else {
-                AlertDialog.show({
-                  message: '更改头像失败',
-                  confirm: {
-                    value: '确定',
-                    action: ()=>{
-                    }
-                  }
-                })
+              // 显示已选择的图片
+              if (this.selectedPaths) {
+                this.avatar = this.selectedPaths[0]
               }
+
+              // 上传图片
+              const uploadedPaths = await imageUploadModule.prepareUpload("/UserService/alterAvatar", "image", this.selectedPaths);
+              console.log('ImageFile', '上传的图片路径:', uploadedPaths);
+
+              // // 通过后台获取新的头像
+              // await this.alterAvatar();
+              // if (this.success2) {
+              //   AlertDialog.show({
+              //     message: '更改头像成功',
+              //     confirm: {
+              //       value: '确定',
+              //       action: ()=>{
+              //         router.back();
+              //       }
+              //     }
+              //   })
+              // } else {
+              //   AlertDialog.show({
+              //     message: '更改头像失败',
+              //     confirm: {
+              //       value: '确定',
+              //       action: ()=>{
+              //       }
+              //     }
+              //   })
+              // }
+            } catch (error) {
+              console.error('ImageFile', '选择或上传图片出错:', error);
             }
+
           })
 
 
-
-          //4保存图片
+          //4保存图片-----未实现
           Column(){
             Text('保存图片')
               .fontSize(20)
@@ -134,7 +130,7 @@ struct AvatarPage {
     const param = router.getParams() as PARAMS
 
     if (param.avatar == '') {
-      this.avatar = $r('app.media.userhead_example2')
+      this.avatar = 'https://dummyimage.com/120x240'
     } else {
       this.avatar = param.avatar
     }
@@ -143,20 +139,20 @@ struct AvatarPage {
   }
 
 
-  //修改头像
-  async alterAvatar(){
-    await UserService.alterAvatar(this.userId, this.avatar)
-      .then((success) => {
-        console.log('Tags', '修改头像成功')
-
-        this.success2 = success
-
-        console.log('Result', 'ifsuccess', this.success2)
-      })
-      .catch((error: string) => {
-        console.log('Tags', '修改头像失败')
-      })
-  }
+  // //修改头像
+  // async alterAvatar(){
+  //   await UserService.alterAvatar(this.userId, this.avatar)
+  //     .then((success) => {
+  //       console.log('Tags', '修改头像成功')
+  //
+  //       this.success2 = success
+  //
+  //       console.log('Result', 'ifsuccess', this.success2)
+  //     })
+  //     .catch((error: string) => {
+  //       console.log('Tags', '修改头像失败')
+  //     })
+  // }
 }
 
 // 声明接受参数的类型

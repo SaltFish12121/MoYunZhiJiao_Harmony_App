@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { HeaderTitle } from '../../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../common/components/CommonComponents'
 @Extend(Row) function messageset_content(){
   .alignItems(VerticalAlign.Center)
   .justifyContent(FlexAlign.SpaceBetween)

@@ -155,43 +155,43 @@ class CompetitionService{
    * @param userId
    * @returns
    */
-  submitCompetition(userId: number, competitionId: number, content: ResourceStr[]): Promise<boolean>{
-    return new Promise((resolve, reject) => {
-      let title: string = '竞赛提交'
-
-      //1.创建http请求对象
-      let httpRequest = http.createHttp()
-
-      //2.发出请求
-      httpRequest.request(
-        `${this.baseURL}/submitCompetition`,
-        {
-          method: http.RequestMethod.POST,
-          extraData: { userId: userId, competitionId: competitionId, content: content },
-          header: {Authorization: this.Authorization}
-        }
-      )
-        .then(resp => {
-          //成功
-          if (resp.responseCode === 200) {
-            //查询成功
-            console.log('Service', `${title}成功\n`, resp.result.toString())
-
-            resolve(JSON.parse(resp.result.toString()).data)
-
-          } else {
-            //失败
-            console.log('Service', `${title}失败1`, JSON.stringify(resp))
-            reject(`${title}失败`)
-          }
-        })
-        .catch((error: string) => {
-          //失败
-          console.log('Service', `${title}失败2`, JSON.stringify(error))
-          reject(`${title}失败`)
-        })
-    })
-  }
+  // submitCompetition(userId: number, competitionId: number, content: ResourceStr[]): Promise<boolean>{
+  //   return new Promise((resolve, reject) => {
+  //     let title: string = '竞赛提交'
+  //
+  //     //1.创建http请求对象
+  //     let httpRequest = http.createHttp()
+  //
+  //     //2.发出请求
+  //     httpRequest.request(
+  //       `${this.baseURL}/submitCompetition`,
+  //       {
+  //         method: http.RequestMethod.POST,
+  //         extraData: { userId: userId, competitionId: competitionId, content: content },
+  //         header: {Authorization: this.Authorization}
+  //       }
+  //     )
+  //       .then(resp => {
+  //         //成功
+  //         if (resp.responseCode === 200) {
+  //           //查询成功
+  //           console.log('Service', `${title}成功\n`, resp.result.toString())
+  //
+  //           resolve(JSON.parse(resp.result.toString()).data)
+  //
+  //         } else {
+  //           //失败
+  //           console.log('Service', `${title}失败1`, JSON.stringify(resp))
+  //           reject(`${title}失败`)
+  //         }
+  //       })
+  //       .catch((error: string) => {
+  //         //失败
+  //         console.log('Service', `${title}失败2`, JSON.stringify(error))
+  //         reject(`${title}失败`)
+  //       })
+  //   })
+  // }
 }
 
 let competitionService = new CompetitionService()

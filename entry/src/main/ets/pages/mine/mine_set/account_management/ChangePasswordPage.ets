@@ -4,6 +4,7 @@ import UserService from '../../../../service/UserService'
 import UserDBService from '../../../../DBservice/UserDBService'
 import PreferencesUtil from '../../../../common/utils/PreferencesUtil'
 
+//修改密码
 @Entry
 @Component
 struct ChangePasswordPage {

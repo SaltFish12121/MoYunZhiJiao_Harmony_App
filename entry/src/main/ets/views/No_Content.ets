@@ -2,7 +2,7 @@
 export default struct No_Content {
   build() {
     Column(){
-      Text('暂未获取消息')
+      Text('暂无数据')
         .fontColor($r('app.color.blue'))
     }
     .width('100%')

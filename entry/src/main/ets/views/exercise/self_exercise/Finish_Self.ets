@@ -62,6 +62,7 @@ export default struct Finish_Self {
       .onReachStart(() => {
         console.log('触顶')
         this.pageNum = 1
+        this.isMore = true
         this.getSelfExercise2()
       })
       .onReachEnd(() => {

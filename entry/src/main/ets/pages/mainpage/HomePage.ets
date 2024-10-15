@@ -20,7 +20,7 @@ import { UserPO } from '../../common/bean/UserPO'
 import { Http } from '../../common/constants/Http'
 import Cant_Connect from '../../views/Cant_Connect'
 
-
+//主页
 @Entry
 @Component
 struct HomePage {
@@ -28,37 +28,14 @@ struct HomePage {
 
   //传入的数据
   //Tabs_HomePage
-  @State knowledgeShow: KnowledgeInfo[] = [
-    /*
-    new KnowledgeInfo(1,KnowledgeType.famousWorks, true, '面对与超越', 666, '2024-6-4', $r('app.media.homepage_video')),
-    new KnowledgeInfo(2,KnowledgeType.famousWorks, true, '博览旧书法', 666, '2024-6-4', $r('app.media.homepage_knowledge2')),
-    new KnowledgeInfo(3,KnowledgeType.famousWorks, true, '上海中国书法院院展', 666, '2024-6-4', $r('app.media.homepage_knowledge3'))
-    */
-  ]
-  @State videoShow: VideoListInfo[] = [
-    /*
-    new VideoListInfo(1, '合集', '楷书的教学视频1', '2024-4-10', $r('app.media.homepage_video')),
-    new VideoListInfo(2, '合集', '楷书的教学视频2', '2024-4-10', $r('app.media.homepage_video2')),
-    new VideoListInfo(3, '合集', '楷书的教学视频3', '2024-4-10', $r('app.media.homepage_video3')),
-    new VideoListInfo(4, '合集', '楷书的教学视频4', '2024-4-10', $r('app.media.homepage_video4')),
-    new VideoListInfo(5, '合集', '楷书的教学视频5', '2024-4-10', $r('app.media.homepage_video')),
-    */
-  ]
-
-
-  @State competitionInformShow: CompetitionInformInfo[] = [
-    /*
-    new CompetitionInformInfo(1,true, '“第一次书法竞赛”', '2024-4-5'),
-    new CompetitionInformInfo(2,true, '“第二次书法竞赛”', '2024-4-5'),
-    new CompetitionInformInfo(3,true, '“全国大赛”', '2024-4-5'),
-    new CompetitionInformInfo(4,true, '“全国大赛（2）”', '2024-4-5'),
-    */
-  ]
+  @State knowledgeShow: KnowledgeInfo[] = []
+  @State videoShow: VideoListInfo[] = []
+  @State competitionInformShow: CompetitionInformInfo[] = []
 
   //Tabs_Mine
   @State userPersonal: UserInfo = new UserInfo()
   @State userType: boolean = false
-  @State ifLogin: boolean = true
+  @State ifLogin: boolean = true//默认应该 false， 如果预览测试则改为 true
 
   @State ifConnect: boolean = false
 
@@ -245,6 +222,13 @@ struct HomePage {
       console.log('DB', '首次保存用户信息', this.userPersonal.display())
       UserDBService.insert(userDB)
 
+    }
+
+    //(已登录/有账号）
+    console.log('this.userPersonal.id', this.userPersonal.id)
+    if (this.userPersonal!= null && this.userPersonal.id != 0 && this.userPersonal.id != undefined) {
+      console.log('ifLogin', 'true');
+      this.ifLogin = true
     }
 
     await Promise.all([

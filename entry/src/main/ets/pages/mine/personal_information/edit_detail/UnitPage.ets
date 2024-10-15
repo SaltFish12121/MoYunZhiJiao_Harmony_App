@@ -8,6 +8,7 @@ import KlassInfo from '../../../../viewmodel/user/KlassInfo'
   .justifyContent(FlexAlign.SpaceBetween)
 }
 
+//绑定的单位
 @Entry
 @Component
 struct UnitPage {
@@ -32,7 +33,9 @@ struct UnitPage {
             Text(this.klass.school)
               .fontSize(20)
           }
-          .unit_row()
+          .height(64)
+          .width('90%')
+          .justifyContent(FlexAlign.Center)
 
           Divider()
 
@@ -65,7 +68,7 @@ struct UnitPage {
             Text('班级：')
               .fontSize(20)
 
-            Text(this.klass.name+'班')
+            Text(this.klass.name)//+'班'
               .fontSize(20)
           }
           .unit_row()

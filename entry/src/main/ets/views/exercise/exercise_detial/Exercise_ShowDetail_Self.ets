@@ -91,11 +91,10 @@ export default struct Exercise_ShowDetail_Self {
 
       }
       .width('100%')
-
-
+      .margin({left: 10})
 
       Column(){
-        Text('点击图片可查看详情')
+        Text('点击上方图片可查看单字详情')
           .fontSize(14)
       }
       .height(40)

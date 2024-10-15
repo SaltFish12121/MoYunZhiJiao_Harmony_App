@@ -19,8 +19,8 @@ export default class EntryAbility extends UIAbility {
       console.log('start', 'success')
       // 初始化RDB工具
       await DbUtil.initDB(this.context)
-      // 创建user表
-      await DbUtil.createTable(UserModel.getCreateTableSql())
+      // // 创建user表
+      // await DbUtil.createTable(UserModel.getCreateTableSql())
     } catch (e) {
       hilog.error(0x0000, 'AGConnectError', JSON.stringify(e))
     }
@@ -38,7 +38,7 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
-    windowStage.loadContent('pages/WelcomePage', (err) => {
+    windowStage.loadContent('pages/WelcomePage', (err) => {//WelcomePage//Index//VideoChangePage
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;

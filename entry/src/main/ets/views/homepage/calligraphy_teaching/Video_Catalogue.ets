@@ -12,6 +12,8 @@ export default struct Video_Catalogue {
   @Link sonVideo: VideoInfo[]
   @Link arr: number[]
   @Link selectVideoId: number
+  @Link selectVideoTitle: string
+
   @Link videoContent: VideoContentInfo
 
   build() {
@@ -58,6 +60,7 @@ export default struct Video_Catalogue {
             .width('100%')
             .onClick(() => {
               this.selectVideoId = sonVideo.id
+              this.selectVideoTitle = sonVideo.title
               console.log('selectVideoId', this.selectVideoId)
 
               this.getVideo(this.selectVideoId)

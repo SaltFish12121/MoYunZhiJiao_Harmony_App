@@ -7,7 +7,7 @@ export default class SelfFinishExerciseDetailInfo{
 
   typeface: string  //字体
 
-  example: any  //样例
+  example: string[]  //样例
   submit: SubmitWritingInfo[] //提交的图
 
   score: number //得分
@@ -15,7 +15,7 @@ export default class SelfFinishExerciseDetailInfo{
 
   constructor(id: number, title: string, ifCollect: boolean,
               typeface: string,
-              example: any, submit: SubmitWritingInfo[],
+              example: string[], submit: SubmitWritingInfo[],
               score: number, systemComment: string = '') {
     this.id = id
     this.title=title

@@ -4,7 +4,7 @@ import { TemplateType } from '../viewmodel/SystemTemplateInfo'
 
 @Component
 export default struct SystemCopybookItem {
-  exercise: SystemTemplateInfo = new SystemTemplateInfo(0, TemplateType.specialType, '', '')
+  exercise: SystemTemplateInfo = new SystemTemplateInfo(0, TemplateType.specialType, '', [])
 
   build() {
     Row({space: 10}){

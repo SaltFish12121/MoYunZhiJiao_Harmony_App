@@ -1,11 +1,7 @@
-import router from '@ohos.router'
 import { HeaderTitle } from '../../common/components/CommonComponents'
-import { CommonConstants } from '../../common/constants/CommonConstants'
 import MessageInfo from '../../viewmodel/MessageInfo'
-import { MessageType } from '../../viewmodel/MessageInfo'
 import MessageItem from '../../viewitem/MessageItem'
 import UserService from '../../service/UserService'
-import PreferencesUtil from '../../common/utils/PreferencesUtil'
 import Cant_Connect from '../../views/Cant_Connect'
 import No_Content from '../../views/No_Content'
 
@@ -24,16 +20,11 @@ import No_Content from '../../views/No_Content'
   */
 }
 
-
+//作业发布
 @Entry
 @Component
 struct JobPostingMessagePage {
-  @State JobPost_messages: MessageInfo[] = [
-    /*
-    new MessageInfo(0,MessageType.homeworkPost,'作业“基础练习”已发布','2024-5-24','截止日期6-15'),
-    new MessageInfo(0,MessageType.system,'作业“基础练习”已发布','2024-4-9','截止日期6-15')
-    */
-  ]
+  @State JobPost_messages: MessageInfo[] = []
   @State title: string = '作业发布'
   @State pageNum: number = 1
   isLoading: boolean = false//是否正在加载
@@ -77,6 +68,7 @@ struct JobPostingMessagePage {
           .onReachStart(() => {
             console.log('触顶')
             this.pageNum = 1
+            this.isMore = true
             this.getMineMessage()
           })
           .onReachEnd(() => {
@@ -109,8 +101,6 @@ struct JobPostingMessagePage {
   }
 
   async getMineMessage(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     UserService.getMineMessage(1, 1)
       .then((message: MessageInfo[]) => {
@@ -126,8 +116,6 @@ struct JobPostingMessagePage {
   }
 
   async getMineMessage2(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     UserService.getMineMessage(1, this.pageNum)
       .then((message: MessageInfo[]) => {

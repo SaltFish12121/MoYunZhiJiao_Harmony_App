@@ -9,9 +9,10 @@ import ExcellentCompetitionInfo from '../viewmodel/exerciseDetial/ExcellentCompe
 import SystemTemplateInfo from  '../viewmodel/SystemTemplateInfo'
 import CopybookInfo from  '../viewmodel/CopybookInfo'
 import WordListInfo from '../viewmodel/WordListInfo'
-import http from '@ohos.net.http'
 import { Http } from '../common/constants/Http'
 import PreferencesUtil from '../common/utils/PreferencesUtil'
+import { http } from '@kit.NetworkKit';
+import VideoContentInfo from  '../viewmodel/VideoContentInfo'
 
 class ExerciseService{
   baseURL: string = `${Http.BaseURL}/ExerciseService`
@@ -651,43 +652,43 @@ class ExerciseService{
    * @param content
    * @returns
    */
-  uploadExercise(userId: number, exerciseId: number, content: ResourceStr[]): Promise<boolean>{
-    return new Promise((resolve, reject) => {
-      let title: string = '上传练习（竞赛）'
-
-      //1.创建http请求对象
-      let httpRequest = http.createHttp()
-
-      //2.发出请求
-      httpRequest.request(
-        `${this.baseURL}/uploadExercise`,
-        {
-          method: http.RequestMethod.POST,
-          extraData: { userId: userId, exerciseId: exerciseId, content: content },
-          header: {Authorization: this.Authorization}
-        }
-      )
-        .then(resp => {
-          //成功
-          if (resp.responseCode === 200) {
-            //查询成功
-            console.log('Service', `${title}成功\n`, resp.result.toString())
-
-            resolve(JSON.parse(resp.result.toString()).data)
-
-          } else {
-            //失败
-            console.log('Service', `${title}失败1`, JSON.stringify(resp))
-            reject(`${title}失败`)
-          }
-        })
-        .catch((error: string) => {
-          //失败
-          console.log('Service', `${title}失败2`, JSON.stringify(error))
-          reject(`${title}失败`)
-        })
-    })
-  }
+  // uploadExercise(userId: number, exerciseId: number, content: ResourceStr[]): Promise<boolean>{
+  //   return new Promise((resolve, reject) => {
+  //     let title: string = '上传练习（竞赛）'
+  //
+  //     //1.创建http请求对象
+  //     let httpRequest = http.createHttp()
+  //
+  //     //2.发出请求
+  //     httpRequest.request(
+  //       `${this.baseURL}/uploadExercise`,
+  //       {
+  //         method: http.RequestMethod.POST,
+  //         extraData: { userId: userId, exerciseId: exerciseId, content: content },
+  //         header: {Authorization: this.Authorization}
+  //       }
+  //     )
+  //       .then(resp => {
+  //         //成功
+  //         if (resp.responseCode === 200) {
+  //           //查询成功
+  //           console.log('Service', `${title}成功\n`, resp.result.toString())
+  //
+  //           resolve(JSON.parse(resp.result.toString()).data)
+  //
+  //         } else {
+  //           //失败
+  //           console.log('Service', `${title}失败1`, JSON.stringify(resp))
+  //           reject(`${title}失败`)
+  //         }
+  //       })
+  //       .catch((error: string) => {
+  //         //失败
+  //         console.log('Service', `${title}失败2`, JSON.stringify(error))
+  //         reject(`${title}失败`)
+  //       })
+  //   })
+  // }
 
   /**
    * post
@@ -696,7 +697,7 @@ class ExerciseService{
    * @param content
    * @returns
    */
-  createExercise(userId: number, name: string, typeface: string, content: ResourceStr): Promise<boolean> {
+  createExercise(userId: number, name: string, typeface: string, content: string[], exerciseType: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let title: string = '创建练习'
 
@@ -708,7 +709,7 @@ class ExerciseService{
         `${this.baseURL}/createExercise`,
         {
           method: http.RequestMethod.POST,
-          extraData: { userId: userId, title: name, typeface: typeface, content: content },
+          extraData: { userId: userId, title: name, typeface: typeface, content: content, exerciseType: exerciseType },
           header: {Authorization: this.Authorization}
         }
       )
@@ -739,7 +740,7 @@ class ExerciseService{
    * @param selectWord
    * @returns
    */
-  generateExercise(selectWord: WordListInfo[]): Promise<ResourceStr> {
+  generateExercise(selectWord: WordListInfo[]): Promise<string[]> {
     return new Promise((resolve, reject) => {
       let title: string = '生成练习样例'
 
@@ -751,7 +752,7 @@ class ExerciseService{
         `${this.baseURL}/generateExercise`,
         {
           method: http.RequestMethod.POST,
-          extraData: { selectWord: selectWord },
+          extraData: selectWord,
           header: {Authorization: this.Authorization}
         }
       )
@@ -783,7 +784,7 @@ class ExerciseService{
    * @param content
    * @returns
    */
-  generateExercise2(name: string, content: string): Promise<ResourceStr> {
+  generateExercise2(name: string, content: string, typeface: string, composeType: string): Promise<string[]> {
     return new Promise((resolve, reject) => {
       let title: string = '生成练习样例'
 
@@ -795,7 +796,87 @@ class ExerciseService{
         `${this.baseURL}/generateExercise2`,
         {
           method: http.RequestMethod.POST,
-          extraData: { name: name, content: content },
+          extraData: { name: name, content: content, typeface, composeType },
+          header: {Authorization: this.Authorization}
+        }
+      )
+        .then(resp => {
+          //成功
+          if (resp.responseCode === 200) {
+            //查询成功
+            console.log('Service', `${title}成功\n`, resp.result.toString())
+
+            resolve(JSON.parse(resp.result.toString()).data)
+
+          } else {
+            //失败
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
+            reject(`${title}失败`)
+          }
+        })
+        .catch((error: string) => {
+          //失败
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
+          reject(`${title}失败`)
+        })
+    })
+  }
+
+
+  //获取字体
+  getFont(): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      let title: string = '获取字体'
+
+      //1.创建http请求对象
+      let httpRequest = http.createHttp()
+
+      //2.发出请求
+      httpRequest.request(
+        `${this.baseURL}/getFont`,
+        {
+          method: http.RequestMethod.GET,
+          extraData: { },
+          header: {Authorization: this.Authorization}
+        }
+      )
+        .then(resp => {
+          //成功
+          if (resp.responseCode === 200) {
+            //查询成功
+            console.log('Service', `${title}成功\n`, resp.result.toString())
+
+            resolve(JSON.parse(resp.result.toString()).data)
+
+          } else {
+            //失败
+            console.log('Service', `${title}失败1`, JSON.stringify(resp))
+            reject(`${title}失败`)
+          }
+        })
+        .catch((error: string) => {
+          //失败
+          console.log('Service', `${title}失败2`, JSON.stringify(error))
+          reject(`${title}失败`)
+        })
+    })
+  }
+
+
+  //获取字的视频
+  getWordVideo(name: string): Promise<VideoContentInfo> {
+    return new Promise((resolve, reject) => {
+      let title: string = '获取字的视频'
+
+      //1.创建http请求对象
+      let httpRequest = http.createHttp()
+
+      //2.发出请求
+      httpRequest.request(
+        `${this.baseURL}/getWordVideo`,
+        {
+          method: http.RequestMethod.GET,
+          extraData: { name: name },
           header: {Authorization: this.Authorization}
         }
       )
@@ -821,6 +902,7 @@ class ExerciseService{
     })
   }
 }
+
 
 let exerciseService = new ExerciseService()
 

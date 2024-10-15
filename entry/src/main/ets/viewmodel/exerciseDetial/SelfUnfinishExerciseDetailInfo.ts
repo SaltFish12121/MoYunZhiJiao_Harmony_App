@@ -6,13 +6,13 @@ export default class SelfUnfinishExerciseDetailInfo{
   typeface: string  //字体
 
   require: string //要求
-  example: any  //样例
-  submit: any[] //提交的图
+  example: string[]  //样例
+  submit: string[] //提交的图
 
 
   constructor(id: number, title: string, ifCollect: boolean,
               typeface: string,
-              require: string, example: any, submit: any[],
+              require: string, example: string[], submit: string[],
   ) {
     this.id = id
     this.title=title

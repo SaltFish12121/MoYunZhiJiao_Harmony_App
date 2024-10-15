@@ -7,6 +7,7 @@ import { HeaderTitle } from '../../../../common/components/CommonComponents'
   .height(64)
 }
 
+//储存空间设置
 @Entry
 @Component
 struct ManageStorageSpacePage {

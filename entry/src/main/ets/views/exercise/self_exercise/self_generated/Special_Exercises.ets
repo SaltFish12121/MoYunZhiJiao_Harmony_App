@@ -34,8 +34,14 @@ import Cant_Connect from '../../../Cant_Connect'
   })
 }
 
+interface SelectOption {
+  value: string;
+  icon: string;
+}
+
 @Component
 export default struct Special_Exercises {
+
   @State selectNumber: number = 0
 
   @Link radical: Radical
@@ -44,13 +50,14 @@ export default struct Special_Exercises {
 
   @Link sampleWord: WordListInfo[]
 
+  @State font: SelectOption[] = []
+
   @State selectId: number[] = []
   @State search: string = ''
 
   @Prop ifConnect: boolean
 
   build() {
-
 
     Column(){
 
@@ -69,6 +76,7 @@ export default struct Special_Exercises {
             .fontColor($r('app.color.blue'))
             .onClick(() => {
               this.getTemplateWord()
+
             })
         }
         .justifyContent(FlexAlign.Center)
@@ -83,7 +91,7 @@ export default struct Special_Exercises {
 
               Text(`偏旁部首`)
                 .textAlign(TextAlign.Center)
-                .fontSize(16)
+                .fontSize(14)
                 .fontWeight(500)
                 .width(80)
                 .height(40)
@@ -93,7 +101,7 @@ export default struct Special_Exercises {
               Row(){
                 Text(`${this.radical.radical}`)
                   .textAlign(TextAlign.Center)
-                  .fontSize(16)
+                  .fontSize(14)
                   .fontWeight(500)
 
                 Text(`(${this.radical.name})`)
@@ -143,7 +151,7 @@ export default struct Special_Exercises {
             ])
               .selected(0)
               .value('字体结构')
-              .font({ size: 16, weight: 500 })
+              .font({ size: 14, weight: 500 })
               .fontColor('#182431')
               .backgroundColor($r('app.color.start_window_background'))
               .selectedOptionFont({ size: 16, weight: 400 })
@@ -158,13 +166,11 @@ export default struct Special_Exercises {
           .content_formant()
 
           Row(){
-            Select([{ value: '楷书', icon: "/common/public_icon.svg" },
-              { value: '行书', icon: "/common/public_icon.svg" },
-              { value: '行楷', icon: "/common/public_icon.svg" },
-              { value: '草书', icon: "/common/public_icon.svg" }])
+            // Select(this.typefaceOptions.arr)
+            Select(this.font)
               .selected(0)
               .value('字体')
-              .font({ size: 16, weight: 500 })
+              .font({ size: 14, weight: 500 })
               .fontColor('#182431')
               .backgroundColor($r('app.color.start_window_background'))
               .selectedOptionFont({ size: 16, weight: 400 })
@@ -242,6 +248,7 @@ export default struct Special_Exercises {
                 url: 'pages/exercise/exercise_self/self_generated/SpecialExerciseSelectedPage',
                 params:{
                   selectId: this.selectId,
+                  typeface: this.typeface
                 }
               }
             )
@@ -259,6 +266,10 @@ export default struct Special_Exercises {
     .width('100%')
   }
 
+  async aboutToAppear() {
+    await this.getFont()
+  }
+
 
   //获取样本字
   getTemplateWord(){
@@ -272,6 +283,24 @@ export default struct Special_Exercises {
       })
       .catch((error: string) => {
         console.log('Tags', '获取样本字', error)
+        this.ifConnect = false
+      })
+  }
+
+  //获取字体
+  getFont(){
+    ExerciseService.getFont()
+      .then((font: string[]) => {
+
+        this.font = font.map((typeface: string, index: number) => ({
+          value: typeface,
+          icon: "/common/public_icon.svg"
+        } as SelectOption));
+
+        this.ifConnect = true
+      })
+      .catch((error: string) => {
+        console.log('Tags', '获取字体', error)
         this.ifConnect = false
       })
   }

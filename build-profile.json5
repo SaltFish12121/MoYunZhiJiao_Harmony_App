@@ -1,12 +1,26 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "storePassword": "0000001B2297C7D97BF1697416B82A3311E72D60CF4BD09D38F5DACF3192E7475ECFA5D64AB3C8425FE56E",
+          "certpath": "D:/Shufapingjiaxit/HarmonyOS/证书/发布证书.cer",
+          "keyAlias": "Shufapingjia",
+          "keyPassword": "0000001B6C7FDEF755414B07BC83B706AEBBF49BFB0A735EA7469A3D6115CC6CDDEE5A794D9DE1798849FE",
+          "profile": "D:/Shufapingjiaxit/HarmonyOS/证书/ShufapingjiaDebug.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "D:/Shufapingjiaxit/HarmonyOS/证书/Shufapingjia.p12"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",
         "signingConfig": "default",
-        "compatibleSdkVersion": "4.1.0(11)",
-        "runtimeOS": "HarmonyOS",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "runtimeOS": "HarmonyOS"
       }
     ],
     "buildModeSet": [

@@ -8,6 +8,7 @@ import CompetitionInformInfo from '../../../viewmodel/CompetitionInformInfo'
 import CompetitionService from '../../../service/CompetitionService'
 import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 
+//确认报名
 @Entry
 @Component
 struct ConfirmInformationPage {
@@ -18,7 +19,7 @@ struct ConfirmInformationPage {
 
   arr: number[] = [0,1,2,3,4,5,6,7,8]
   arr1: string[] = ['报名项目', '姓名', '性别','证件号', '学校', '班级', '教师', '手机号', '邮箱号']
-  @State arr2: string[] = ['项目名称', '王小明', '男', '202293290123', '盘龙小学', '二年级（1）班', '李梅', '18912234567', '2612345678@qq.com']
+  @State arr2: string[] = ['项目名称', '王小明', '男', '202293290123', '', '', '', '18912234567', '2612345678@qq.com']
 
   @State title: string = '信息确认'
   @State success: boolean = false
@@ -121,13 +122,13 @@ struct ConfirmInformationPage {
 
   }
 
-  onPageShow(){
+  async onPageShow(){
     const competition = router.getParams() as PARAMS
 
     this.competitionId = competition.id
     this.competitionTitle = competition.title
 
-    this.getPersonalInformation()
+    await this.getPersonalInformation()
   }
 
   //获取个人信息
@@ -140,22 +141,27 @@ struct ConfirmInformationPage {
         console.log('Tags', '获取个人信息成功')
 
         this.userPersonal = user
+
+        this.arr2[0] = this.competitionTitle || '';
+        this.arr2[1] = this.userPersonal.name || '';
+        this.arr2[2] = this.userPersonal.gender || '';
+        this.arr2[3] = this.userPersonal.studentNumber || '';
+        this.arr2[4] = this.userPersonal.klass && this.userPersonal.klass.school || '';
+        this.arr2[5] = this.userPersonal.klass && `${this.userPersonal.klass.grade || ''}${this.userPersonal.klass.name || ''}` || '';
+        this.arr2[6] = this.userPersonal.klass && this.userPersonal.klass.teacher || '';
+        this.arr2[7] = this.userPersonal.phoneNumber || '';
+        this.arr2[8] = this.userPersonal.email || '';
+
       })
       .catch((error: string) => {
         console.log('Tags', '获取个人信息失败')
-
+        router.pushUrl({
+          url: 'pages/login/LoginPage'
+        })
       })
 
     /*  @State arr2: string[] = ['项目名称', '王小明', '男', '202293290123', '盘龙小学', '二年级（1）班', '李梅', '18912234567', '2612345678@qq.com']*/
-    this.arr2[0] = this.competitionTitle
-    this.arr2[1] = this.userPersonal.name
-    this.arr2[2] = this.userPersonal.gender
-    this.arr2[3] = this.userPersonal.studentNumber
-    this.arr2[4] = this.userPersonal.klass.school
-    this.arr2[5] = `${this.userPersonal.klass.grade}${this.userPersonal.klass.name}`
-    this.arr2[6] = this.userPersonal.klass.teacher
-    this.arr2[7] = this.userPersonal.phoneNumber
-    this.arr2[8] = this.userPersonal.email
+
   }
 
   //竞赛报名

@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { HeaderCollect } from '../../../common/components/CommonComponents'
+import { HeaderCollect, HeaderTitleCollect } from '../../../common/components/CommonComponents'
 import Video_Brief_Introduction from '../../../views/homepage/calligraphy_teaching/Video_Brief_Introduction'
 import VideoListInfo from '../../../viewmodel/VideoListInfo'
 import VideoCollectionInfo from '../../../viewmodel/VideoCollectionInfo'
@@ -8,10 +8,13 @@ import LabelInfo from '../../../viewmodel/LabelInfo'
 import Video_Catalogue from '../../../views/homepage/calligraphy_teaching/Video_Catalogue'
 import InformationService from '../../../service/InformationService'
 import VideoContentInfo from  '../../../viewmodel/VideoContentInfo'
+import { window } from '@kit.ArkUI'
+import Cant_Connect from '../../../views/Cant_Connect'
 
+//书法视频细节
 @Entry
 @Component
-struct TeachingVideoDetialPage {
+struct TeachingVideoDetailPage {
   @State currentIndex: number = 0
   @State order: ResourceStr = $r('app.media.positive_order')
   private order1: ResourceStr = $r('app.media.inverted_order')
@@ -22,20 +25,27 @@ struct TeachingVideoDetialPage {
   @State curRate: PlaybackSpeed = PlaybackSpeed.Speed_Forward_1_00_X
   @State isAutoPlay: boolean = false
   @State showControls: boolean = true
+
   controller: VideoController = new VideoController()
 
 
+  @State title: string = ''
   @State arr: number[] = []
   @State ifCollect: boolean = false
   @State collectId: number = 0
   @State selectVideoId: number = 0
+  @State selectVideoTitle: string = ''
 
   @State videoContent: VideoContentInfo = new VideoContentInfo(0, this.previewUri, this.videoSrc)
   @State videoList: VideoListInfo = new VideoListInfo(0,'合集','视频','','')
   @State singleVideo: VideoInfo = new VideoInfo(0,'','')
-  @State videoCollection: VideoCollectionInfo = new VideoCollectionInfo(0,[],'',[])
+  @State videoCollection: VideoCollectionInfo = new VideoCollectionInfo(0,new LabelInfo(''),'',[])
   @State sonVideo: VideoInfo[] = [new VideoInfo(0, '', '')]
 
+  @State xComponentWidth: number | string = 0;
+  @State xComponentHeight: number | string = 0;
+
+  @State ifConnect: boolean = false
 
   //自定义组件实现tabs组件拥有图片
   @Builder TabBarBuilder(title: ResourceStr, index: number){
@@ -104,15 +114,21 @@ struct TeachingVideoDetialPage {
       if(this.videoList.type == '单独') {
         HeaderCollect({ ifCollect: $ifCollect, collectId: $collectId, type: 'Video' })
       } else {
-        HeaderCollect({ ifCollect: $ifCollect, collectId: $collectId, type: 'VideoCollection' })
+        HeaderTitleCollect({ ifCollect: $ifCollect, title: $title, collectId: $collectId, type: 'VideoCollection' })
       }
 
 
       //2 知识内容
       Column({space: 10}){
 
-        Text(this.videoList.title)
-          .fontSize(36)
+        if (this.videoList.type == '单独') {
+          Text(this.singleVideo.title)
+            .fontSize(36)
+        } else {
+          Text(this.selectVideoTitle)
+            .fontSize(36)
+        }
+
 
         Column(){
           // Text('这是视频主体')
@@ -149,6 +165,15 @@ struct TeachingVideoDetialPage {
             .onUpdate((e) => {
               console.info('onUpdate is ' + e.time)
             })
+            .onFullscreenChange((ifFull) => {
+              console.info('onFullscreenChange', ifFull.fullscreen)
+              //让屏幕横屏
+              if (ifFull.fullscreen) {
+                this.setR(2)
+              } else {
+                this.setR(1)
+              }
+            })
 
         }
         .width('90%')
@@ -158,7 +183,12 @@ struct TeachingVideoDetialPage {
 
         if(this.videoList.type == '单独') {
 
-          Video_Brief_Introduction({ video: $singleVideo})
+          if (this.ifConnect) {
+            Video_Brief_Introduction({ video: $singleVideo})
+          } else {
+            Cant_Connect()
+          }
+
 
         } else {
           Column(){
@@ -166,12 +196,14 @@ struct TeachingVideoDetialPage {
             Tabs({barPosition: BarPosition.Start}){
               //简介
               TabContent(){
-                Video_Brief_Introduction({ video: $videoCollection})
+                if (this.ifConnect) {
+                  Video_Brief_Introduction({ video: $videoCollection})
+                }
               }.tabBar(this.TabBarBuilder('简介', 0))
 
               //目录
               TabContent(){
-                Video_Catalogue({ sonVideo: $sonVideo, arr: $arr, selectVideoId: $selectVideoId, videoContent: $videoContent })
+                Video_Catalogue({ sonVideo: $sonVideo, arr: $arr, selectVideoId: $selectVideoId, selectVideoTitle: $selectVideoTitle, videoContent: $videoContent })
               }.tabBar(this.TabBarBuilder('目录', 1))
 
             }
@@ -196,12 +228,27 @@ struct TeachingVideoDetialPage {
 
   }
 
+  // 设置窗口方向
+  setR(orientation: number) {
+    window.getLastWindow(getContext(this)).then((win) => {
+      win.setPreferredOrientation(orientation).then((data) => {
+        console.log('setWindowOrientation: ' + orientation + ' Succeeded. Data: ' + JSON.stringify(data));
+      }).catch((err: string) => {
+        console.log('setWindowOrientation: Failed. Cause: ' + JSON.stringify(err));
+      });
+    }).catch((err: string) => {
+      console.log('setWindowOrientation: Failed to obtain the top window. Cause: ' + JSON.stringify(err));
+    });
+  }
+
+
   async onPageShow(){
 
     const params = router.getParams() as PARAMS;
 
     if (params != undefined) {
       this.videoList = params.video;
+      this.title = this.videoList.title
 
       console.log('videoId', this.videoList.id)
       // this.ifCollect = this.videoList.ifCollect
@@ -221,6 +268,7 @@ struct TeachingVideoDetialPage {
       await this.getTeachingCollectionVideo()
 
       this.selectVideoId = this.videoCollection.sonVideo[0].id  //默认第一个视频
+      this.selectVideoTitle = this.videoCollection.sonVideo[0].title
 
       console.log('selectVideoId', this.selectVideoId)
 
@@ -236,11 +284,12 @@ struct TeachingVideoDetialPage {
   getTeachingSingleVideo(){
     InformationService.getTeachingSingleVideo(this.videoList.id)
       .then((singleVideo: VideoInfo) => {
-        console.log('Tags', '获取单独教学视频成功')
+        console.log('Tags', '获取单独教学视频成功', singleVideo.label.name)
 
         this.singleVideo = singleVideo
 
         this.ifCollect = this.singleVideo.ifCollect
+        this.ifConnect = true
       })
       .catch(() => {
         console.log('Tags', '获取单独教学视频失败')
@@ -251,11 +300,12 @@ struct TeachingVideoDetialPage {
   async getTeachingCollectionVideo(){
     await InformationService.getTeachingCollectionVideo(this.videoList.id)
       .then((videoCollection: VideoCollectionInfo) => {
-        console.log('Tags', '获取教学视频合集成功')
+        console.log('Tags', '获取教学视频合集成功', videoCollection.label.name)
 
         this.videoCollection = videoCollection
 
         this.ifCollect = this.videoCollection.ifCollect
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取教学视频合集失败')

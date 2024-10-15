@@ -28,10 +28,7 @@ export default struct Video_Collect {
     Column(){
       //作业列表
       List({space: 10}){
-        ListItem(){
-
-        }
-        .height(5)
+        ListItem().height(5)
 
         ForEach(
           this.videoCollect,
@@ -46,10 +43,7 @@ export default struct Video_Collect {
           }
         )
 
-        ListItem(){
-
-        }
-        .height(100)
+        ListItem().height(100)
       }
       .alignListItem(ListItemAlign.Center)
       .listDirection(Axis.Vertical) // 排列方向
@@ -62,6 +56,7 @@ export default struct Video_Collect {
       .onReachStart(() => {
         console.log('触顶')
         this.pageNum = 1
+        this.isMore = true
         this.getVideoCollect2()
       })
       .onReachEnd(() => {

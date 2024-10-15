@@ -12,7 +12,7 @@ export default class ExcellentHomeworkInfo {
   type: string  //类型
 
   require: string //要求
-  example: any  //样例
+  example: string[]  //样例
   submit: SubmitWritingInfo[] //提交的图
 
   score: number //得分
@@ -21,7 +21,7 @@ export default class ExcellentHomeworkInfo {
 
   constructor(id: number, title: string, comeFrom: string, ifCollect: boolean,
               difficulty: number, wordNumber: number, typeface: string, type: string,
-              require: string, example: any, submit: SubmitWritingInfo[],
+              require: string, example: string[], submit: SubmitWritingInfo[],
               score: number, systemComment: string = '', teacherComment: string = '') {
     this.id = id
     this.title=title

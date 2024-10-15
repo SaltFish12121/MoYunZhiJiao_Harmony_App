@@ -9,7 +9,7 @@ import { HeaderTitle } from '../../../../common/components/CommonComponents'
   .justifyContent(FlexAlign.SpaceBetween)
 }
 
-
+//账号管理
 @Entry
 @Component
 struct AccountManagementPage {

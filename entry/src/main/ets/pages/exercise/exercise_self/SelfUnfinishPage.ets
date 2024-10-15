@@ -1,11 +1,12 @@
 import router from '@ohos.router'
 import {  HeaderTitle } from '../../../common/components/CommonComponents'
 import Exercise_Top_Self from '../../../views/exercise/exercise_detial/Exercise_Top_Self'
-import Exercise_Upload from '../../../views/exercise/exercise_detial/Exercise_Upload'
+// import Exercise_Upload from '../../../views/exercise/exercise_detial/Exercise_Upload'
 import SelfUnfinishExerciseDetailInfo from '../../../viewmodel/exerciseDetial/SelfUnfinishExerciseDetailInfo'
 import ExerciseService from '../../../service/ExerciseService'
 import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 import Cant_Connect from '../../../views/Cant_Connect'
+import { imageUploadModule } from '../../../model/ImageUploadModule'
 
 @Entry
 @Component
@@ -18,14 +19,18 @@ struct SelfUnfinishPage {
   @State exerciseId: number = 0
   @State selfUnfinish: SelfUnfinishExerciseDetailInfo = new SelfUnfinishExerciseDetailInfo(0, '笔画练习（一）', false,
     '行书',
-    '际传存论青常照采照再八算何机话元。', /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'),
+    '际传存论青常照采照再八算何机话元。', ['https://dummyimage.com/120x240'],
     [
-      /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1')
+      /*'https://dummyimage.com/120x240'*/
     ])
 
   @State ifConnect: boolean = false
   @State ifUpload: boolean = false
-  @State content: ResourceStr[] = ['https://dummyimage.com/120x240']
+  // @State content: ResourceStr[] = []
+
+  @State selectedPaths: string[] | null = null
+  @State filesPaths: string[] = []
+
 
   build(){
     Scroll(){
@@ -38,7 +43,70 @@ struct SelfUnfinishPage {
           Exercise_Top_Self({ selfExercise: $selfUnfinish })
 
           //3上传作品
-          Exercise_Upload({ exerciseId: this.exerciseId, content: $content })
+          // Exercise_Upload({ exerciseId: this.exerciseId, content: this.content })
+          Column({space: 10}){
+
+            Text('上传作品')
+              .width('100%')
+
+            if (this.filesPaths.length != 0) {
+              List(){
+                ListItem().height(20)
+
+                ForEach(
+                  this.filesPaths,
+                  (filesPaths: string) => {
+                    ListItem(){
+                      Image(filesPaths) // 使用 URI 显示图片
+                        .width(250)
+                        .height(300)
+                        .margin({ top: '10' })
+                    }
+                  }
+                )
+              }
+              .width('90%')
+              .height(177)
+            }
+
+            Row(){
+
+              Row({space: 10}){
+                Image($r('app.media.camera'))
+                  .width(20)
+                  .margin({left: 8})
+
+                Text('上传图片')
+              }
+              .width(110)
+              .height(32)
+              .border({ width: 1, color: $r('app.color.text_gray'), radius: 5, style: BorderStyle.Solid })
+              .onClick(async () => {
+                try {
+                  // 选择图片
+                  const selectedPaths = await imageUploadModule.pickerAvatar(5);
+                  console.log('ImageFile', '选择的图片路径:', selectedPaths);
+                  this.selectedPaths = selectedPaths;
+                  this.filesPaths = selectedPaths
+
+                  console.log('ImageFile', 'filesPaths', this.filesPaths);
+
+                } catch (error) {
+                  console.error('ImageFile', '选择或上传图片出错:', error);
+                }
+
+              })
+
+            }
+            .margin({top: 30})
+            .width('100%')
+            .alignItems(VerticalAlign.Center)
+            .justifyContent(FlexAlign.Center)
+
+          }
+          .width('90%')
+          .margin({top: 30, bottom: 60})
+
 
           //4关闭
           Row({space: 20}){
@@ -64,12 +132,16 @@ struct SelfUnfinishPage {
                   .fontSize(20)
                   .onClick(async () => {
 
-                    //上传服务器
-                    await this.uploadExercise()
+                    console.log('ImageFile', 'filesPaths', this.filesPaths, this.exerciseId)
 
-                    if (this.ifUpload) {
+                    try {
+                      // 上传图片
+                      const uploadedPaths = await imageUploadModule.prepareUpload(`/ExerciseService/uploadExercise/${this.exerciseId}`, "image", this.filesPaths);
+                      console.log('ImageFile', '上传的图片路径:', uploadedPaths);
+
+                      // 上传成功
                       AlertDialog.show({
-                        message: '作业提交成功',
+                        message: '提交成功',
                         confirm: {
                           value: '确定',
                           action: ()=>{
@@ -78,9 +150,12 @@ struct SelfUnfinishPage {
                         }
                       })
 
-                    } else {
+                    } catch (error) {
+                      console.error('ImageFile', '上传图片出错:', error);
+
+                      // 上传失败
                       AlertDialog.show({
-                        message: '作业提交失败，请重新尝试',
+                        message: '提交失败，请重新尝试',
                         confirm: {
                           value: '确定',
                           action: ()=>{
@@ -88,7 +163,6 @@ struct SelfUnfinishPage {
                         }
                       })
                     }
-
 
                   })
               }
@@ -145,13 +219,15 @@ struct SelfUnfinishPage {
 
         this.ifConnect = true
 
-        this.content = this.selfUnfinish.submit
+        if (this.selfUnfinish.submit.length != 0) {
+          this.filesPaths = this.selfUnfinish.submit
+        }
 
         this.title = this.selfUnfinish.title
 
         this.ifCollect = this.selfUnfinish.ifCollect
 
-        console.log('Result', this.selfUnfinish.title)
+        console.log('ImageFile', 'Result', this.selfUnfinish.submit)
 
       })
       .catch((error: string) => {
@@ -161,23 +237,6 @@ struct SelfUnfinishPage {
 
   }
 
-  //上传练习
-  async uploadExercise(){
-    console.log('id',this.exerciseId)
-    await ExerciseService.uploadExercise(this.uerId, this.exerciseId, this.content)
-      .then((success) => {
-        console.log('Tags', '上传练习成功')
-
-        this.ifUpload = success
-
-        console.log('Result', this.ifUpload)
-
-      })
-      .catch((error: string) => {
-        this.ifUpload = false
-        console.log('Tags', '获取书法知识失败')
-      })
-  }
 }
 
 // 声明接受参数的类型

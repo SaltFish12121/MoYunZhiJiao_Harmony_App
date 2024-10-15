@@ -1,6 +1,15 @@
 import router from '@ohos.router'
 import { HeaderTitle } from '../../../../common/components/CommonComponents'
 
+import { bundleManager, common, Want } from '@kit.AbilityKit';
+
+// import { updateManager } from '@kit.StoreKit';
+// import { hilog } from '@kit.PerformanceAnalysisKit';
+// import type { common } from '@kit.AbilityKit';
+// import { BusinessError } from '@kit.BasicServicesKit';
+//
+// let context: common.UIAbilityContext = getContext() as common.UIAbilityContext;
+
 @Extend(Column) function about_column(){
   .width('100%')
   .height(64)
@@ -14,11 +23,17 @@ import { HeaderTitle } from '../../../../common/components/CommonComponents'
   .justifyContent(FlexAlign.SpaceBetween)
 }
 
+//关于
 @Entry
 @Component
 struct AboutPage {
 
   @State title: string = '关于'
+
+  @State versionCode: number = 0
+  @State versionName: string = ''
+
+  @State newVersionName: string = ''
 
   build() {
     Column(){
@@ -34,7 +49,7 @@ struct AboutPage {
           Text('本机版本')
             .fontSize(20)
 
-          Text('当前版本')
+          Text(/*'当前版本'*/this.versionName)
         }
         .about_row()
 
@@ -74,11 +89,21 @@ struct AboutPage {
       }
       .about_column()
       .onClick(() => {
-        router.pushUrl(
-          {
-            url: 'pages/mine/mine_set/about/ArchivalInformationPage'
+        // router.pushUrl(
+        //   {
+        //     url: 'pages/mine/mine_set/about/ArchivalInformationPage'
+        //   }
+        // )
+        let context = getContext(this) as common.UIAbilityContext;
+        let want: Want = {
+          bundleName: 'com.huawei.hmos.settings',//设置应用bundleName
+          abilityName: 'com.huawei.hmos.settings.MainAbility',//设置应用abilityName
+          uri: 'application_info_entry',//跳转到应用信息页面
+          parameters: {
+            pushParams: "com.example.mjy.shufapingjia06"//拉起放包名
           }
-        )
+        }
+        context.startAbility(want)
       })
 
       Divider()
@@ -89,4 +114,39 @@ struct AboutPage {
 
 
   }
+
+  onPageShow(): void {
+    this.getName()
+    // this.checkUpdate()
+  }
+
+  getName() {
+    let bundleFlags = bundleManager.BundleFlag.GET_BUNDLE_INFO_DEFAULT;
+    try {
+      bundleManager.getBundleInfoForSelf(bundleFlags).then((data) => {
+        this.versionCode = data.versionCode;
+        this.versionName = data.versionName;
+        console.log('testTag', 'versionCode', this.versionCode, 'versionName', this.versionName)
+        // hilog.info(0x0000, 'testTag', `successfully. versionCode: ${versionCode}, versionName: ${versionName}`);
+      }).catch((err: string) => {
+        // hilog.error(0x0000, 'testTag', 'failed. Cause: %{public}s', err.message);
+      });
+    } catch (err) {
+      // hilog.error(0x0000, 'testTag', 'failed: %{public}s', err.message);
+    }
+  }
+
+  // checkUpdate() {
+  //   try {
+  //     updateManager.checkAppUpdate(context)
+  //       .then((checkResult: updateManager.CheckUpdateResult) => {
+  //         // this.newVersionName = checkResult.updateAvailable
+  //         hilog.info(0, 'TAG', "Succeeded in checking Result updateAvailable:" + checkResult.updateAvailable);
+  //       }).catch((error: BusinessError) => {
+  //       hilog.error(0, 'TAG', `checkAppUpdate onError.code is ${error.code}, message is ${error.message}`);
+  //     });
+  //   } catch (error) {
+  //     hilog.error(0, 'TAG', `checkAppUpdate onError.code is ${error.code}, message is ${error.message}`);
+  //   }
+  // }
 }

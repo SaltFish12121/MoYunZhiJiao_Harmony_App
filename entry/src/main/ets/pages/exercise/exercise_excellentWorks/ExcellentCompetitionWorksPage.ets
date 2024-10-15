@@ -6,6 +6,7 @@ import ExcellentCompetitionInfo from '../../../viewmodel/exerciseDetial/Excellen
 import CompetitionContentInfo from '../../../viewmodel/exerciseDetial/CompetitionContentInfo'
 import SubmitWritingInfo from '../../../viewmodel/exerciseDetial/SubmitWritingInfo'
 import { router } from '@kit.ArkUI'
+import Cant_Connect from '../../../views/Cant_Connect'
 
 @Entry
 @Component
@@ -24,6 +25,7 @@ struct ExcellentCompetitionWorksPage {
         ])
     ])
 
+  @State ifConnect: boolean = false
 
   build() {
     Scroll(){
@@ -31,43 +33,44 @@ struct ExcellentCompetitionWorksPage {
         //1头部
         HeaderTitleCollect({ title: $title, ifCollect: $ifCollect, collectId: $collectId, type: 'ExcellentCompetition' })
 
-        //2出处
-        Row(){
+        if (this.ifConnect) {
+          //2出处
           Row(){
-            Text('来源：')
-              .fontSize(16)
+            Row(){
+              Text('来源：')
+                .fontSize(16)
 
-            Text(/*'系统'*/this.excellentCompetition.comeFrom)
-              .fontSize(16)
+              Text(/*'系统'*/this.excellentCompetition.comeFrom)
+                .fontSize(16)
+            }
+
+            /*
+            Column(){
+              //收藏
+              Image($r('app.media.collect0'))
+                .width(40)
+            }
+            */
+
           }
+          .margin({bottom: 20})
+          .width('90%')
+          .alignItems(VerticalAlign.Center)
+          .justifyContent(FlexAlign.SpaceBetween)
 
-          /*
-          Column(){
-            //收藏
-            Image($r('app.media.collect0'))
-              .width(40)
-          }
-          */
 
+          //3内容（可能多个）
+          ForEach(
+            this.excellentCompetition.content,
+            (content: CompetitionContentInfo) => {
+              Exercise_ShowDetail_Competition({ competitionContent: content })
+            }
+          )
+
+          Column().height(50)
+        } else {
+          Cant_Connect()
         }
-        .margin({bottom: 20})
-        .width('90%')
-        .alignItems(VerticalAlign.Center)
-        .justifyContent(FlexAlign.SpaceBetween)
-
-
-        //3内容（可能多个）
-        ForEach(
-          this.excellentCompetition.content,
-          (content: CompetitionContentInfo) => {
-            Exercise_ShowDetail_Competition({ competitionContent: content })
-          }
-        )
-
-
-        Column(){
-
-        }.height(50)
 
       }
     }
@@ -100,21 +103,22 @@ struct ExcellentCompetitionWorksPage {
 
         this.excellentCompetition = excellentCompetition
 
-        console.log('Result', this.excellentCompetition.comeFrom, this.excellentCompetition.title)
+        this.title = this.excellentCompetition.title
 
+        this.ifCollect = this.excellentCompetition.ifCollect
+
+        this.collectId = this.excellentCompetition.id
+
+        console.log('Result', this.excellentCompetition.comeFrom, this.excellentCompetition.title)
+        this.ifConnect = true
       })
       .catch((error: string) => {
-
+        this.ifConnect = false
         console.log('Tags', '获取书法知识失败')
       })
 
     // this.change(this.knowledgeShow)
 
-    this.title = this.excellentCompetition.title
-
-    this.ifCollect = this.excellentCompetition.ifCollect
-
-    this.collectId = this.excellentCompetition.id
 
     // this.content = this.excellentCompetition.content
 

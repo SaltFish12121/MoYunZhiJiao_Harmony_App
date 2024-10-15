@@ -8,6 +8,7 @@ import UserService from '../../service/UserService'
 import ExerciseService from '../../service/ExerciseService'
 import CompetitionService from '../../service/CompetitionService'
 import LoginService from '../../service/LoginService'
+import { imageUploadModule } from '../../model/ImageUploadModule'
 
 @Component
 export default struct PasswordLogin {
@@ -223,7 +224,8 @@ export default struct PasswordLogin {
       ExerciseService.getUserToken(),
       InformationService.getUserToken(),
       LoginService.getUserToken(),
-      UserService.getUserToken()
+      UserService.getUserToken(),
+      imageUploadModule.getUserToken()
     ])
   }
 

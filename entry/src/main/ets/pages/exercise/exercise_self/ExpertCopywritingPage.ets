@@ -26,8 +26,16 @@ struct ExpertCopywritingPage {
 
     //是否成功
     if (this.success) {
-      router.back()
-      router.back()
+      AlertDialog.show({
+        message: '生成练习成功',
+        confirm: {
+          value: '确定',
+          action: ()=>{
+            router.back()
+            router.back()
+          }
+        }
+      })
     } else {
       AlertDialog.show({
         message: '生产练习失败',
@@ -138,7 +146,7 @@ struct ExpertCopywritingPage {
 
   //创建练习
   createExercise(e: string){
-    ExerciseService.createExercise(1, e, this.copybook.typeface, this.copybook.content)
+    ExerciseService.createExercise(1, e, this.copybook.typeface, this.copybook.content, '字帖')
       .then((success) => {
         console.log('Tags', '创建练习成功')
 

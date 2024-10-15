@@ -24,16 +24,11 @@ import Cant_Connect from '../../views/Cant_Connect'
   */
 }
 
-
+//竞赛通知
 @Entry
 @Component
 struct NoticeMessagePage {
-  @State CompetitionNotice_messages: MessageInfo[] = [
-    /*
-    new MessageInfo(0,MessageType.competition,'您报名的“全国大赛”已成功','2024-5-24','开赛时间2024-5-5'),
-    new MessageInfo(0,MessageType.competition,'您参加的比赛“全国大赛”已提交成功','2024-5-27','比赛提交成功')
-    */
-  ]
+  @State CompetitionNotice_messages: MessageInfo[] = []
   @State title: string = '竞赛通知'
   @State pageNum: number = 1
   isLoading: boolean = false//是否正在加载
@@ -77,6 +72,7 @@ struct NoticeMessagePage {
           .onReachStart(() => {
             console.log('触顶')
             this.pageNum = 1
+            this.isMore = true
             this.getMineMessage()
           })
           .onReachEnd(() => {

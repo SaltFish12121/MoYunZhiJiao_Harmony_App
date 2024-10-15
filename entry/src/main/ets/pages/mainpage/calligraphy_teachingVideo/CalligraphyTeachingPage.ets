@@ -15,6 +15,7 @@ import Cant_Connect from '../../../views/Cant_Connect'
   .height(200)
 }
 
+//书法教学
 @Entry
 @Component
 struct CalligraphyTeachingPage {
@@ -27,17 +28,7 @@ struct CalligraphyTeachingPage {
 
   @State ifConnect: boolean = false
 
-  @State video: VideoInfo[] = [
-    /*
-    new VideoInfo(1, '', '楷书的教学视频1', '2024-4-10', $r('app.media.show_knoledge')),
-    new VideoInfo(2, '', '楷书的教学视频2', '2024-4-10', $r('app.media.show_knoledge')),
-    new VideoInfo(3, '','楷书的教学视频3', '2024-4-10', $r('app.media.show_knoledge')),
-    new VideoInfo(4, '','楷书的教学视频4', '2024-4-10', $r('app.media.show_knoledge')),
-    new VideoInfo(5, '','楷书的教学视频5', '2024-4-10', $r('app.media.show_knoledge')),
-    new VideoInfo(6, '','楷书的教学视频6', '2024-4-10', $r('app.media.show_knoledge')),
-    new VideoInfo(7, '','楷书的教学视频7', '2024-4-10', $r('app.media.show_knoledge'))
-    */
-  ]
+  @State video: VideoInfo[] = []
 
   scroller: Scroller = new Scroller()
 
@@ -99,7 +90,7 @@ struct CalligraphyTeachingPage {
             .height(150)
 
         }
-        .margin({ top: 5 })
+        .margin({ top: 5, left: 5 })
         .width('100%')
         .onReachStart(() => {
           console.log('触顶！')

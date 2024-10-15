@@ -1,4 +1,4 @@
-import { HeaderTitle } from '../../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../common/components/CommonComponents'
 @Entry
 @Component
 struct ArchivalInformationPage {

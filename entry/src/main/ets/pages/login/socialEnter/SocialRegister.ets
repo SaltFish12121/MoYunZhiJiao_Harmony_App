@@ -294,9 +294,10 @@ struct SocialRegister {
     let reason: string = ''
     if (this.allow) {
       if (this.userName != '') {
-        if (this.password != '') {
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*_)[A-Za-z\d_]{8,16}$/;
+        if (this.password != '' && passwordRegex.test(this.password)) {
           if (this.confirmPassword == this.password) {
-            if (this.phoneNumber != '') {
+            if (this.phoneNumber != '' && this.phoneNumber.length === 11) {
               if (this.verify == this.getPhoneVerify && this.verify != '') {
                 success = true
               } else {

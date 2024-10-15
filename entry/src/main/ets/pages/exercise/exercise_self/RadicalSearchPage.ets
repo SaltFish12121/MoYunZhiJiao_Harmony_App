@@ -24,8 +24,25 @@ struct RadicalSearchPage {
       Column(){
         HeaderTitle({ title: $title })
 
-        Search()
-          .width('90%')
+        // Search()
+        //   .width('90%')
+
+        Button('不选偏旁')
+          .width('80%')
+          .margin({top: 10, bottom: 20})
+          .onClick(() => {
+            router.back(
+
+              {
+                url: this.url,
+                params: {
+                  success: true,
+                  radical: new Radical(0, '', '')
+                }
+              }
+
+            )
+          })
 
         Divider()
       }

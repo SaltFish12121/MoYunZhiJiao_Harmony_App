@@ -1,7 +1,7 @@
-import { Header } from '../../../common/components/CommonComponents'
-import UserInfo from '../../../viewmodel/user/UserInfo'
-import KlassInfo from '../../../viewmodel/user/KlassInfo'
-import RegionInfo from '../../../viewmodel/user/RegionInfo'
+import { Header } from '../../common/components/CommonComponents'
+import UserInfo from '../../viewmodel/user/UserInfo'
+import KlassInfo from '../../viewmodel/user/KlassInfo'
+import RegionInfo from '../../viewmodel/user/RegionInfo'
 
 @Extend(Row) function switch_List(){
   .width(330)

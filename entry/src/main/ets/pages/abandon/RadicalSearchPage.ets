@@ -1,6 +1,6 @@
 import router from '@ohos.router';
-import { Radical, radical } from '../data/Radical'
-import Test from '../service/Test'
+import { Radical, radical } from '../../data/Radical'
+import Test from '../../service/Test'
 
 //样式
 @Styles function card(){

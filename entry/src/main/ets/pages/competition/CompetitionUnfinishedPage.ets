@@ -5,6 +5,8 @@ import CompetitionDetailInfo from '../../viewmodel/CompetitionDetailInfo'
 import router from '@ohos.router'
 import SubmitWritingInfo from '../../viewmodel/exerciseDetial/SubmitWritingInfo'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
+import Cant_Connect from '../../views/Cant_Connect'
+import { imageUploadModule } from '../../model/ImageUploadModule'
 
 @Entry
 @Component
@@ -13,15 +15,15 @@ struct CompetitionUnfinishedPage {
 
   @State competition: CompetitionDetailInfo = new CompetitionDetailInfo(0, '笔画练习（一）', '2024-8-11', '2024-8-30',
     '行书', '际传存论青常照采照再八算何机话元。', /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'),
-    [
-      new SubmitWritingInfo(50, /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'), [])
-    ], 88, 18, '重在参与奖', '总体文章错误少，缺点笔峰不足，部分字连笔', false)
+    [], 88, 18, '重在参与奖', '总体文章错误少，缺点笔峰不足，部分字连笔', false)
 
   @State success: boolean = false
   @State cutoff: boolean = false
 
-  @State content: ResourceStr[] = [$r('app.media.exercise_test1')]
+  @State content: string[] = []
   @State competitionId: number = 0
+
+  @State ifConnect: boolean = false
 
   build(){
     Scroll(){
@@ -30,107 +32,118 @@ struct CompetitionUnfinishedPage {
         // Text('123')
         HeaderTitle({ title: this.title })
 
-        //2 内容
-        Column({space: 15}){
+        if (this.ifConnect) {
+          //2 内容
+          Column({space: 15}){
 
+            //1截止日期
+            Row({space: 30}){
+              Text('截止日期')
 
-          //1截止日期
-          Row({space: 30}){
-            Text('截止日期')
-
-            Text(/*'2024-6-29 13：30'*/this.competition.finishTime)
-          }
-          .width('90%')
-
-
-          //2要求
-          Column({space: 10}){
-            Row(){
-              Text('要求')
-
-              Text(/*'楷体'*/this.competition.typeface)
-            }
-            .width('100%')
-            .justifyContent(FlexAlign.SpaceBetween)
-
-            Column(){
-              Text(/*'作业要求'*/this.competition.require)
-                .fontSize(12)
-                .width('95%')
-                .margin({top: 15, bottom: 15})
+              Text(/*'2024-6-29 13：30'*/this.competition.finishTime)
             }
             .width('90%')
-            .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
+
+
+            //2要求
+            Column({space: 10}){
+              Row(){
+                Text('要求')
+
+                Text(/*'楷体'*/this.competition.typeface)
+              }
+              .width('100%')
+              .justifyContent(FlexAlign.SpaceBetween)
+
+              Column(){
+                Text(/*'作业要求'*/this.competition.require)
+                  .fontSize(12)
+                  .width('95%')
+                  .margin({top: 15, bottom: 15})
+              }
+              .width('90%')
+              .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
+
+            }
+            .width('90%')
+            .alignItems(HorizontalAlign.Center)
+            .justifyContent(FlexAlign.Center)
+
+            // 3样例
+            Column(){
+              Text('提交格式')
+                .width('100%')
+
+
+              Image(/*$r('app.media.exercise_test1')*/this.competition.example)
+                .width('90%')
+                .margin({top: 10 })
+            }
+            .width('90%')
+
+
+
+            //5上传作品
+            Exercise_Upload({ exerciseId: $competitionId, content: $content })
+
 
           }
-          .width('90%')
+          .width('100%')
+
+
+          //3 提交
+          Column(){
+            Text('提交')
+              .fontSize(20)
+              .onClick(async (event: ClickEvent) => {
+
+                console.log('ImageFile', 'content', this.content, this.competitionId)
+
+                try {
+                  // 上传图片
+                  const uploadedPaths = await imageUploadModule.prepareUpload(`/CompetitionService/submitCompetition/${this.competitionId}`, "image", this.content);
+                  console.log('ImageFile', '上传的图片路径:', uploadedPaths);
+
+                  // 上传成功
+                  AlertDialog.show({
+                    message: '提交成功',
+                    confirm: {
+                      value: '确定',
+                      action: ()=>{
+                        router.back()
+                      }
+                    }
+                  })
+
+                } catch (error) {
+                  console.error('ImageFile', '上传图片出错:', error);
+
+                  // 上传失败
+                  AlertDialog.show({
+                    message: '提交失败，请重新尝试',
+                    confirm: {
+                      value: '确定',
+                      action: ()=>{
+                      }
+                    }
+                  })
+                }
+
+              })
+          }
           .alignItems(HorizontalAlign.Center)
           .justifyContent(FlexAlign.Center)
-
-          // 3样例
-          Column(){
-            Text('提交格式')
-              .width('100%')
+          .width(120)
+          .height(45)
+          .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
 
 
-            Image(/*$r('app.media.exercise_test1')*/this.competition.example)
-              .width('90%')
-              .margin({top: 10 })
-          }
-          .width('90%')
-
-
-
-          //5上传作品
-          Exercise_Upload({ exerciseId: $competitionId, content: $content })
-
-
+          Column()
+            .height(50)
+        } else {
+          Cant_Connect()
         }
-        .width('100%')
 
-
-        //3 提交
-        Column(){
-          Text('提交')
-            .fontSize(20)
-            .onClick(async (event: ClickEvent) => {
-              await this.submitCompetition()
-
-              if (this.success) {
-                AlertDialog.show({
-                  message: '竞赛提交成功',
-                  confirm: {
-                    value: '确定',
-                    action: ()=>{
-                      router.back()
-                    }
-                  }
-                })
-
-              } else {
-                AlertDialog.show({
-                  message: '竞赛提交失败，请重新尝试',
-                  confirm: {
-                    value: '确定',
-                    action: ()=>{
-                    }
-                  }
-                })
-              }
-
-            })
-        }
-        .alignItems(HorizontalAlign.Center)
-        .justifyContent(FlexAlign.Center)
-        .width(120)
-        .height(45)
-        .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
-
-
-        Column(){
-
-        }
-        .height(50)
 
       }
       .width('100%')
@@ -164,36 +177,38 @@ struct CompetitionUnfinishedPage {
         console.log('Tags', '获取竞赛详情成功')
 
         this.competition = competitionDetail
+        this.title = this.competition.title
+        this.competitionId = this.competition.id
 
         console.log('Result', this.competition.title)
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取竞赛详情失败', error)
-
+        this.ifConnect = false
       })
 
-    this.title = this.competition.title
-    this.competitionId = this.competition.id
+
 
   }
 
-  //提交竞赛
-  async submitCompetition(){
-    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
-    await CompetitionService.submitCompetition(userId, this.competition.id, this.content)
-      .then((success) => {
-        console.log('Tags', '获取竞赛详情成功')
-
-        this.success = success
-
-        console.log('Result', this.success)
-      })
-      .catch((error: string) => {
-        console.log('Tags', '获取竞赛详情失败', error)
-
-      })
-
-  }
+  // //提交竞赛
+  // async submitCompetition(){
+  //   let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+  //   await CompetitionService.submitCompetition(userId, this.competition.id, this.content)
+  //     .then((success) => {
+  //       console.log('Tags', '获取竞赛详情成功')
+  //
+  //       this.success = success
+  //
+  //       console.log('Result', this.success)
+  //     })
+  //     .catch((error: string) => {
+  //       console.log('Tags', '获取竞赛详情失败', error)
+  //
+  //     })
+  //
+  // }
 }
 
 // 声明接受参数的类型

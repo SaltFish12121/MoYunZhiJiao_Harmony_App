@@ -1,10 +1,20 @@
 import router from '@ohos.router'
+import ExerciseService from '../../../../service/ExerciseService'
+
+interface SelectOption {
+  value: string;
+  icon: string;
+}
+
 @Component
 export default struct Comprehensive_Exercises {
   @State name: string = ''
   @State content: string = ''
-  @State typeface: string = '楷书'
-  @State composeType: string = '默认'
+  @State typeface: string = '楷体-周华'
+  @State composeType: string = '横版'
+
+  @State font: SelectOption[] = []
+  @State ifConnect: boolean = false
 
   @State placeholder: string = '请输入名称'
   @State inputColor: ResourceColor = $r('app.color.light_black')
@@ -58,11 +68,10 @@ export default struct Comprehensive_Exercises {
           .fontSize(20)
 
           Row({space:5}){
-            Select([{ value: '默认', icon: "/common/public_icon.svg" },
-              { value: '居中', icon: "/common/public_icon.svg" },
+            Select([{ value: '横版', icon: "/common/public_icon.svg" },
               { value: '竖版', icon: "/common/public_icon.svg" }])
               .selected(0)
-              .value('默认')
+              .value('横版')
               .font({ size: 14, weight: 500 })
               .fontColor('#182431')
               .backgroundColor($r('app.color.start_window_background'))
@@ -96,10 +105,7 @@ export default struct Comprehensive_Exercises {
           .fontSize(20)
 
           Row({space:5}){
-            Select([{ value: '楷书', icon: "/common/public_icon.svg" },
-              { value: '行书', icon: "/common/public_icon.svg" },
-              { value: '行楷', icon: "/common/public_icon.svg" },
-              { value: '草书', icon: "/common/public_icon.svg" }])
+            Select(this.font)
               .selected(0)
               .value('字体')
               .font({ size: 16, weight: 500 })
@@ -175,5 +181,28 @@ export default struct Comprehensive_Exercises {
     .width('100%')
     .height('100%')
 
+  }
+
+
+  async aboutToAppear() {
+    await this.getFont()
+  }
+
+  //获取字体
+  getFont(){
+    ExerciseService.getFont()
+      .then((font: string[]) => {
+
+        this.font = font.map((typeface: string, index: number) => ({
+          value: typeface,
+          icon: "/common/public_icon.svg"
+        } as SelectOption));
+
+        this.ifConnect = true
+      })
+      .catch((error: string) => {
+        console.log('Tags', '获取字体', error)
+        this.ifConnect = false
+      })
   }
 }

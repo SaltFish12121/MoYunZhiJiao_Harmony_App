@@ -4,6 +4,8 @@ import UserService from '../../../../service/UserService'
 import UserDBService from '../../../../DBservice/UserDBService'
 import PreferencesUtil from '../../../../common/utils/PreferencesUtil'
 
+
+//修改名称
 @Entry
 @Component
 struct UserNamePage {

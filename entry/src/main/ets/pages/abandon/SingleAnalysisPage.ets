@@ -1,10 +1,10 @@
 import router from '@ohos.router'
-import { HeaderTitle } from '../../../common/components/CommonComponents'
-import Single_Analysis from '../../../views/mine/data_analysis/Single_Analysis'
-import ExerciseService from '../../../service/ExerciseService'
-import UserService from '../../../service/UserService'
-import { Radical } from '../../../data/Radical'
-import WordAnalysisListInfo from  '../../../viewmodel/analysis/WordAnalysisListInfo'
+import { HeaderTitle } from '../../common/components/CommonComponents'
+import Single_Analysis from '../../views/mine/data_analysis/Single_Analysis'
+import ExerciseService from '../../service/ExerciseService'
+import UserService from '../../service/UserService'
+import { Radical } from '../../data/Radical'
+import WordAnalysisListInfo from '../../viewmodel/analysis/WordAnalysisListInfo'
 
 @Extend(Row) function content_formant(){
   // .padding({top: 30, bottom: 35})
@@ -20,6 +20,7 @@ import WordAnalysisListInfo from  '../../../viewmodel/analysis/WordAnalysisListI
   })
 }
 
+//单字分析
 @Entry
 @Component
 struct SingleAnalysisPage {
@@ -183,7 +184,7 @@ struct SingleAnalysisPage {
 
       //3练习的样本字
       Scroll(){
-        Single_Analysis({ selectNumber: $selectNumber, radical: $radical, sampleWord: $sampleWord, typeface: $typeface, structure: $structure, search: $search, pageNum: $pageNum, isMore: $isMore })
+        // Single_Analysis({ selectNumber: $selectNumber, radical: $radical, sampleWord: $sampleWord, typeface: $typeface, structure: $structure, search: $search, pageNum: $pageNum, isMore: $isMore })
       }
       .width('100%')
       .height('74%')

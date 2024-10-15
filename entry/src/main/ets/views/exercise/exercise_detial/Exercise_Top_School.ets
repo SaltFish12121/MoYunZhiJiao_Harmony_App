@@ -82,8 +82,21 @@ export default struct Exercise_Top_School {
             .width('100%')
 
 
-          Image(/*$r('app.media.exercise_test1')*/this.exercise.example)
-            .width('90%')
+          Scroll(){
+            Row(){
+              ForEach(this.exercise.example,
+                (example: string) => {
+                  Image(/*$r('app.media.exercise_test1')*/example)
+                    .width('90%')
+                }
+              )
+
+            }
+          }
+          .scrollable(ScrollDirection.Horizontal)
+          .scrollBar(BarState.Off)
+          .width('90%')
+
         }
         .width('90%')
         .margin({bottom: 10})

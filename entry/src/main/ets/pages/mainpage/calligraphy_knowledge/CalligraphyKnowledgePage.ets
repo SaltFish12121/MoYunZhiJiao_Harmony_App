@@ -10,6 +10,7 @@ import KnowledgeInfo from '../../../viewmodel/KnowledgeInfo'
 import { KnowledgeType } from '../../../viewmodel/KnowledgeInfo'
 import Cant_Connect from '../../../views/Cant_Connect'
 
+//书法知识
 @Entry
 @Component
 struct CalligraphyKnowledgePage {
@@ -43,35 +44,11 @@ struct CalligraphyKnowledgePage {
     return this.currentIndex === index ? $r('app.color.pink') : $r('app.color.black')
   }
 
-  @State recommendKnowledge: KnowledgeInfo[] = [
-    /*
-    new KnowledgeInfo(4,KnowledgeType.Hanzi, true , '汉字的演变过程', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(11,KnowledgeType.famousWorks, true , '《洛神赋十三行》王献之', 666, '2024-4-10', $r('app.media.show_knoledge')),
-  */
-  ]
-  @State biographyKnowledge: KnowledgeInfo[] = [
-  /*
-    new KnowledgeInfo(7,KnowledgeType.biography, false, '王羲之的童年时期', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(8,KnowledgeType.biography, false, '颜真卿的人物传记', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(9,KnowledgeType.biography, false, '李斯的生平', 666, '2024-4-10', $r('app.media.show_knoledge')),
-  */
-  ]
-  @State HanziKnowledge: KnowledgeInfo[] = [
-  /*
-    new KnowledgeInfo(9,KnowledgeType.Hanzi, false, '汉字的演变过程', 666, '2024-4-10', $r('app.media.show_knoledge')),
-    new KnowledgeInfo(10,KnowledgeType.Hanzi, false, '楷书的发展', 666, '2024-4-10', $r('app.media.show_knoledge')),
-  */
-  ]
-  @State famousWorksKnowledge: KnowledgeInfo[] = [
-  /*
-    new KnowledgeInfo(11,KnowledgeType.famousWorks, true , '《洛神赋十三行》王献之', 666, '2024-4-10', $r('app.media.show_knoledge')),
-  */
-  ]
-  @State cultureKnowledge: KnowledgeInfo[] = [
-  /*
-    new KnowledgeInfo(12,KnowledgeType.culture, false , '中华文化发展', 666, '2024-4-10', $r('app.media.show_knoledge')),
-  */
-  ]
+  @State recommendKnowledge: KnowledgeInfo[] = []
+  @State biographyKnowledge: KnowledgeInfo[] = []
+  @State HanziKnowledge: KnowledgeInfo[] = []
+  @State famousWorksKnowledge: KnowledgeInfo[] = []
+  @State cultureKnowledge: KnowledgeInfo[] = []
 
   @State pageNumRecommend: number = 1
   @State pageNumBiography: number = 1
@@ -105,7 +82,7 @@ struct CalligraphyKnowledgePage {
             this.pageNumCulture = 1
 
             //获取书法知识
-            this.ifConnect = true
+            this.ifConnect = false
             await Promise.all([
               this.getRecommendKnowledge(),
               this.getBiographyKnowledge(),
@@ -113,6 +90,7 @@ struct CalligraphyKnowledgePage {
               this.getFamousWorksKnowledge(),
               this.getCultureKnowledge(),
             ]);
+
           })
       }
 
@@ -169,7 +147,7 @@ struct CalligraphyKnowledgePage {
   }
 
   async onPageShow(){
-    this.ifConnect = true
+    this.ifConnect = false
     //获取书法知识
     await Promise.all([
       this.getRecommendKnowledge(),
@@ -187,7 +165,7 @@ struct CalligraphyKnowledgePage {
         console.log('Tags', '获取书法知识成功')
 
         this.recommendKnowledge = knowledge
-
+        this.ifConnect = true
         console.log('test', this.recommendKnowledge[0].cover)
       })
       .catch(() => {
@@ -204,7 +182,7 @@ struct CalligraphyKnowledgePage {
         console.log('Tags', '获取书法知识成功')
 
         this.biographyKnowledge = knowledge
-
+        this.ifConnect = true
         console.log('test', this.biographyKnowledge[0].cover)
       })
       .catch(() => {
@@ -221,7 +199,7 @@ struct CalligraphyKnowledgePage {
         console.log('Tags', '获取书法知识成功')
 
         this.HanziKnowledge = knowledge
-
+        this.ifConnect = true
         console.log('test', this.HanziKnowledge[0].cover)
       })
       .catch(() => {
@@ -238,7 +216,7 @@ struct CalligraphyKnowledgePage {
         console.log('Tags', '获取书法知识成功')
 
         this.famousWorksKnowledge = knowledge
-
+        this.ifConnect = true
         console.log('test', this.famousWorksKnowledge[0].cover)
       })
       .catch(() => {
@@ -255,7 +233,7 @@ struct CalligraphyKnowledgePage {
         console.log('Tags', '获取书法知识成功')
 
         this.cultureKnowledge = knowledge
-
+        this.ifConnect = true
         console.log('test', this.cultureKnowledge[0].cover)
       })
       .catch(() => {

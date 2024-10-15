@@ -76,6 +76,7 @@ export default struct Excellent_Works {
       .onReachStart(() => {
         console.log('触顶')
         this.pageNum = 1
+        this.isMore = true
         this.getExcellentExercise2()
       })
       .onReachEnd(() => {

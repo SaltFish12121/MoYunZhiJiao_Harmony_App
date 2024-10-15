@@ -4,6 +4,7 @@ import UserService from '../service/UserService'
 import ExerciseService from '../service/ExerciseService'
 import LoginService from '../service/LoginService'
 import CompetitionService from '../service/CompetitionService'
+import { imageUploadModule } from '../model/ImageUploadModule';
 
 @Entry
 @Component
@@ -58,7 +59,8 @@ struct WelcomePage {
       ExerciseService.getUserToken(),
       InformationService.getUserToken(),
       LoginService.getUserToken(),
-      UserService.getUserToken()
+      UserService.getUserToken(),
+      imageUploadModule.getUserToken()
     ])
   }
 }

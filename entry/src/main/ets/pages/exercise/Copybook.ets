@@ -10,8 +10,9 @@ import PreferencesUtil from '../../common/utils/PreferencesUtil'
 @Component
 struct Copybook {
   @State title: string = ''
-  @State template: SystemTemplateInfo = new SystemTemplateInfo(0, TemplateType.copybookType, '' ,'')
+  @State template: SystemTemplateInfo = new SystemTemplateInfo(0, TemplateType.copybookType, '' ,[])
   @State success: boolean = false
+  @State content: string[] = []
 
   controller: CustomDialogController = new CustomDialogController({
     builder: CreateExerciseDialog({
@@ -61,8 +62,24 @@ struct Copybook {
           .alignItems(VerticalAlign.Center)
 
 
-          Image(/*$r('app.media.exercise_test1')*/this.template.content)
+          if (this.content.length != 0) {
+
+            Scroll(){
+              Row(){
+                ForEach(this.content,
+                  (example: string) => {
+                    Image(/*$r('app.media.exercise_test1')*/example)
+                      .width('90%')
+                  }
+                )
+
+              }
+            }
+            .scrollable(ScrollDirection.Horizontal)
+            .scrollBar(BarState.Off)
             .width('90%')
+          }
+
 
         }
         .margin({top: 30})
@@ -107,6 +124,9 @@ struct Copybook {
       this.title = exercise.title
       if(this.title != ''){
         this.template = exercise.template
+        if (this.template.content != null) {
+          this.content = this.template.content
+        }
       } else {
         this.title = this.template.title
       }
@@ -120,7 +140,7 @@ struct Copybook {
     // let userId = 1
     let userId = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserId', 0) as number
 
-    await ExerciseService.createExercise(userId, e, this.template.typeface, this.template.content)
+    await ExerciseService.createExercise(userId, e, this.template.typeface, this.template.content, '已完成')
       .then((success) => {
         console.log('Tags', '创建练习成功')
 

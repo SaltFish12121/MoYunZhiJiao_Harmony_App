@@ -8,6 +8,7 @@ import { HeaderTitle } from '../../../../common/components/CommonComponents'
   .height(64)
 }
 
+//语言设置
 @Entry
 @Component
 struct LanguageSetPage {

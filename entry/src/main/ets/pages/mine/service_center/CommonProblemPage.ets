@@ -2,6 +2,7 @@ import router from '@ohos.router'
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import ProblemInfo from '../../../viewmodel/ProblemInfo'
 
+//问题详情
 @Entry
 @Component
 struct CommonProblemPage {

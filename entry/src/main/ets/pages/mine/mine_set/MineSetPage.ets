@@ -2,6 +2,7 @@ import router from '@ohos.router'
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import LogoutDialog from  '../../../common/components/LogoutDialog/LogoutDialog'
 import PreferencesUtil from '../../../common/utils/PreferencesUtil'
+import { common, Want } from '@kit.AbilityKit'
 
 @Extend(Row) function set_List(){
   .height(64)
@@ -25,6 +26,7 @@ import PreferencesUtil from '../../../common/utils/PreferencesUtil'
   .justifyContent(FlexAlign.Center)
 }
 
+//我的设置
 @Entry
 @Component
 struct MineSetPage {
@@ -96,11 +98,23 @@ struct MineSetPage {
                 break;
 
               case '消息设置':
-                router.pushUrl(
-                  {
-                    url: 'pages/mine/mine_set/message_set/MessageSetPage'
+                // router.pushUrl(
+                //   {
+                //     url: 'pages/mine/mine_set/message_set/MessageSetPage'
+                //   }
+                // )
+                let context = getContext(this) as common.UIAbilityContext;
+                let want: Want = {
+                  bundleName: 'com.huawei.hmos.settings',//设置应用bundleName
+                  abilityName: 'com.huawei.hmos.settings.MainAbility',//设置应用abilityName
+                  uri: "systemui_notification_settings",//通知管理页面
+                  parameters: {
+                    pushParams: {
+                      bundleName:context.abilityInfo.bundleName//拉起方应用包名
+                    }
                   }
-                )
+                }
+                context.startAbility(want)
                 break;
 
               case '通用设置':

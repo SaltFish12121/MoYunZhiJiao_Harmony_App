@@ -45,7 +45,6 @@ import PreferencesUtil from '../../common/utils/PreferencesUtil'
   })
 }
 
-
 @Component
 export struct HeaderSearch {
   build() {
@@ -77,6 +76,44 @@ export struct HeaderCollect {
   type: string = ''
   @State success: boolean = false
 
+  async updateCollect(collectId: number, type: string, ifCollect: boolean) {
+    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+
+    //更新收藏
+    if (userId != 0 && userId != null) {
+      UserService.updateCollect(userId, collectId, type, !ifCollect)
+        .then((success ) => {
+          console.log('Tags', '更新收藏成功')
+
+          this.success = success
+
+          if (this.success) {
+            this.ifCollect=!this.ifCollect
+          } else {
+            AlertDialog.show({
+              message: '更新收藏失败',
+              confirm: {
+                value: '确定',
+                action: ()=>{
+                }
+              }
+            })
+          }
+
+          console.log('Result', this.success)
+
+        })
+        .catch((error: string) => {
+
+          console.log('Tags', '更新收藏失败')
+        })
+    } else {// 跳转登录
+      router.pushUrl({
+        url: 'pages/login/LoginPage'
+      })
+    }
+  }
+
   build() {
     Row(){
       Column(){
@@ -100,36 +137,7 @@ export struct HeaderCollect {
       }
       .onClick(async() => {
 
-        let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
-
-        //更新收藏
-        UserService.updateCollect(userId, this.collectId, this.type, !this.ifCollect)
-          .then((success ) => {
-            console.log('Tags', '更新收藏成功')
-
-            this.success = success
-
-            if (this.success) {
-              this.ifCollect=!this.ifCollect
-            } else {
-              AlertDialog.show({
-                message: '更新收藏失败',
-                confirm: {
-                  value: '确定',
-                  action: ()=>{
-                  }
-                }
-              })
-            }
-
-            console.log('Result', this.success)
-
-          })
-          .catch((error: string) => {
-
-            console.log('Tags', '更新收藏失败')
-          })
-
+        await this.updateCollect(this.collectId, this.type, this.ifCollect)
 
       })
 
@@ -152,6 +160,39 @@ export struct HeaderTitleTypeCollect {
   collectType: string = ''
   @State success: boolean = false
 
+  async updateCollect(collectId: number, type: string, ifCollect: boolean) {
+    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+
+    //更新收藏
+    if (userId != 0 && userId != null) {
+      UserService.updateCollect(userId, collectId, type, !ifCollect)
+        .then((success ) => {
+          console.log('Tags', '更新收藏成功')
+
+          this.success = success
+
+          if (this.success) {
+            this.ifCollect=!this.ifCollect
+          } else {
+            AlertDialog.show({
+              message: '更新收藏失败',
+              confirm: {
+                value: '确定',
+                action: ()=>{
+                }
+              }
+            })
+          }
+
+          console.log('Result', this.success)
+
+        })
+        .catch((error: string) => {
+
+          console.log('Tags', '更新收藏失败')
+        })
+    }
+  }
 
   build() {
     Row(){
@@ -189,35 +230,7 @@ export struct HeaderTitleTypeCollect {
       }
       .onClick(async() => {
 
-        let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
-
-        //更新收藏
-        UserService.updateCollect(userId, this.collectId, this.collectType, !this.ifCollect)
-          .then((success ) => {
-            console.log('Tags', '更新收藏成功')
-
-            this.success = success
-
-            if (this.success) {
-              this.ifCollect=!this.ifCollect
-            } else {
-              AlertDialog.show({
-                message: '更新收藏失败',
-                confirm: {
-                  value: '确定',
-                  action: ()=>{
-                  }
-                }
-              })
-            }
-
-            console.log('Result', this.success)
-
-          })
-          .catch((error: string) => {
-
-            console.log('Tags', '更新收藏失败')
-          })
+        await this.updateCollect(this.collectId, this.type, this.ifCollect)
 
 
       })
@@ -237,6 +250,40 @@ export struct HeaderTitleCollect {
   @Link collectId: number
   type: string = ''
   @State success: boolean = false
+
+  async updateCollect(collectId: number, type: string, ifCollect: boolean) {
+    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+
+    //更新收藏
+    if (userId != 0 && userId != null) {
+      UserService.updateCollect(userId, collectId, type, !ifCollect)
+        .then((success ) => {
+          console.log('Tags', '更新收藏成功')
+
+          this.success = success
+
+          if (this.success) {
+            this.ifCollect=!this.ifCollect
+          } else {
+            AlertDialog.show({
+              message: '更新收藏失败',
+              confirm: {
+                value: '确定',
+                action: ()=>{
+                }
+              }
+            })
+          }
+
+          console.log('Result', this.success)
+
+        })
+        .catch((error: string) => {
+
+          console.log('Tags', '更新收藏失败')
+        })
+    }
+  }
 
   build() {
     Row(){
@@ -266,36 +313,10 @@ export struct HeaderTitleCollect {
       }
       .onClick(async() => {
 
-        let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+        await this.updateCollect(this.collectId, this.type, this.ifCollect)
 
-        //更新收藏
-        UserService.updateCollect(userId, this.collectId, this.type, !this.ifCollect)
-          .then((success ) => {
-            console.log('Tags', '更新收藏成功')
-
-            this.success = success
-
-            if (this.success) {
-              this.ifCollect=!this.ifCollect
-            } else {
-              AlertDialog.show({
-                message: '更新收藏失败',
-                confirm: {
-                  value: '确定',
-                  action: ()=>{
-                  }
-                }
-              })
-            }
-
-            console.log('Result', this.success)
-
-          })
-          .catch((error: string) => {
-
-            console.log('Tags', '更新收藏失败')
-          })
       })
+
 
     }
     .justifyContent(FlexAlign.SpaceBetween)
@@ -499,6 +520,8 @@ export struct Header_close {
 
 @Component
 export struct Header_close_2 {
+  @Link avatar: string
+
   build() {
     Row(){
       Column(){
@@ -509,7 +532,12 @@ export struct Header_close_2 {
       .height(34)
       .width(34)
       .onClick(() => {
-        router.back()
+        router.back({
+          url: 'pages/mine/personal_information/EditPersonalInformationPage',
+          params: {
+            avatar: this.avatar
+          }
+        })
       })
 
 

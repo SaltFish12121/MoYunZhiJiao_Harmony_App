@@ -4,22 +4,14 @@ import FeedbackInfo from '../../../viewmodel/FeedbackInfo'
 import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 import Cant_Connect from '../../../views/Cant_Connect'
 import No_Content from '../../../views/No_Content'
+
+//用户反馈记录
 @Entry
 @Component
 struct MineFeedbackPage {
   private arr: number[] = [0, 1]
 
-  @State feedback: FeedbackInfo[] = [
-    new FeedbackInfo(0,'样式建议与反馈', '如何注册', '2024-6-5 19:07:13'),
-    new FeedbackInfo(0,'体验建议与反馈', '如何创建练习', '2024-6-4 09:07:13'),
-    new FeedbackInfo(0,'样式建议与反馈', '如何报名竞赛', '2024-6-3 09:47:13')/*,
-    new FeedbackInfo(0,'用户1', '如何注册', '2024-6-5'),
-    new FeedbackInfo(0,'用户1', '如何创建练习', '2024-6-5'),
-    new FeedbackInfo(0,'用户1', '如何报名竞赛', '2024-6-5'),
-    new FeedbackInfo(0,'用户1', '如何注册', '2024-6-5'),
-    new FeedbackInfo(0,'用户1', '如何创建练习', '2024-6-5'),
-    new FeedbackInfo(0,'用户1', '如何报名竞赛', '2024-6-5'),*/
-  ]
+  @State feedback: FeedbackInfo[] = []
 
   @State title: string = '我的反馈'
   @State ifConnect: boolean = false
@@ -143,8 +135,6 @@ struct MineFeedbackPage {
 
   //获得个人意见反馈记录
   async getMineFeedback(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     UserService.getMineFeedback()
       .then((feedback: FeedbackInfo[]) => {

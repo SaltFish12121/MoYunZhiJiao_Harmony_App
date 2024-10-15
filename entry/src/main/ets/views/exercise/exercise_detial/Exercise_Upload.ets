@@ -1,67 +1,38 @@
-import type { Permissions } from '@ohos.abilityAccessCtrl';
-import ExerciseService from '../../../service/ExerciseService'
-import ImageUploadDialog from '../../../common/components/ImageUploadDialog/ImageUploadDialog'
-import { promptAction, router } from '@kit.ArkUI'
-import SchoolFinishExerciseDetailInfo from '../../../viewmodel/exerciseDetial/SchoolFinishExerciseDetailInfo'
-import SubmitWritingInfo from '../../../viewmodel/exerciseDetial/SubmitWritingInfo'
+import { imageUploadModule } from '../../../model/ImageUploadModule'
 
 @Component
 export default struct Exercise_Upload {
   @Link exerciseId: number
-  @Link content: ResourceStr[]
+  @Link content: string[]
 
   @State success: boolean = false
 
-  @State dialogController: CustomDialogController | null = null //选择上传类型弹窗控制器
-  aboutToAppear(): void {
-    this.dialogController= new CustomDialogController({
-      builder: ImageUploadDialog({
-        uploadURL: 'http://xxxxxxxxx',//上传地址
-        success:e=>{//上传成功回调，e上传成功接口返回数据
-          let res= JSON.parse(e.body) as object //接口上传成功返回数据
-          console.log(JSON.stringify(res),'上传成功')
-          //根据实际接口返回字段获取图片url
-          //url=res['data']
-        },
-        fail:e=>{//上传失败回调
-          console.log(JSON.stringify(e))
-          promptAction.showToast({message:'上传失败'})
-        },
-        complete:e=>{//上传完成回调
-          console.log(JSON.stringify(e),'complete')
-        }
-      }),
-      alignment: DialogAlignment.Bottom,//弹窗居于底部
-      customStyle: true,//自定义样式
-    })
-  }
+  @State selectedPaths: string[] | null = null
 
   build() {
     Column({space: 10}){
       Text('上传作品')
         .width('100%')
 
-      Scroll(){
-        Column(){
+      if (this.content.length != 0) {
+        List(){
+          ListItem().height(20)
+
           ForEach(
             this.content,
-            (content: ResourceStr) => {
-              Column(){
-                Image(content)
-
+            (content: string) => {
+              ListItem(){
+                Image(content) // 使用 URI 显示图片
+                  .width(250)
+                  .height(300)
+                  .margin({ top: '10' })
               }
-              .width(250)
-              .height(300)
             }
           )
         }
-
-
+        .width('90%')
+        .height(177)
       }
-      .width('90%')
-      .height(177)
-
-
 
       Row(){
 
@@ -75,8 +46,29 @@ export default struct Exercise_Upload {
         .width(110)
         .height(32)
         .border({ width: 1, color: $r('app.color.text_gray'), radius: 5, style: BorderStyle.Solid })
-        .onClick(async() => {
-          await this.dialogController?.open()
+        .onClick(async () => {
+          try {
+            // 选择图片
+            const selectedPaths = await imageUploadModule.pickerAvatar(2);
+            console.log('ImageFile', '选择的图片路径:', selectedPaths);
+            this.selectedPaths = selectedPaths;
+
+            this.content = selectedPaths
+            console.log('ImageFile', 'content:', this.content);
+
+            // // 显示已选择的图片
+            // if (this.selectedPaths) {
+            //   this.content = this.selectedPaths
+            //
+            // }
+
+            // // 上传图片
+            // const uploadedPaths = await imageUploadModule.prepareUpload(`/UserService/uploadExercise/${this.exerciseId}`, "image", this.content);
+            // console.log('ImageFile', '上传的图片路径:', uploadedPaths);
+
+          } catch (error) {
+            console.error('ImageFile', '选择或上传图片出错:', error);
+          }
 
         })
 

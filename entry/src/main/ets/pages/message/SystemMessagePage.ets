@@ -14,15 +14,11 @@ import Cant_Connect from '../../views/Cant_Connect'
 
 }
 
+//系统消息
 @Entry
 @Component
 struct SystemMessagePage {
-  @State System_messages: MessageInfo[] = [
-    /*
-    new MessageInfo(0,MessageType.system,'信息设置','2024-5-24','您修改头像已经通过审核'),
-    new MessageInfo(0,MessageType.system,'尊贵的VIP用户','2024-4-9','恭喜你成为VIP')
-    */
-  ]
+  @State System_messages: MessageInfo[] = []
   @State title: string = '系统消息'
   @State pageNum: number = 1
   isLoading: boolean = false//是否正在加载
@@ -66,6 +62,7 @@ struct SystemMessagePage {
           .onReachStart(() => {
             console.log('触顶')
             this.pageNum = 1
+            this.isMore = true
             this.getMineMessage()
           })
           .onReachEnd(() => {

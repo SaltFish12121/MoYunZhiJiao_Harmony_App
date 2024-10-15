@@ -12,6 +12,8 @@ struct SocialResetPasswordPage {
 
   @State title: string = '重置密码'
 
+  @State tipColor: ResourceColor = $r('app.color.text_gray')
+
   build() {
     Column(){
       //1头部
@@ -56,7 +58,7 @@ struct SocialResetPasswordPage {
         Column(){
           Text('密码要求8-16位，至少包含数字、字母、"_"两种元素')
             .fontSize(14)
-            .fontColor($r('app.color.text_gray'))
+            .fontColor(this.tipColor)
         }
 
       }
@@ -81,11 +83,15 @@ struct SocialResetPasswordPage {
   }
 
   //格式是否正确
-  ifFormat(){
-    if (this.newPassword != '') {
-      this.format = true
+  ifFormat() {
+    const passwordRegex = /^(?=.*[A-Za-z].*[A-Za-z])(?=.*\d|.*_).{8,16}$|^(?=.*\d.*\d)(?=.*[A-Za-z]|.*_).{8,16}$|^(?=.*_.*_)(?=.*[A-Za-z]|.*\d).{8,16}$/;
+    if (this.newPassword != '' && passwordRegex.test(this.newPassword)) {
+      this.format = true;
+    } else {
+      this.format = false;
     }
   }
+
 
 
   //更新密码
@@ -144,7 +150,7 @@ struct SocialResetPasswordPage {
           action: ()=>{}
         }
       })
-
+      this.tipColor = $r('app.color.text_red')
     }
 
 

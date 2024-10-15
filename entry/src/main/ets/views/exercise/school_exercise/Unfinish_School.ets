@@ -61,6 +61,7 @@ export default struct Unfinish_School {
       .onReachStart(() => {
         console.log('触顶')
         this.pageNum = 1
+        this.isMore = true
         this.getSchoolExercise2()
       })
       .onReachEnd(() => {

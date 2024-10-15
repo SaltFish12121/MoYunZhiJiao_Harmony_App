@@ -196,7 +196,8 @@ struct SpecialExerciseSelectedPage {
               {
                 url: 'pages/exercise/exercise_self/self_generated/SpecialPreviewPage',
                 params:{
-                  selectWord: this.selectWord
+                  selectWord: this.selectWord,
+                  typeface: this.typeface
                 }
               }
             )
@@ -219,6 +220,7 @@ struct SpecialExerciseSelectedPage {
   async onPageShow(){
     const param = router.getParams() as PARAMS
     this.selectId = param.selectId
+    this.typeface = this.typeface
 
     for (let index = 0; index < this.selectId.length; index++) {
       await this.getSelectWord(this.selectId[index])
@@ -243,4 +245,5 @@ struct SpecialExerciseSelectedPage {
 // 声明接受参数的类型
 interface PARAMS {
   selectId: number[]
+  typeface: string
 }

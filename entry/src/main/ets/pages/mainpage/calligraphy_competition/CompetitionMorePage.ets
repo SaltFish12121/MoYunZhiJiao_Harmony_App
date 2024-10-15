@@ -16,6 +16,8 @@ import CompetitionInformInfo from '../../../viewmodel/CompetitionInformInfo'
   })
 }
 
+
+//本系统全部竞赛列表
 @Entry
 @Component
 struct CompetitionMorePage {

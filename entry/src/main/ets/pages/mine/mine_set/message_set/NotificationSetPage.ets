@@ -8,6 +8,7 @@ import { HeaderTitle } from '../../../../common/components/CommonComponents'
   .height(64)
 }
 
+//通用设置
 @Entry
 @Component
 struct NotificationSetPage {

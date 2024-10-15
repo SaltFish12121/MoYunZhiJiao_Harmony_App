@@ -5,7 +5,7 @@ import SubmitWritingInfo from '../../../viewmodel/exerciseDetial/SubmitWritingIn
 
 @Entry
 @Component
-struct ExerciseDetialPage {
+struct ExerciseDetailPage {
   @State Number: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
   private  Number2: number[] = [0, 1, 2, 3, 4, 5, 6, 7]
 
@@ -167,56 +167,45 @@ struct ExerciseDetialPage {
                   reference: BreakpointsReference.WindowSize },
                 direction: GridRowDirection.Row
               }) {
-                ForEach(
-                  this.Number,
-                  (number1: number) => {
-                    ForEach(
-                      this.Number2,
-                      (number2: number) => {
-                        GridCol(){
-
-                          Column(){
-                            Column(){
-                              Image(/*this.word[number1][number2].word*/this.submit.word[number1][number2].word)
-                                // .width('100%')
-                                .height(30)
-                            }
-                            .width('100%')
-                            .constraintSize({ minHeight: 35, maxHeight: 35})
-                            .border({ width: 1, color: $r('app.color.text_gray'), radius: 0, style: BorderStyle.Solid })
-                            .alignItems(HorizontalAlign.Center)
-                            .justifyContent(FlexAlign.Center)
-
-                            Column(){
-                              Text(`${/*this.word[number1][number2].strokeNumber*/this.submit.word[number1][number2].strokeNumber}`)
-                                .fontSize(12)
-                                .fontColor($r('app.color.text_red'))
-                            }
-                            .width('100%')
-
+                ForEach(this.Number, (number1: number) => {
+                  // 如果当前行所有得分都为0，则跳过显示
+                  if (!this.Number2.every((number2: number) => this.submit.word[number1][number2].strokeNumber === 0)){
+                    ForEach(this.Number2, (number2: number) => {
+                      GridCol() {
+                        Column() {
+                          Column() {
+                            Image(this.submit.word[number1][number2].word)
+                              .height(30);
                           }
                           .width('100%')
-                          .onClick(() => {
-                            router.pushUrl(
-                              {
-                                url: 'pages/exercise/exercise_detail/ExerciseEachWordPage',
-                                params: {
-                                  data: this.submit.word[number1][number2],
-                                  ifSuccess: 1
-                                }
-                              }
-                            )
-                          })
+                          .constraintSize({ minHeight: 35, maxHeight: 35 })
+                          .border({ width: 1, color: $r('app.color.text_gray'), radius: 0, style: BorderStyle.Solid })
+                          .alignItems(HorizontalAlign.Center)
+                          .justifyContent(FlexAlign.Center);
 
+                          Column() {
+                            Text(`${this.submit.word[number1][number2].strokeNumber}`)
+                              .fontSize(12)
+                              .fontColor($r('app.color.text_red'));
+                          }
+                          .width('100%');
                         }
-
-
-
+                        .width('100%')
+                        .onClick(() => {
+                          router.pushUrl({
+                            url: 'pages/exercise/exercise_detail/ExerciseEachWordPage',
+                            params: {
+                              data: this.submit.word[number1][number2],
+                              ifSuccess: 1
+                            }
+                          })
+                        })
 
                       }
-                    )
+                    })
                   }
-                )
+                })
+
 
               }
 

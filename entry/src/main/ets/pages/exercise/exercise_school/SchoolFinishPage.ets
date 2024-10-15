@@ -18,7 +18,7 @@ struct SchoolFinishPage {
   @State exerciseId: number = 0
   @State schoolFinish: SchoolFinishExerciseDetailInfo = new SchoolFinishExerciseDetailInfo
   (
-    0, '笔画练习（一）', '个人', false, 4, 50, '行书', '专项-偏旁部首练习', '际传存论青常照采照再八算何机话元。', $r('app.media.exercise_test1'),
+    0, '笔画练习（一）', '个人', false, 4, 50, '行书', '专项-偏旁部首练习', '际传存论青常照采照再八算何机话元。', [],
     [
       new SubmitWritingInfo(50, $r('app.media.exercise_test1'), [])
     ], 88, '总体文章错误少，缺点笔峰不足，部分字连笔', '分学区话它样界出线先北统列程处。北资百长而场划包族系件期社革消引。因当发东理阶们样由商道处。至正活听加资目强后无白三验科。新革同拉飞可影验四际个的回身斯。书劳车主观个原提性反指本文委。'
@@ -54,10 +54,17 @@ struct SchoolFinishPage {
               .width('100%')
 
             Column(){
-              Text(/*'教师评语内容'*/this.schoolFinish.teacherComment)
-                .fontSize(12)
-                .width('95%')
-                .margin({top: 15, bottom: 15})
+              if (this.schoolFinish.teacherComment != null) {
+                Text(/*'教师评语内容'*/this.schoolFinish.teacherComment)
+                  .fontSize(12)
+                  .width('95%')
+                  .margin({top: 15, bottom: 15})
+              } else {
+                Text('暂无评论')
+                  .fontSize(12)
+                  .width('95%')
+                  .margin({top: 15, bottom: 15})
+              }
             }
             .width('90%')
             .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })

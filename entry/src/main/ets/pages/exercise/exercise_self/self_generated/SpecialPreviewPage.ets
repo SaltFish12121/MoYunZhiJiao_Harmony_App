@@ -20,24 +20,33 @@ struct SpecialPreviewPage {
   @State title: string = '生成字帖'
   @State success: boolean = false
   @State typeface: string = ''
-  @State content: ResourceStr = $r('app.media.exercise_test1')
+  @State content: string[] = []
 
   @State selectWord: WordListInfo[] = []
 
   controller: CustomDialogController = new CustomDialogController({
     builder: CreateExerciseDialog({
-      confirm: (e: string): void => this.onConfirm(e)
+      confirm: async(e: string): Promise<void> => await this.onConfirm(e)
     })
   })
 
-  onConfirm(e: string){
+  async onConfirm(e: string){
     //创建练习
-    this.createExercise(e)
+    await this.createExercise(e)
 
     //是否成功
     if (this.success) {
-      router.back()
-      router.back()
+      AlertDialog.show({
+        message: '生成练习成功',
+        confirm: {
+          value: '确定',
+          action: ()=>{
+            router.back()
+            router.back()
+            router.back()
+          }
+        }
+      })
     } else {
       AlertDialog.show({
         message: '生成练习失败',
@@ -67,9 +76,16 @@ struct SpecialPreviewPage {
             .justifyContent(FlexAlign.Start)
 
 
-            Column(){
-              Image(/*$r('app.media.exercise_test1')*/this.content)
-                .width(350)
+            List(){
+              ForEach(
+                this.content,
+                (content: string) => {
+                  ListItem(){
+                    Image(/*$r('app.media.exercise_test1')*/content)
+                      .width(350)
+                  }
+                }
+              )
 
             }
             .width(350)
@@ -125,12 +141,15 @@ struct SpecialPreviewPage {
     const param = router.getParams() as PARAMS
 
     this.selectWord = param.selectWord
+    this.typeface = this.typeface
 
     await this.generateExercise()
   }
 
 
   generateExercise(){
+    console.log('selectWord', this.selectWord)
+
     ExerciseService.generateExercise(this.selectWord)
       .then((content) => {
         console.log('Tags', '创建练习预览图成功')
@@ -145,11 +164,11 @@ struct SpecialPreviewPage {
   }
 
   //创建练习
-  async createExercise(e: string){
+  async createExercise(name: string){
     // let userId = 1
     let userId = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserId', 0) as number
 
-    ExerciseService.createExercise(userId, e, this.typeface, this.content)
+    await ExerciseService.createExercise(userId, name, this.typeface, this.content, '专项')
       .then((success) => {
         console.log('Tags', '创建练习成功')
 
@@ -165,5 +184,6 @@ struct SpecialPreviewPage {
 
 // 声明接受参数的类型
 interface PARAMS {
-  selectWord: WordListInfo[]
+  selectWord: WordListInfo[],
+  typeface: string
 }

@@ -6,6 +6,7 @@ import CompetitionDetailInfo from '../../viewmodel/CompetitionDetailInfo'
 import CompetitionContentInfo from '../../viewmodel/exerciseDetial/CompetitionContentInfo'
 import Competition_ShowDetail_Finish from '../../views/competition/competiiton_detail/Competition_ShowDetail_Finish'
 import SubmitWritingInfo from '../../viewmodel/exerciseDetial/SubmitWritingInfo'
+import Cant_Connect from '../../views/Cant_Connect'
 
 @Entry
 @Component
@@ -22,6 +23,8 @@ struct CompetitionFinishedPage {
       new SubmitWritingInfo(50, /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'), [])
     ], 88, 18, '重在参与奖', '总体文章错误少，缺点笔峰不足，部分字连笔', false)
 
+  @State ifConnect: boolean = false
+
   build(){
     Scroll(){
       Column(){
@@ -29,105 +32,76 @@ struct CompetitionFinishedPage {
         HeaderTitle({ title: $title })
         .width('95%')
 
-        //2 内容
-        Column({space: 15}){
-          //1信息
-          Row(){
-            /*
-            Row(){
-              Text('难度')
+        if (this.ifConnect) {
+          //2 内容
+          Column({space: 15}){
 
-              Rating({ rating: this.rating, indicator: true })
-                .stars(5)
-                .stepSize(0.5)
+            //2要求
+            Column({space: 10}){
+              Row(){
+                Text('要求')
+                  .textAlign(TextAlign.Start)
 
-            }
-            */
-
-            /*
-            Row({space: 10}){
-              Text('字数')
-
-              Text('50')
-            }
-            */
-
-
-            /*
-            Row(){
-              Text('专项-偏旁部首练习')
-            }
-            */
-          }
-          .width('90%')
-          .justifyContent(FlexAlign.SpaceBetween)
-          .alignItems(VerticalAlign.Center)
-
-          //2要求
-          Column({space: 10}){
-            Row(){
-              Text('要求')
-                .textAlign(TextAlign.Start)
-
-              Text(/*'楷体'*/this.competition.typeface)
-            }
-            .justifyContent(FlexAlign.SpaceBetween)
-            .width('100%')
-
-
-            Column(){
-              Text(/*'作业要求'*/this.competition.require)
-                .fontSize(12)
-                .width('95%')
-                .margin({top: 15, bottom: 15})
-            }
-            .width('90%')
-            .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
-
-          }
-          .width('90%')
-          .alignItems(HorizontalAlign.Center)
-          .justifyContent(FlexAlign.Center)
-
-          //3样例
-          Column({space: 10}){
-            Text('提交格式')
+                Text(/*'楷体'*/this.competition.typeface)
+              }
+              .justifyContent(FlexAlign.SpaceBetween)
               .width('100%')
 
 
-            Image(/*$r('app.media.exercise_test1')*/this.competition.example)
+              Column(){
+                Text(/*'作业要求'*/this.competition.require)
+                  .fontSize(12)
+                  .width('95%')
+                  .margin({top: 15, bottom: 15})
+              }
               .width('90%')
+              .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
+
+            }
+            .width('90%')
+            .alignItems(HorizontalAlign.Center)
+            .justifyContent(FlexAlign.Center)
+
+            //3样例
+            Column({space: 10}){
+              Text('提交格式')
+                .width('100%')
+
+
+              Image(/*$r('app.media.exercise_test1')*/this.competition.example)
+                .width('90%')
+            }
+            .width('90%')
+
+
           }
-          .width('90%')
 
 
+          Competition_ShowDetail_Finish({ competitionContent: $competition })
+            .margin({ top: 15})
+
+
+          //3 关闭
+          Column(){
+            Text('关闭')
+              .fontSize(20)
+              .onClick((event: ClickEvent) => {
+                router.back()
+              })
+          }
+          .margin({top: 50})
+          .alignItems(HorizontalAlign.Center)
+          .justifyContent(FlexAlign.Center)
+          .width(120)
+          .height(45)
+          .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
+
+
+          Column()
+            .height(50)
+        } else {
+          Cant_Connect()
         }
-
-
-        Competition_ShowDetail_Finish({ competitionContent: $competition })
-          .margin({ top: 15})
-
-
-        //3 关闭
-        Column(){
-          Text('关闭')
-            .fontSize(20)
-            .onClick((event: ClickEvent) => {
-              router.back()
-            })
-        }
-        .margin({top: 50})
-        .alignItems(HorizontalAlign.Center)
-        .justifyContent(FlexAlign.Center)
-        .width(120)
-        .height(45)
-        .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
-
-
-        Column(){
-
-        }
-        .height(50)
 
       }
 
@@ -160,16 +134,16 @@ struct CompetitionFinishedPage {
 
         this.competition = competitionDetail
 
+        this.title = this.competition.title
+
         console.log('Result', this.competition.title)
+
+        this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取竞赛详情失败', error)
-
+        this.ifConnect = false
       })
-
-    this.title = this.competition.title
-    // this.ifCollect = this.competition.ifCollect
-    // this.collectId = this.competition.id
   }
 
 }

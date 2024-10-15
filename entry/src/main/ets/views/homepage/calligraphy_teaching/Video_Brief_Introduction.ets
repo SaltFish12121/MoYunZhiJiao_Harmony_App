@@ -32,22 +32,29 @@ export default struct Video_Brief_Introduction {
 
           Flex({ wrap: FlexWrap.Wrap, justifyContent: FlexAlign.Start }) {
 
-            ForEach(
-              this.video.label ,
-              (label: LabelInfo) => {
+            // ForEach(
+            //   this.video.label ,
+            //   (label: LabelInfo) => {
+            //
+            //     Column(){
+            //       LabelItem({ Label: label})
+            //     }
+            //     .margin({right: 10, bottom: 10})
+            //
+            //
+            //
+            //   }
+            // )
 
-                Column(){
-                  LabelItem({ Label: label})
-                }
-                .margin({right: 10, bottom: 10})
+            Column(){
+              LabelItem({ Label: this.video.label})
+            }
+            .margin({left: 10, bottom: 10})
 
-
-
-              }
-            )
 
           }
           .width('95%')
+
 
         }
         .margin({top: 10})
@@ -66,5 +73,9 @@ export default struct Video_Brief_Introduction {
     .width('100%')
     .align(Alignment.TopStart)
 
+  }
+
+  aboutToAppear(): void {
+    console.log('label', this.video.label.name)
   }
 }

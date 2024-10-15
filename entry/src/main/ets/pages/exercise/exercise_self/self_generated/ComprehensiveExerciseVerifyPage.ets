@@ -21,7 +21,7 @@ struct ComprehensiveExerciseVerifyPage {
   @State typeface: string = ''
   @State composeType: string = ''
 
-  @State sample: ResourceStr = $r('app.media.exercise_test1')
+  @State sample: string[] = []
 
   build() {
     Column(){
@@ -46,9 +46,16 @@ struct ComprehensiveExerciseVerifyPage {
             .width('90%')
             .justifyContent(FlexAlign.Start)
 
-            Column(){
-              Image(/*$r('app.media.exercise_test1')*/this.sample)
-                .width(350)
+            List(){//大口卵
+              ForEach(
+                this.sample,
+                (sample: string) => {
+                  ListItem(){
+                    Image(/*$r('app.media.exercise_test1')*/sample)
+                      .width(350)
+                  }
+                }
+              )
 
             }
             .width(350)
@@ -72,13 +79,21 @@ struct ComprehensiveExerciseVerifyPage {
                 .fontSize(28)
             }
             .Select_colum()
-            .onClick(() => {
+            .onClick(async() => {
               //创建练习
-              this.createExercise()
+              await this.createExercise()
 
               if (this.success) {
-                router.back()
-                router.back()
+                AlertDialog.show({
+                  message: '生成练习成功',
+                  confirm: {
+                    value: '确定',
+                    action: ()=>{
+                      router.back()
+                      router.back()
+                    }
+                  }
+                })
               } else {
                 AlertDialog.show({
                   message: '生成练习失败',
@@ -137,7 +152,7 @@ struct ComprehensiveExerciseVerifyPage {
   }
 
   generateExercise(){
-    ExerciseService.generateExercise2(this.title, this.content)
+    ExerciseService.generateExercise2(this.title, this.content, this.typeface, this.composeType)
       .then((content) => {
         console.log('Tags', '创建练习成功')
 
@@ -155,7 +170,7 @@ struct ComprehensiveExerciseVerifyPage {
     // let userId = 1
     let userId = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserId', 0) as number
 
-    ExerciseService.createExercise(userId, this.title, this.typeface, this.content)
+    ExerciseService.createExercise(userId, this.title, this.typeface, this.sample, '综合')
       .then((success) => {
         console.log('Tags', '创建练习成功')
 

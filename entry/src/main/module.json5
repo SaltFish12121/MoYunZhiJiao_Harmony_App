@@ -1,6 +1,7 @@
 {
   "module": {
     "name": "entry",
+    //权限
     "requestPermissions":[
       {
         "name" : "ohos.permission.GET_NETWORK_INFO",
@@ -8,26 +9,55 @@
       {
         "name" : "ohos.permission.INTERNET",
       },
+      //获取包名
       {
-        "name": "ohos.permission.READ_MEDIA",
-        "reason": "$string:reasonReadWriteMedia",//使用权限原因
-        "usedScene": {
-          "abilities": [//使用的该权限的EntryAbility名称数组
-            "EntryAbility"
-          ],
-          "when": "inuse"
-        }
-      },
-      {
-        "name": "ohos.permission.WRITE_MEDIA",
-        "reason": "$string:reasonReadWriteMedia",
-        "usedScene": {
-          "abilities": [
-            "EntryAbility"
-          ],
-          "when": "inuse"
-        }
+        "name": "ohos.permission.GET_BUNDLE_INFO"
       }
+//      {
+//        "name": "ohos.permission.READ_MEDIA",//下线
+//        "reason": "$string:reasonReadWriteMedia",//使用权限原因
+//        "usedScene": {
+//          "abilities": [//使用的该权限的EntryAbility名称数组
+//            "EntryAbility"
+//          ],
+//          "when": "inuse"
+//        }
+//      },
+//      {
+//        "name": "ohos.permission.WRITE_MEDIA",//下线
+//        "reason": "$string:reasonReadWriteMedia",
+//        "usedScene": {
+//          "abilities": [
+//            "EntryAbility"
+//          ],
+//          "when": "inuse"
+//        }
+//      },
+//      {
+//        "name" : "ohos.permission.WRITE_IMAGEVIDEO",
+//        "reason": "$string:reasonWriteImagevideo",
+//        "usedScene": {
+//          "when":"always"
+//        }
+//      },
+//      {
+//        "name": "ohos.permission.READ_IMAGEVIDEO",
+//        "reason":  "$string:reasonWriteImagevideo",
+//        "usedScene": {
+//          "when": "inuse"
+//        }
+//      },
+//      {
+//        "name": "ohos.permission.WRITE_IMAGEVIDEO",
+//        "reason":  "$string:reasonWriteImagevideo",
+//        "usedScene": {
+//          "when": "inuse"
+//        }
+//      },
+      //？？？有问题
+//      {
+//        "name": "ohos.permission.ACCESS_IDS"
+//      }
     ],
     "type": "entry",
     "description": "$string:module_desc",
@@ -45,8 +75,8 @@
         "name": "EntryAbility",
         "srcEntry": "./ets/entryability/EntryAbility.ets",
         "description": "$string:EntryAbility_desc",
-        "icon": "$media:layered_image",
-        "label": "$string:EntryAbility_label",
+        "icon": "$media:app",//$media:layered_image//桌面图标
+        "label": "$string:app_name",//$string:EntryAbility_label//桌面名称
         "startWindowIcon": "$media:startIcon",
         "startWindowBackground": "$color:start_window_background",
         "exported": true,
@@ -59,7 +89,8 @@
               "action.system.home"
             ]
           }
-        ]
+        ],
+//        "orientation":"auto_rotation"  // 需要配置为相应的旋转策略
       }
     ],
     "extensionAbilities": [

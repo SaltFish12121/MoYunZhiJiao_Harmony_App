@@ -121,6 +121,7 @@ export default struct Competition_ShowDetail_Finish {
 
       }
       .width('100%')
+      .margin({left: 5})
 
 
 

@@ -14,6 +14,7 @@ import RegionInfo from '../../../viewmodel/user/RegionInfo'
   .margin({right: 10})
 }
 
+//编辑用户信息
 @Entry
 @Component
 struct EditPersonalInformationPage {
@@ -73,8 +74,10 @@ struct EditPersonalInformationPage {
 
           Column(){
             Image(/*$r('app.media.userhead_example2')*/this.userPersonal.otherName)
-              .clip(new Circle({ width: '55', height: '55' }))
+              .height(55)
               .width(55)
+              .clip(true)
+              .borderRadius(55)
           }
           .edit_colum()
 
@@ -338,6 +341,10 @@ struct EditPersonalInformationPage {
         this.userPersonal = user.data
       }
 
+      if (user.avatar != null) {
+        this.userPersonal.otherName = user.avatar
+      }
+
     }
 
   }
@@ -348,4 +355,5 @@ interface PARAMS {
   gender: string
   userName: string
   data: UserInfo
+  avatar: string
 }

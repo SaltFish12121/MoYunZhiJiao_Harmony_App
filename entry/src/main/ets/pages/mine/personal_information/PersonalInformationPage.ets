@@ -15,9 +15,10 @@ import PreferencesUtil from '../../../common/utils/PreferencesUtil'
   .height('100%')
 }
 
+//用户信息
 @Entry
 @Component
-struct PersonalnformationPage {
+struct PersonalInformationPage {
   @State userPersonal: UserInfo = new UserInfo( 0, '用户2', '202283290123', '123456', new RegionInfo(1, '南京'), '男', '', new KlassInfo(0, '（1）', '盘城小学', '一年级', '李梅'), '18912345678', '123456789@qq.com', '', false)
   @State number: number = 0
   @State grade: string = '未设置'
@@ -63,9 +64,11 @@ struct PersonalnformationPage {
 
 
         Image(/*$r('app.media.userhead_example2')*/this.userPersonal.otherName)
-          .clip(new Circle({ width: '100', height: '100' }))
-          .margin({left: 30})
+          .height(100)
           .width(100)
+          .clip(true)
+          .borderRadius(100)
+          .margin({left: 30})
           .onClick(() => {
             console.log('PerInfomation'+this.userPersonal.klass.grade)
           })

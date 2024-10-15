@@ -2,10 +2,10 @@ export default class SystemTemplateInfo{
   id: number  //模板ID
   type: TemplateType  //类型
   title: string //标题
-  content: any  //内容图片
+  content: string[]  //内容图片
   typeface: TypefaceType //字体
 
-  constructor(id: number, type: TemplateType, title: string, content: any, typeface: TypefaceType =TypefaceType.KaiTi) {
+  constructor(id: number, type: TemplateType, title: string, content: string[], typeface: TypefaceType =TypefaceType.KaiTi) {
     this.id = id
     this.type=type
     this.title = title

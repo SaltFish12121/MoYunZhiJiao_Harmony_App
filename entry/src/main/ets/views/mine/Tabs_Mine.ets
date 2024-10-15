@@ -59,6 +59,7 @@ export default struct Tabs_Mine {
                 //学校
                 if (this.userPersonal.ifBinding) {
                   Text(this.userPersonal.klass.school)
+                    .fontSize(14)
                 } else {
                   Text('未认证学校')
                 }
@@ -68,6 +69,7 @@ export default struct Tabs_Mine {
 
                 //几年级
                 Text(this.userPersonal.klass.grade)
+                  .fontSize(14)
 
                 //班级
                 // Text(this.userPersonal.klass.name+'班')
@@ -124,9 +126,9 @@ export default struct Tabs_Mine {
               Image($r('app.media.user')/*'http://192.168.43.250:8085/upload/images/avatar/e72c3366-7e84-4890-b331-39069638ab88-进步.jpg'*/)
                 .height(77)
                 .width(77)
-                .backgroundColor($r('app.color.light_gray'))
                 .clip(true)
                 .borderRadius(77)
+                .backgroundColor($r('app.color.light_gray'))
             }
 
             //2 信息

@@ -1,30 +1,14 @@
 import router from '@ohos.router'
 import { HeaderCollect } from '../../../common/components/CommonComponents'
+
+//知识详情
 @Entry
 @Component
-struct KnowledgeDetialPage {
+struct KnowledgeDetailPage {
   @State title: string = '【教程】华为Pura70、Mate60完美安装谷歌GMS框架（鸿蒙4通用）'
 
-  @State content: string = `在2023年的华为开发者大会（HDC.Together），华为推出了面向开发者的HarmonyOS NEXT开发者预览版，此外还有面向消费者的HarmonyOS 4。华为宣布，HarmonyOS NEXT已开放给合作企业开发者，计划在2024年第一季度对所有开发者开放。
-
-￼
-
-
-该系统基于华为自主研发的纯鸿蒙系统，不采用传统的Linux内核和AOSP代码，完全支持鸿蒙内核和鸿蒙系统应用，从而减少了40%的冗余代码，提升了系统的流畅性、能效和安全性能。现在您可以更轻松地通过搜索找到这些信息。
-
-￼
-
-
-根据余承东公开披露的最新统计数据，鸿蒙生态系统的装机量已经超过7亿台，吸引了220万开发者投身鸿蒙世界的开发工作。鸿蒙操作系统的API日调用次数高达590亿次，软硬件产品已达超过350款。值得一提的是，鸿蒙底座的基础建设已经基本完善，其中包含超过1亿行代码和2万多个API。可以毫不夸张地说，鸿蒙操作系统已成为发展速度最快的操作系统。
-
-￼
-
-
-华为近期升级了HarmonyOS SDK至API 10端云一体，并集成了多项功能。在HDC 2023大会上，华为重点强调了鸿蒙内核的流畅性、能效和安全性，以及与方舟引擎的图形体验的结合，助力了华为鸿蒙生态底座的发展。
-
-最新升级的HarmonyOS 4采用了华为方舟引擎，比上一代系统提升20%的流畅度，增加了30分钟的续航时间。此外，华为还宣布已将鸿蒙SDK升级至API10，并计划未来3年投资100亿元用于支持鸿蒙生态建设，促进更多原生鸿蒙应用的发展`
-
-  @State content2: string = `<h1 class="post-title" align="center"><font size="5">书法的理与美</font></h1>
+  @State content: string = ''
+  /*@State content2: string = `<h1 class="post-title" align="center"><font size="5">书法的理与美</font></h1>
                             <div class="post-content">
 
 <hr style="height:1px; border:none; border-top:3px double #898989;">
@@ -81,16 +65,7 @@ text-indent: 2em;
 <p>需要指出的是，批判和遏制丑书，绝不意味着可以停止书法创新的前进脚步。因为创新是一切艺术进步的原动力，艺术创新永无止境，书法也不例外。书法艺术的创新，我认为贵在遵循文化艺术为广大人民群众服务、为促进社会发展进步服务的根本宗旨；重在坚持文字为本、传统为根、意境为魂、技法为器的基本理念。在此前提下，从提高作品艺术水准和艺术品位出发，在书写内容和字体的合理选择、点画形质的提升优化、单字结构和整体布局的巧妙把控等方面，持续进行新的探索，寻求新的改进和突破，必然会推动书法艺术不断开出灿烂之花、结出丰硕之果。</p></p>
 
 </div>`
-  @State data: string = '<h1 style="text-align: center;">h1标题</h1>' +
-  '<h1 style="text-align: center;"><i>h1斜体</i></h1>' +
-  '<h1 style="text-align: center;"><u>h1下划线</u></h1>' +
-  '<h2 style="text-align: center;">h2标题</h2>' +
-  '<h3 style="text-align: center;">h3标题</h3>' +
-  '<p style="text-align: center;">p常规</p><hr/>' +
-  '<div style="width: 500px;height: 500px;border: 1px solid;margin: 0auto;">' +
-  '<p style="font-size: 35px;text-align: center;font-weight: bold; color: rgb(24,78,228)">字体大小35px,行高45px</p>' +
-  '<p style="background-color: #e5e5e5;line-height: 45px;font-size: 35px;text-indent: 2em;">' +
-  '<p>这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字</p>';
+*/
 
 
   @State ifCollect: boolean = false
@@ -113,7 +88,7 @@ text-indent: 2em;
 
             Column(){
               // Text(this.content)
-              RichText(this.content2)
+              RichText(this.content)
                 .onStart(() => {
                   console.info('RichText onStart');
                 })
@@ -126,9 +101,7 @@ text-indent: 2em;
           .alignItems(HorizontalAlign.Center)
           .width('95%')
 
-          Column(){
-
-          }
+          Column()
           .height(100)
 
         }
@@ -146,7 +119,7 @@ text-indent: 2em;
     if (knowledge.id != undefined) {
       this.collectId = knowledge.id
       this.ifCollect = knowledge.ifCollect
-      this.content2 = knowledge.content
+      this.content = knowledge.content
       this.title = knowledge.title
       console.log('collectId', this.collectId)
     }

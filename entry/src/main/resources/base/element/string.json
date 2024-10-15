@@ -130,6 +130,10 @@
     {
       "name": "reasonReadWriteMedia",
       "value": "上传头像"
+    },
+    {
+      "name": "reasonWriteImagevideo",
+      "value": "上传到虚拟机"
     }
   ]
 }

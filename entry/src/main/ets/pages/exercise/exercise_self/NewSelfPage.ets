@@ -15,34 +15,7 @@ struct NewSelfPage {
   @State currentIndex: number = 0
   @State currentIndex2: number = 0
 
-  @State sampleWord: WordListInfo[] = [
-    /*
-    new WordListInfo(73, "https://dummyimage.com/120x240"),
-    new WordListInfo(67, "https://dummyimage.com/120x240"),
-    new WordListInfo(74, "https://dummyimage.com/120x240"),
-    new WordListInfo(59, "https://dummyimage.com/120x240"),
-    new WordListInfo(4, "https://dummyimage.com/120x240"),
-    new WordListInfo(98, "https://dummyimage.com/120x240"),
-    new WordListInfo(2, "https://dummyimage.com/120x240"),
-    new WordListInfo(81, "https://dummyimage.com/120x240"),
-    new WordListInfo(47, "https://dummyimage.com/120x240"),
-    new WordListInfo(59, "https://dummyimage.com/120x240"),
-    new WordListInfo(78, "https://dummyimage.com/120x240"),
-    new WordListInfo(3, "https://dummyimage.com/120x240"),
-    new WordListInfo(69, "https://dummyimage.com/120x240"),
-    new WordListInfo(4, "https://dummyimage.com/120x240"),
-    new WordListInfo(70, "https://dummyimage.com/120x240"),
-    new WordListInfo(23, "https://dummyimage.com/120x240"),
-    new WordListInfo(71, "https://dummyimage.com/120x240"),
-    new WordListInfo(51, "https://dummyimage.com/120x240"),
-    new WordListInfo(77, "https://dummyimage.com/120x240"),
-    new WordListInfo(59, "https://dummyimage.com/120x240"),
-    new WordListInfo(85, "https://dummyimage.com/120x240"),
-    new WordListInfo(64, "https://dummyimage.com/120x240"),
-    new WordListInfo(66, "https://dummyimage.com/120x240"),
-    new WordListInfo(8, "https://dummyimage.com/120x240")
-    */
-  ];
+  @State sampleWord: WordListInfo[] = [];
   @State radical: Radical = new Radical(0, '', '')
   @State structure: string = ''
   @State typeface: string = ''
@@ -83,7 +56,7 @@ struct NewSelfPage {
         //1.专项练习
         TabContent(){
           // Text('专项练习')
-          Special_Exercises({ radical: $radical, typeface: this.typeface, structure: this.typeface, sampleWord: $sampleWord, ifConnect: this.ifConnect })
+          Special_Exercises({ radical: $radical, typeface: this.typeface, structure: this.structure, sampleWord: $sampleWord, ifConnect: this.ifConnect })
 
         }
         .tabBar(this.TabBarBuilder($r('app.string.self_specialExercises'), 0))
@@ -122,6 +95,7 @@ struct NewSelfPage {
         console.log(`${this.radical.id}`, this.radical.radical, this.radical.name)
       }
     }
+
 
     //获取样本字
     this.getTemplateWord()

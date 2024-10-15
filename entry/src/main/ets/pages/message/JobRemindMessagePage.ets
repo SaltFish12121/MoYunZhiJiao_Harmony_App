@@ -24,16 +24,11 @@ import No_Content from '../../views/No_Content'
   */
 }
 
-
+//作业提醒
 @Entry
 @Component
 struct JobRemindMessagePage {
-  @State JobRemind_messages: MessageInfo[] = [
-    /*
-    new MessageInfo(0,MessageType.homeworkRemind,'作业“基础练习”已即将截止','2024-5-24','还剩4小时'),
-    new MessageInfo(0,MessageType.homeworkRemind,'作业“基础练习”已即将截止','2024-4-9','还剩4小时')
-    */
-  ]
+  @State JobRemind_messages: MessageInfo[] = []
   @State title: string = '作业提醒'
   @State pageNum: number = 1
   isLoading: boolean = false//是否正在加载
@@ -77,6 +72,7 @@ struct JobRemindMessagePage {
           .onReachStart(() => {
             console.log('触顶')
             this.pageNum = 1
+            this.isMore = true
             this.getMineMessage()
           })
           .onReachEnd(() => {
@@ -111,8 +107,6 @@ struct JobRemindMessagePage {
   }
 
   async getMineMessage(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await UserService.getMineMessage(2, 1)
       .then((message: MessageInfo[]) => {
@@ -128,8 +122,6 @@ struct JobRemindMessagePage {
   }
 
   async getMineMessage2(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await UserService.getMineMessage(2, this.pageNum)
       .then((message: MessageInfo[]) => {

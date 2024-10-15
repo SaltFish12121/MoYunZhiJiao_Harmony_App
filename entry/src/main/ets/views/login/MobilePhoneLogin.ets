@@ -55,7 +55,7 @@ export default struct MobilePhoneLogin {
             .onClick(() => {
 
               //发送手机号获取验证码，进入重发倒计时
-              if (this.phoneNumber != '') {
+              if (this.phoneNumber != '' && this.phoneNumber.length === 11) {
                 this.getVerify()
               } else {
                 AlertDialog.show({

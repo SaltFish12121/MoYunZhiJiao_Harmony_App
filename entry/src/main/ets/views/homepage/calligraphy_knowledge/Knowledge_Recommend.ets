@@ -24,8 +24,6 @@ export default struct Knowledge_Recommend {
   isLoading: boolean = false//是否正在加载
   isMore: boolean = true//是否有更多数据
 
-  scroller: Scroller = new Scroller()
-
   build() {
     Column(){
       List({space: 10}){

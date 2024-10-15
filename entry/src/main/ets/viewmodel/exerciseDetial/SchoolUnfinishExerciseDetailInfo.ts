@@ -12,14 +12,14 @@ export default class SchoolUnfinishExerciseDetailInfo{
   cutoffTime: string  //截止时间
 
   require: string //要求
-  example: any  //样例
+  example: string[]  //样例
   submit: any[] //提交的图
 
   cutoff: boolean
 
   constructor(id: number, title: string, exerciseType: string, ifCollect: boolean,
               difficulty: number, wordNumber: number, typeface: string, type: string, cutoffTime: string,
-              require: string, example: any, submit: any[], cutoff: boolean = false
+              require: string, example: string[], submit: any[], cutoff: boolean = false
               ) {
     this.id = id
     this.title=title

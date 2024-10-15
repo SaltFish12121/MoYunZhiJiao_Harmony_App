@@ -4,6 +4,7 @@ import UserService from '../../../../service/UserService'
 import UserDBService from '../../../../DBservice/UserDBService'
 import PreferencesUtil from '../../../../common/utils/PreferencesUtil'
 
+//修改邮箱
 @Entry
 @Component
 struct ModifyEmailPage {
