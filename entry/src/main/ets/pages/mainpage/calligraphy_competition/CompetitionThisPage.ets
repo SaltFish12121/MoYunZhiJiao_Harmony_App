@@ -1,5 +1,5 @@
 import router from '@ohos.router';
-import { Header, HeaderTitle } from '../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../../common/components/CommonComponents'
 import CompetitionInformInfo from '../../../viewmodel/CompetitionInformInfo'
 import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 
@@ -7,14 +7,13 @@ import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 @Entry
 @Component
 struct CompetitionThisPage {
-  @State competition: CompetitionInformInfo = new CompetitionInformInfo(0,true, '这是一个竞赛', '', $r('app.media.show_knoledge'))
+  @State competition: CompetitionInformInfo = new CompetitionInformInfo(0,true, '这是一个竞赛', '', '')
 
-  // @State content: string = '<meta name="viewport" content="width=device-width">'+'\'<p>这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字</p>'
   @State title: string = '竞赛详情'
 
   build(){
     Column(){
-      //1 head
+      //1 头部
       HeaderTitle({ title: $title })
 
       Scroll(){
@@ -29,7 +28,7 @@ struct CompetitionThisPage {
               .fontSize(30)
 
             Column(){
-              RichText(this.competition.content)//this.competition.content//this.content
+              RichText(this.competition.content)
                 .onStart(() => {
                   console.info('RichText onStart');
                 })
@@ -41,7 +40,6 @@ struct CompetitionThisPage {
           .margin({ top: 50, bottom: 60})
           .width('90%')
           .alignItems(HorizontalAlign.Center)
-          // .constraintSize({ minHeight: 110})
 
           //3 报名
           Button('点击报名')
@@ -66,8 +64,7 @@ struct CompetitionThisPage {
 
             })
 
-          Column()
-          .height(100)
+          Column().height(100)
         }
       }
     }
@@ -81,7 +78,6 @@ struct CompetitionThisPage {
 
     if (params != undefined) {
       this.competition = params
-      // this.content = this.competition.content
       console.log('Competition', 'get', this.competition.title)
     }
   }

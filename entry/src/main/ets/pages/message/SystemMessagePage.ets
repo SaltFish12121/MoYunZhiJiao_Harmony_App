@@ -1,17 +1,13 @@
 import { HeaderTitle } from '../../common/components/CommonComponents'
-import { CommonConstants } from '../../common/constants/CommonConstants'
 import MessageItem from '../../viewitem/MessageItem'
-import { MessageType } from '../../viewmodel/MessageInfo'
 import MessageInfo from '../../viewmodel/MessageInfo'
 import UserService from '../../service/UserService'
-import PreferencesUtil from '../../common/utils/PreferencesUtil'
 import No_Content from '../../views/No_Content'
 import Cant_Connect from '../../views/Cant_Connect'
 
 @Extend(ListItem) function message_List(){
   .width('100%')
   .backgroundColor(0xFFFFFF)
-
 }
 
 //系统消息
@@ -27,18 +23,17 @@ struct SystemMessagePage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
         .backgroundColor($r('app.color.start_window_background'))
 
-      // Divider().strokeWidth(1)
 
       if (this.ifConnect) {
         if (this.System_messages != null && this.System_messages.length == 0) {
           No_Content()
         } else {
 
-          //2消息列表
+          //2 消息列表
           List({space: 10}){
             ListItem().height(5)
 
@@ -72,7 +67,6 @@ struct SystemMessagePage {
               this.isLoading = true
               // 翻页
               this.pageNum++
-              // page = ShopModel.pageNo
               this.getMineMessage2()
             }
           })
@@ -96,8 +90,6 @@ struct SystemMessagePage {
 
 
   async getMineMessage(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await UserService.getMineMessage(0, this.pageNum)
       .then((message: MessageInfo[]) => {
@@ -113,8 +105,6 @@ struct SystemMessagePage {
   }
 
   async getMineMessage2(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await UserService.getMineMessage(0, this.pageNum)
       .then((message: MessageInfo[]) => {

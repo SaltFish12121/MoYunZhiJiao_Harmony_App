@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { HeaderTitle, HeaderTitleCollect } from '../../../common/components/CommonComponents'
+import { HeaderTitleCollect } from '../../../common/components/CommonComponents'
 import Exercise_ShowDetail_Self from '../../../views/exercise/exercise_detial/Exercise_ShowDetail_Self'
 import Exercise_Top_Self from '../../../views/exercise/exercise_detial/Exercise_Top_Self'
 import SelfFinishExerciseDetailInfo from '../../../viewmodel/exerciseDetial/SelfFinishExerciseDetailInfo'
@@ -7,6 +7,7 @@ import ExerciseService from '../../../service/ExerciseService'
 import SubmitWritingInfo from '../../../viewmodel/exerciseDetial/SubmitWritingInfo'
 import Cant_Connect from '../../../views/Cant_Connect'
 
+//自我完成
 @Entry
 @Component
 struct SelfFinishPage {
@@ -20,7 +21,7 @@ struct SelfFinishPage {
   @State selfFinish: SelfFinishExerciseDetailInfo = new SelfFinishExerciseDetailInfo(0, '笔画练习（一）', false, '行书',
     ['https://dummyimage.com/120x240'],
     [
-      new SubmitWritingInfo(50, /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'), [])
+      new SubmitWritingInfo(50, 'https://dummyimage.com/120x240', [])
     ], 88, '分学区话它样界出线先北统列程处。北资百长而场划包族系件期社革消引。因当发东理阶们样由商道处。至正活听加资目强后无白三验科。新革同拉飞可影验四际个的回身斯。书劳车主观个原提性反指本文委。')
 
 
@@ -33,15 +34,15 @@ struct SelfFinishPage {
         HeaderTitleCollect({ title: $title, ifCollect: $ifCollect, collectId: $collectId, type: 'SelfExercise' })
 
         if (this.ifConnect) {
-          //2内容
+          //2 内容
           Exercise_Top_Self({ selfExercise: $selfFinish })
 
-          //3练习情况
+          //3 练习情况
           Exercise_ShowDetail_Self({ exercise: $selfFinish })
             .margin({ top: 10 })
 
 
-          //4关闭
+          //4 关闭
           Column(){
             Text('关闭')
               .fontSize(20)

@@ -5,6 +5,7 @@ import LabelItem from '../../../viewitem/LabelItem'
 @Component
 export default struct Video_Brief_Introduction {
   @Link video: VideoInfo
+  @State videoLabels: LabelInfo[] = [];
 
   build() {
     Scroll(){
@@ -32,25 +33,24 @@ export default struct Video_Brief_Introduction {
 
           Flex({ wrap: FlexWrap.Wrap, justifyContent: FlexAlign.Start }) {
 
-            // ForEach(
-            //   this.video.label ,
-            //   (label: LabelInfo) => {
-            //
-            //     Column(){
-            //       LabelItem({ Label: label})
-            //     }
-            //     .margin({right: 10, bottom: 10})
-            //
-            //
-            //
-            //   }
-            // )
+            ForEach(
+              this.videoLabels ,
+              (label: LabelInfo) => {
 
-            Column(){
-              LabelItem({ Label: this.video.label})
-            }
-            .margin({left: 10, bottom: 10})
+                Column(){
+                  LabelItem({ Label: label})
+                }
+                .margin({right: 10, bottom: 10})
 
+
+
+              }
+            )
+
+            // Column() {
+            //   LabelItem({ Label: this.video.label  })
+            // }
+            // .margin({left: 10, bottom: 10})
 
           }
           .width('95%')
@@ -60,9 +60,7 @@ export default struct Video_Brief_Introduction {
         .margin({top: 10})
 
 
-        Column(){
-
-        }
+        Column()
         .height(100)
 
       }
@@ -77,5 +75,8 @@ export default struct Video_Brief_Introduction {
 
   aboutToAppear(): void {
     console.log('label', this.video.label.name)
+
+    this.videoLabels = this.video.label.name.split(',').map(tag => new LabelInfo(tag.trim()));
   }
+
 }

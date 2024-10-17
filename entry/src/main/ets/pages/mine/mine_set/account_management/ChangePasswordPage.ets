@@ -19,10 +19,10 @@ struct ChangePasswordPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
-      //2提示
+      //2 提示
       Row(){
         Text('未设置或忘记旧密码')
           .fontSize(16)
@@ -46,7 +46,7 @@ struct ChangePasswordPage {
       .height(37)
       .backgroundColor($r('app.color.mid_gray'))
 
-      //3密码修改
+      //3 密码修改
       Column(){
         Column({space: 5}){
           TextInput({ placeholder: '旧密码'})
@@ -88,7 +88,7 @@ struct ChangePasswordPage {
 
       }
 
-      //确定
+      //5 确定
       Button('确定')
         .margin({top: 40})
         .type(ButtonType.Normal)

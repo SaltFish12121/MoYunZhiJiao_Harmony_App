@@ -1,4 +1,4 @@
-import { HeaderSearch, HeaderTitle } from '../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../../common/components/CommonComponents'
 import Knowledge_Biography from '../../../views/homepage/calligraphy_knowledge/Knowledge_Biography'
 import Knowledge_Culture from '../../../views/homepage/calligraphy_knowledge/Knowledge_Culture'
 import Knowledge_FamousWorks from '../../../views/homepage/calligraphy_knowledge/Knowledge_FamousWorks'
@@ -7,7 +7,6 @@ import Knowledge_Recommend from '../../../views/homepage/calligraphy_knowledge/K
 import InformationService from  '../../../service/InformationService'
 
 import KnowledgeInfo from '../../../viewmodel/KnowledgeInfo'
-import { KnowledgeType } from '../../../viewmodel/KnowledgeInfo'
 import Cant_Connect from '../../../views/Cant_Connect'
 
 //书法知识
@@ -32,7 +31,6 @@ struct CalligraphyKnowledgePage {
     }
     .width('100%')
     .height(40)
-    // .backgroundColor(this.selectColor(index))
     .justifyContent(FlexAlign.Center)
   }
 
@@ -97,37 +95,32 @@ struct CalligraphyKnowledgePage {
       if (this.ifConnect) {
         //2 导航栏+内容
         Tabs({barPosition: BarPosition.Start}){
-          //1.推荐
+          //2.1 推荐
           TabContent(){
-            // Text('推荐')
             Knowledge_Recommend({ knowledge: $recommendKnowledge, search: $search, pageNum: this.pageNumRecommend })
           }
           .tabBar(this.TabBarBuilder($r('app.string.knowledge_recommend'), 0))
 
-          //2.人物传记
+          //2.2 人物传记
           TabContent(){
-            // Text('人物传记')
             Knowledge_Biography({ knowledge: $biographyKnowledge, search: $search, pageNum: this.pageNumBiography })
           }
           .tabBar(this.TabBarBuilder($r('app.string.knowledge_biography'), 1))
 
-          //3.汉字
+          //2.3 汉字
           TabContent(){
-            // Text('汉字')
             Knowledge_Hanzi({ knowledge: $HanziKnowledge, search: $search, pageNum: this.pageNumHanzi })
           }
           .tabBar(this.TabBarBuilder($r('app.string.knowledge_Hanzi'), 2))
 
-          //4.名家作品
+          //2.4 名家作品
           TabContent(){
-            // Text('名家作品')
             Knowledge_FamousWorks({ knowledge: $famousWorksKnowledge, search: $search, pageNum: this.pageNumFamousWorks })
           }
           .tabBar(this.TabBarBuilder($r('app.string.knowledge_famousWorks'), 3))
 
-          //5.文化
+          //2.5 文化
           TabContent(){
-            // Text('文化')
             Knowledge_Culture({ knowledge: $cultureKnowledge, search: $search, pageNum: this.pageNumCulture })
           }
           .tabBar(this.TabBarBuilder($r('app.string.knowledge_culture'), 4))
@@ -170,7 +163,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
-        this.ifConnect = false
+        // this.ifConnect = false
       })
 
   }
@@ -187,7 +180,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
-        this.ifConnect = false
+        // this.ifConnect = false
       })
 
   }
@@ -204,7 +197,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
-        this.ifConnect = false
+        // this.ifConnect = false
       })
 
   }
@@ -221,7 +214,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
-        this.ifConnect = false
+        // this.ifConnect = false
       })
 
   }
@@ -238,7 +231,7 @@ struct CalligraphyKnowledgePage {
       })
       .catch(() => {
         console.log('Tags', '获取书法知识失败')
-        this.ifConnect = false
+        // this.ifConnect = false
       })
 
   }

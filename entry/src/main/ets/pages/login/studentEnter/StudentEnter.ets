@@ -1,8 +1,6 @@
 import router from '@ohos.router'
 import { Header_close } from '../../../common/components/CommonComponents'
 import PreferencesUtil from '../../../common/utils/PreferencesUtil'
-import UserInfo from '../../../viewmodel/user/UserInfo'
-import { Http } from '../../../common/constants/Http'
 
 import InformationService from  '../../../service/InformationService'
 import UserService from '../../../service/UserService'
@@ -11,6 +9,7 @@ import CompetitionService from '../../../service/CompetitionService'
 import LoginService from '../../../service/LoginService'
 import { imageUploadModule } from '../../../model/ImageUploadModule'
 
+//学校登录
 @Entry
 @Component
 struct StudentEnter {
@@ -26,12 +25,13 @@ struct StudentEnter {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       Header_close()
         .width('95%')
 
-      //2登录输入
+      //2 登录输入
       Column(){
+        //2.1 账号输入
         Text('学校账号登录')
           .width('90%')
           .fontSize(28)
@@ -53,6 +53,7 @@ struct StudentEnter {
         .width('95%')
         .height(70)
 
+        //2.2 密码输入
         Column(){
           Row(){
             TextInput({placeholder: this.placeholderPassword})
@@ -82,7 +83,7 @@ struct StudentEnter {
         .height(70)
 
 
-        //3隐私同意
+        //2.3 隐私同意
         Row(){
           Checkbox({name: 'checkbox1',  group: 'checkboxGroup'})
             .select(false)
@@ -125,7 +126,7 @@ struct StudentEnter {
 
 
 
-        //4登录
+        //2.4 登录
         Column(){
           Button('登录')
             .width('85%')
@@ -149,8 +150,6 @@ struct StudentEnter {
             })
         }
         .margin({top: 40})
-
-
 
       }
       .margin({top: 40})
@@ -209,29 +208,6 @@ struct StudentEnter {
             }
           })
 
-          // //测试用
-          // if (this.userName == '666' && this.userPassword == '666') {
-          //   await this.preferenceUser(666, '0')
-          //
-          //   router.replaceUrl(
-          //     {
-          //       url: 'pages/mainpage/HomePage',
-          //       params:{
-          //         ifLogin: 1,
-          //         login: true
-          //       }
-          //     }
-          //   )
-          // } else {
-          //   AlertDialog.show({
-          //     message: '登录失败',
-          //     confirm: {
-          //       value: '确定',
-          //       action: ()=>{
-          //       }
-          //     }
-          //   })
-          // }
 
         })
 
@@ -249,7 +225,6 @@ struct StudentEnter {
   //用户持久化
   preferenceUser(userId: number, token: string) {
     console.log('MyPreferences', 'UserId', userId)
-    // user.name = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserName', '默认名') as string
     PreferencesUtil.putPreferenceValue('MyPreferences', 'UserId', userId)
 
     //token持久化

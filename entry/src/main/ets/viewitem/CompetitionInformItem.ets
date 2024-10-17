@@ -1,6 +1,6 @@
-import router from '@ohos.router'
 import CompetitionInformInfo from '../viewmodel/CompetitionInformInfo'
 
+//竞赛信息
 @Component
 export default struct CompetitionInformItem {
   competition: CompetitionInformInfo = new CompetitionInformInfo(0)

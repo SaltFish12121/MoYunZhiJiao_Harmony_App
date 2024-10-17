@@ -1,11 +1,10 @@
 import router from '@ohos.router'
 import { CommonConstants } from '../../common/constants/CommonConstants'
-import CompetitionItem from '../../viewitem/CompetitionFinisheItem'
+import CompetitionItem from '../../viewitem/CompetitionFinishedItem'
 import CompetitionInfo from '../../viewmodel/CompetitonInfo'
 import { CompetitionType } from '../../viewmodel/CompetitonInfo'
 
 @Extend(ListItem) function exercise_List(){
-  // .margin({left: 10, bottom: 5})
   .width('95%')
   .borderRadius(CommonConstants.DEFAULT_10)
   .shadow({

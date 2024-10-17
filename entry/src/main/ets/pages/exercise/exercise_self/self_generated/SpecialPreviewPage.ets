@@ -14,6 +14,7 @@ import PreferencesUtil from '../../../../common/utils/PreferencesUtil'
 
 }
 
+//专项生成预览图
 @Entry
 @Component
 struct SpecialPreviewPage {
@@ -61,13 +62,13 @@ struct SpecialPreviewPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title})
 
       Scroll(){
         Column({space: 20}){
 
-          //2内容
+          //2 内容
           Column({space: 10}){
             Row(){
               Text('预览图')
@@ -81,7 +82,7 @@ struct SpecialPreviewPage {
                 this.content,
                 (content: string) => {
                   ListItem(){
-                    Image(/*$r('app.media.exercise_test1')*/content)
+                    Image(content)
                       .width(350)
                   }
                 }
@@ -91,10 +92,8 @@ struct SpecialPreviewPage {
             .width(350)
 
           }
-          // .height('75%')
-          // .margin({top: 40})
 
-          //3按钮
+          //3 是否生成按钮
           Row(){
             Column(){
               Text('取消')
@@ -126,7 +125,6 @@ struct SpecialPreviewPage {
 
         }
         .width('100%')
-        // .height('100%')
       }
     }
     .width('100%')
@@ -146,26 +144,25 @@ struct SpecialPreviewPage {
     await this.generateExercise()
   }
 
-
+  //生成练习
   generateExercise(){
     console.log('selectWord', this.selectWord)
 
     ExerciseService.generateExercise(this.selectWord)
       .then((content) => {
-        console.log('Tags', '创建练习预览图成功')
+        console.log('Tags', '生成练习成功')
 
         this.content = content
 
         console.log('Result', this.content)
       })
       .catch((error: string) => {
-        console.log('Tags', '创建练习预览图失败', error)
+        console.log('Tags', '生成练习失败', error)
       })
   }
 
   //创建练习
   async createExercise(name: string){
-    // let userId = 1
     let userId = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserId', 0) as number
 
     await ExerciseService.createExercise(userId, name, this.typeface, this.content, '专项')

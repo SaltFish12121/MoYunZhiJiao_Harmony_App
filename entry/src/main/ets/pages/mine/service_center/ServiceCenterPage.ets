@@ -1,4 +1,4 @@
-import { HeaderTitle, HeaderTitleService } from '../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../../common/components/CommonComponents'
 import Common_Problem from '../../../views/mine/service_center/Common_Problem'
 import Suggestions_Feedback from '../../../views/mine/service_center/Suggestions_Feedback'
 import InformationService from '../../../service/InformationService'
@@ -9,7 +9,6 @@ import Cant_Connect from '../../../views/Cant_Connect'
 @Entry
 @Component
 struct ServiceCenterPage {
-
   @State currentIndex: number = 0
   @State currentIndex2: number = 0
 
@@ -38,19 +37,18 @@ struct ServiceCenterPage {
     return this.currentIndex2 === index ? $r('app.color.start_window_background') : $r('app.color.blue')
   }
 
-  @State title: string = '单字分析'
+  @State title: string = '客服中心'
   @State ifConnect: boolean = false
 
   build() {
     Column(){
-      //1标题+客服
+      //1 标题+客服
       HeaderTitle({ title: $title })
 
-      //2导航栏
+      //2 导航栏
       Tabs({barPosition: BarPosition.Start}){
-        //1.常见问题
+        //2.1 常见问题
         TabContent(){
-          // Text('常见问题')
           if (this.ifConnect) {
             Common_Problem({ problem: $problem, arr: $arr })
           } else {
@@ -59,9 +57,8 @@ struct ServiceCenterPage {
         }
         .tabBar(this.TabBarBuilder('常见问题', 0))
 
-        //2.建议与反馈
+        //2.2 建议与反馈
         TabContent(){
-          // Text('建议与反馈')
           Suggestions_Feedback()
         }
         .tabBar(this.TabBarBuilder('建议与反馈', 1))

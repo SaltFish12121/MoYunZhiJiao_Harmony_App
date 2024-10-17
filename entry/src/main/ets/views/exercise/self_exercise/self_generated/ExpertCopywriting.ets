@@ -16,18 +16,14 @@ import ExerciseService from '../../../../service/ExerciseService'
   })
 }
 
-
+//废弃
 @Component
 export default struct ExpertCopywriting {
   private arr: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  @State exercise: CopybookInfo[] = [
-    new CopybookInfo(0, '《沁园春》', '毛泽东', $r('app.media.exercise_test1')),
-    new CopybookInfo(0, '《将进酒》', '李白', $r('app.media.exercise_test1'))
-  ]
+  @State exercise: CopybookInfo[] = []
   @State pageNum: number = 1
   isLoading: boolean = false//是否正在加载
   isMore: boolean = true//是否有更多数据
-  // @State expertCopybook: CopybookInfo[] = []
 
   build() {
     Scroll(){
@@ -57,8 +53,6 @@ export default struct ExpertCopywriting {
       .divider({ strokeWidth: 2, color: 0xFFFFFF, startMargin: 20, endMargin: 20 }) // 每行之间的分界线
       .edgeEffect(EdgeEffect.Spring) // 滑动到边缘无效果
       .onScrollIndex((firstIndex: number, lastIndex: number) => {
-        // console.info('first' + firstIndex)
-        // console.info('last' + lastIndex)
       })
       .width('100%')
       .height('100%')
@@ -74,7 +68,6 @@ export default struct ExpertCopywriting {
           this.isLoading = true
           // 翻页
           this.pageNum++
-          // page = ShopModel.pageNo
           this.getExpertCopybook2()
         }
       })
@@ -84,8 +77,6 @@ export default struct ExpertCopywriting {
   }
 
   async onPageShow(){
-    //获取专家字帖
-    // await this.getExpertCopybook()
   }
 
   //获取专家字帖

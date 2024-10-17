@@ -17,10 +17,10 @@ struct NotificationSetPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
-      //2内容
+      //2 内容
       Column(){
         Divider()
 

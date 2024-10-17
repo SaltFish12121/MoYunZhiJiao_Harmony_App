@@ -1,8 +1,6 @@
-import router from '@ohos.router'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 import KnowledgeItem from '../../../viewitem/KnowledgeItem'
 import KnowledgeInfo from '../../../viewmodel/KnowledgeInfo'
-import { KnowledgeType } from '../../../viewmodel/KnowledgeInfo'
 import InformationService from  '../../../service/InformationService'
 
 @Extend(ListItem) function exercise_List(){

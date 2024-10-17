@@ -2,6 +2,7 @@ import router from '@ohos.router'
 import SystemTemplateInfo from '../viewmodel/SystemTemplateInfo'
 import { TemplateType } from '../viewmodel/SystemTemplateInfo'
 
+//系统模板列
 @Component
 export default struct SystemCopybookItem {
   exercise: SystemTemplateInfo = new SystemTemplateInfo(0, TemplateType.specialType, '', [])
@@ -12,7 +13,6 @@ export default struct SystemCopybookItem {
         Text(this.exercise.title)
           .fontSize(20)
 
-        // Text(this.exercise.time)
       }
       .justifyContent(FlexAlign.Center)
       .alignItems(HorizontalAlign.Start)

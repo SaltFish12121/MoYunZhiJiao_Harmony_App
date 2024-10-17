@@ -2,9 +2,18 @@ import router from '@ohos.router'
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import LoginService from '../../../service/LoginService'
 
+const TOTAL_COUNT = 30
+
+//注册
 @Entry
 @Component
 struct SocialRegister {
+  @State count: number = TOTAL_COUNT
+  timerId: number = -1
+  isPaused: boolean = false
+  isBack: boolean = false
+  @State buttonText: string = '获取验证码'
+
   @State userName: string = ''
   @State password: string = ''
   @State confirmPassword: string = ''
@@ -20,12 +29,12 @@ struct SocialRegister {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
-      //2注册内容
+      //2 注册内容
       Column(){
-        //用户名
+        //2.1 用户名
         Column(){
           Row(){
             Text('用户名')
@@ -55,7 +64,7 @@ struct SocialRegister {
         .width('95%')
         .height(70)
 
-        //密码
+        //2.2 密码
         Column(){
           Row(){
             Text('密码')
@@ -85,7 +94,7 @@ struct SocialRegister {
         .width('95%')
         .height(70)
 
-        //确认密码
+        //2.3 确认密码
         Column(){
           Row(){
             Text('确认密码')
@@ -116,7 +125,7 @@ struct SocialRegister {
         .width('95%')
         .height(70)
 
-        //手机号
+        //2.4 手机号
         Column(){
           Row(){
             Text('手机号')
@@ -148,7 +157,7 @@ struct SocialRegister {
         .width('95%')
         .height(70)
 
-        //验证码
+        //2.5 验证码
         Column(){
           Row(){
             Text('验证码')
@@ -167,13 +176,29 @@ struct SocialRegister {
                   this.verify = v
                 })
 
-              Button('获取验证码')
+              Button(this.buttonText)
+                .enabled(this.count === TOTAL_COUNT)
                 .backgroundColor($r('app.color.button1'))
+                .fontColor($r('app.color.start_window_background'))
                 .margin({ top: -20, right: 20 })
-                .onClick(() => {
+                .onClick(async() => {
 
                   //发送手机号获取验证码，进入重发倒计时
-                  this.getVerify()
+                  if (this.phoneNumber != '' && this.phoneNumber.length === 11 ) {
+                    this.startTimer()
+                    await this.getVerify()
+                    AlertDialog.show({
+                      message: '验证码已发送'
+                    })
+                  } else {
+                    AlertDialog.show({
+                      message: '手机号格式错误',
+                      confirm: {
+                        value: '确定',
+                        action: ()=>{}
+                      }
+                    })
+                  }
                 })
             }
 
@@ -190,7 +215,7 @@ struct SocialRegister {
         .width('95%')
         .height(70)
 
-        //电子邮箱
+        //2.6 电子邮箱
         Column(){
           Row(){
             Text('电子邮箱')
@@ -225,7 +250,7 @@ struct SocialRegister {
       .margin({top: 30})
       .width('100%')
 
-      //3隐私同意
+      //3 隐私同意
       Row(){
         Checkbox({name: 'checkbox1',  group: 'checkboxGroup'})
           .select(false)
@@ -267,7 +292,7 @@ struct SocialRegister {
       .width('90%')
 
 
-      //4注册按钮
+      //4 注册按钮
       Column({space: 30}){
 
         Button('注册')
@@ -289,6 +314,47 @@ struct SocialRegister {
 
   }
 
+  async onPageShow(){
+    !this.isBack && this.resumeTimer()
+  }
+
+  onPageHide(): void {
+    this.pauseTimer()
+  }
+
+  aboutToDisappear(): void {
+    clearInterval(this.timerId)
+    this.buttonText = '获取验证码'
+  }
+
+  startTimer() {
+    this.timerId = setInterval(() => {
+      this.count--
+      this.buttonText = `${this.count}s`
+      this.isBack = false
+      if (this.count < 0) {
+        clearInterval(this.timerId)
+        this.buttonText = '获取验证码'
+        this.count = TOTAL_COUNT
+      }
+    }, 1000)
+  }
+
+  pauseTimer() {
+    if (!this.isPaused) {
+      this.isPaused = true;
+      clearInterval(this.timerId)
+      this.buttonText = '获取验证码'
+    }
+  }
+
+  resumeTimer() {
+    if (this.isPaused) {
+      this.isPaused = false
+      this.startTimer()
+    }
+  }
+
   ifCan(){
     let success: boolean = false
     let reason: string = ''
@@ -300,6 +366,11 @@ struct SocialRegister {
             if (this.phoneNumber != '' && this.phoneNumber.length === 11) {
               if (this.verify == this.getPhoneVerify && this.verify != '') {
                 success = true
+                if (this.email != '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+                  //不空但是邮箱格式错误
+                  success = false
+                  reason = ' 邮箱格式错误'
+                }
               } else {
                 //验证码
                 reason = '验证码输入错误'
@@ -341,7 +412,6 @@ struct SocialRegister {
 
   //判断是否符合条件能够注册
   async ifCanRegister(){
-    // const reason: string = ''
     //先注册尝试
     await this.canRegister()
 

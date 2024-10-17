@@ -1,4 +1,3 @@
-import Device from '@system.device'
 import Finish_Self from './Finish_Self'
 import New_Self from './New_Self'
 import Unfinish_Self from './Unfinish_Self'
@@ -41,21 +40,18 @@ export default struct Self_Exercise {
       Tabs({barPosition: BarPosition.Start}){
         //1.已完成
         TabContent(){
-          // Text('已完成')
           Finish_Self({ exercise: $selfFinishExercise })
         }
         .tabBar(this.TabBarBuilder('已完成', 0))
 
         //2.未完成
         TabContent(){
-          // Text('未完成')
           Unfinish_Self({ exercise: $selfUnfinishExercise })
         }
         .tabBar(this.TabBarBuilder('未完成', 1))
 
         //3.新建
         TabContent(){
-          // Text('新建')
           New_Self()
         }
         .tabBar(this.TabBarBuilder('新建', 2))

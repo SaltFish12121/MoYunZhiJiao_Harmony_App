@@ -27,10 +27,6 @@ struct PersonalInformationCollectionListPage {
           Cant_Connect()
         }
 
-        // 组件创建时，加载www.example.com
-        // Web({ src: 'www.example.com', controller: this.webviewController})
-
-
       }
     }
 

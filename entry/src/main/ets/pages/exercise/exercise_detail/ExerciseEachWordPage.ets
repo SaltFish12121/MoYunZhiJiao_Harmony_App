@@ -1,11 +1,12 @@
 import router from '@ohos.router'
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import WordInfo from '../../../viewmodel/WordInfo'
-import InformationService from '../../../service/InformationService'
+import StrokeInfo from '../../../viewmodel/StrokeInfo'
 import VideoContentInfo from  '../../../viewmodel/VideoContentInfo'
 import ExerciseService from  '../../../service/ExerciseService'
 import { window } from '@kit.ArkUI'
 
+//练习单字详情（所选的字）
 @Entry
 @Component
 struct ExerciseEachWordPage {
@@ -28,12 +29,12 @@ struct ExerciseEachWordPage {
     Column(){
       //1头部
       HeaderTitle({ title: $title })
-      // .position({ x: 0, y: 0})
 
       Scroll(){
         Column(){
-          //1写的字与样本字
+          //1 写的字与模板字
           Row(){
+            //1.1 所写字
             Column({space: 5}){
               Text('所写字')
 
@@ -41,9 +42,6 @@ struct ExerciseEachWordPage {
                 Image(this.word.word)
                   .height(80)
 
-                // Image($r('app.media.HandwrittenChineseStroke_test_0000000038'))
-                //   .width(120)
-                //   .height(120)
               }
               .alignItems(HorizontalAlign.Center)
               .justifyContent(FlexAlign.Center)
@@ -52,12 +50,13 @@ struct ExerciseEachWordPage {
               .border({ width: 1, color: $r('app.color.text_gray'), radius: 0, style: BorderStyle.Solid})
             }
 
+            //1.2 模板字
             Column({space: 5}){
               Text('模板字')
 
               Column(){
                 if (this.word.templateWord != ''){
-                  Image(/*$r('app.media.KaitiChineseStroke_train_000000001548')*/this.word.templateWord)
+                  Image(this.word.templateWord)
                     .width(80)
                     .height(80)
                 }
@@ -70,7 +69,7 @@ struct ExerciseEachWordPage {
               .border({ width: 1, color: $r('app.color.text_gray'), radius: 0, style: BorderStyle.Solid})
             }
 
-            //1综合评分
+            //1.3 综合评分
             Column({space: 5}){
               Text('综合评分')
                 .fontSize(16)
@@ -90,7 +89,8 @@ struct ExerciseEachWordPage {
           .width('85%')
           .justifyContent(FlexAlign.SpaceBetween)
 
-          //2视频
+
+          //2 书写视频
           Column({space: 5}){
             Text('书写视频')
               .width('100%')
@@ -140,15 +140,14 @@ struct ExerciseEachWordPage {
 
           }
           .width('90%')
-          // .backgroundColor($r('app.color.light_gray'))
           .margin({top: 20})
 
-          //3内容
+
+          //3 建议与笔画
           Row(){
-            //左边-综合建议
+            //3.1 左边-综合建议
             Column({space: 10}){
 
-              //3综合建议
               Column({space: 10}){
                 Column(){
                   Text('综合建议')
@@ -171,29 +170,15 @@ struct ExerciseEachWordPage {
               .margin({top: 20})
 
             }
-            // .height('80%')
             .width('48%')
             .align(Alignment.Top)
 
 
 
 
-            //右边-笔画详情
+            //3.2 右边-笔画详情
             Column(){
-              // //1综合评分
-              // Row({ space: 10 }){
-              //   Text('综合评分')
-              //     .fontSize(28)
-              //
-              //   Text(`${this.word.strokeNumber}`)
-              //     .fontColor($r('app.color.text_red'))
-              //     .fontSize(28)
-              // }
-              // .height(100)
-              // .width(80)
-              // .alignItems(VerticalAlign.Center)
 
-              //2笔画详情
               Column(){
                 Text('笔画详情')
                   .fontSize(20)
@@ -209,17 +194,19 @@ struct ExerciseEachWordPage {
                   Column(){
                     ForEach(
                       this.word.strokes,
-                      (stroke: ResourceStr) => {
+                      (stroke: StrokeInfo) => {
 
 
                         Column(){
                           Row(){
-                            Image(stroke)
+                            // 笔画
+                            Image(stroke.stroke)
                               .sourceSize({width: 50, height: 40})
                               .height(40)
                               .width(50)
 
-                            Text(/*'80'*/)
+                            // 得分
+                            Text(''+stroke.number)
                               .fontColor($r('app.color.text_red'))
                           }
                           .width('90%')
@@ -233,9 +220,10 @@ struct ExerciseEachWordPage {
 
                         .width('100%')
 
-
                       }
                     )
+
+                    Column().height(80)
                   }
 
                 }
@@ -245,13 +233,11 @@ struct ExerciseEachWordPage {
 
 
               }
-              // .width('100%')
               .padding({top: 10, bottom: 10})
-              // .constraintSize({ minHeight: 300})
+              .constraintSize({ minWidth: 50})
               .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid})
 
             }
-            // .height('80%')
             .width('48%')
             .align(Alignment.Top)
             .margin({top: 20})
@@ -276,10 +262,7 @@ struct ExerciseEachWordPage {
             router.back()
           })
 
-          Column(){
-
-          }
-          .height(100)
+          Column().height(100)
 
         }
         .align(Alignment.Top)
@@ -300,9 +283,7 @@ struct ExerciseEachWordPage {
       this.content = word.data.comment
       console.log('Params template', this.word.templateWord, this.word.strokes , this.content )
     }
-    /**
-     * 传入Id，数据库获取
-     */
+
     await this.getWordVideo(this.word.name)
   }
 

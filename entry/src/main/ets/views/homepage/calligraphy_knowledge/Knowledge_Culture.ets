@@ -18,9 +18,7 @@ import InformationService from  '../../../service/InformationService'
 
 @Component
 export default struct Knowledge_Culture {
-  @Link knowledge: KnowledgeInfo[]/* = [
-    new KnowledgeInfo(12,KnowledgeType.culture, false , '中华文化发展', 666, '2024-4-10', $r('app.media.show_knoledge'))
-  ]*/
+  @Link knowledge: KnowledgeInfo[]
   @Link search: string
   @Link pageNum: number
   isLoading: boolean = false//是否正在加载
@@ -55,7 +53,6 @@ export default struct Knowledge_Culture {
           this.isLoading = true
           // 翻页
           this.pageNum++
-          // page = ShopModel.pageNo
           this.getKnowledge()
         }
       })

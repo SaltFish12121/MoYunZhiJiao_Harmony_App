@@ -1,13 +1,14 @@
+import StrokeInfo from './StrokeInfo'
 
 export default class WordInfo{
   name: string  //字的名称
-  word: any //拆出的字的图
-  strokes: any[]  //字拆出的笔画
+  word: string //拆出的字的图
+  strokes: StrokeInfo[]  //字拆出的笔画
   strokeNumber: number  //字得分
-  templateWord: any //样本字
+  templateWord: string //样本字
   comment: string //字的评语
 
-  constructor(name: string, word: any, strokes: any[], strokeNumber: number = 0, templateWord: any = '', comment: string = '') {
+  constructor(name: string, word: string, strokes: StrokeInfo[], strokeNumber: number = 0, templateWord: string = '', comment: string = '') {
     this.name = name;
     this.word = word
     this.strokes = strokes

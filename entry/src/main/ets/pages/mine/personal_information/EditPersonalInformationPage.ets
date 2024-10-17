@@ -1,5 +1,4 @@
 import router from '@ohos.router'
-import { HeaderTitle } from '../../../common/components/CommonComponents'
 import UserInfo from '../../../viewmodel/user/UserInfo'
 import KlassInfo from '../../../viewmodel/user/KlassInfo'
 import RegionInfo from '../../../viewmodel/user/RegionInfo'
@@ -24,8 +23,7 @@ struct EditPersonalInformationPage {
 
   build() {
     Column(){
-      //1标题
-      // HeaderTitle()
+      //1 标题
       Row(){
         Column(){
           Image($r('app.media.return'))
@@ -49,23 +47,19 @@ struct EditPersonalInformationPage {
       .height(59)
       .backgroundColor($r('app.color.start_window_background'))
       .onClick(() => {
+        //返回用户
         router.back({
-          url: 'pages/mine/personal_information/PersonalnformationPage',/*
-          params: {
-            gender: this.userPersonal.gender,
-            data: this.userPersonal,
-            ifSuccess: 1
-          }*/
+          url: 'pages/mine/personal_information/PersonalInformationPage',
         })
       })
 
 
       Divider()
 
-      //2内容
+      //2 内容
       Column(){
 
-        //2.1头像
+        //2.1 头像
         Row(){
           Text('头像')
             .fontSize(20)
@@ -73,7 +67,7 @@ struct EditPersonalInformationPage {
           Blank()
 
           Column(){
-            Image(/*$r('app.media.userhead_example2')*/this.userPersonal.otherName)
+            Image(this.userPersonal.otherName)
               .height(55)
               .width(55)
               .clip(true)
@@ -87,6 +81,7 @@ struct EditPersonalInformationPage {
         }
         .edit_row()
         .onClick(() => {
+          //跳转头像编辑
           router.pushUrl(
             {
               url: 'pages/mine/personal_information/edit_detail/AvatarPage',
@@ -100,7 +95,7 @@ struct EditPersonalInformationPage {
         Divider()
 
 
-        //2.2名称/姓名
+        //2.2 名称/姓名
         if (this.userPersonal.ifBinding ){
           Row(){
             Text('名称/姓名')
@@ -142,7 +137,7 @@ struct EditPersonalInformationPage {
           }
           .edit_row()
           .onClick(() => {
-
+            //跳转用户名
             router.pushUrl(
               {
                 url: 'pages/mine/personal_information/edit_detail/UserNamePage',
@@ -159,7 +154,7 @@ struct EditPersonalInformationPage {
         Divider()
 
 
-        //2.3性别
+        //2.3 性别
         Row(){
           Text('性别')
             .fontSize(20)
@@ -178,6 +173,7 @@ struct EditPersonalInformationPage {
         }
         .edit_row()
         .onClick(() => {
+          //跳转性别修改
           router.pushUrl(
             {
               url: 'pages/mine/personal_information/edit_detail/GenderPage',
@@ -191,7 +187,7 @@ struct EditPersonalInformationPage {
         Divider()
 
 
-        //2.4绑定单位
+        //2.4 绑定单位
         if (this.userPersonal.ifBinding ){
           Row(){
             Text('绑定单位')
@@ -211,6 +207,7 @@ struct EditPersonalInformationPage {
           }
           .edit_row()
           .onClick(() => {
+            //跳转绑定单位
             router.pushUrl(
               {
                 url: 'pages/mine/personal_information/edit_detail/UnitPage',
@@ -250,7 +247,7 @@ struct EditPersonalInformationPage {
         Divider()
 
 
-        //2.5IP属地
+        //2.5 IP属地
         Row(){
           Text('IP属地')
             .fontSize(20)
@@ -275,7 +272,7 @@ struct EditPersonalInformationPage {
         Divider()
 
 
-        //2.6账号管理
+        //2.6 账号管理
         Row(){
           Text('账号管理')
             .fontSize(20)
@@ -293,6 +290,7 @@ struct EditPersonalInformationPage {
         }
         .edit_row()
         .onClick(() => {
+          //跳转账号管理
           router.pushUrl(
             {
               url: 'pages/mine/mine_set/account_management/AccountManagementPage',

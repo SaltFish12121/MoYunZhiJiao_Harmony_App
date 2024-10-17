@@ -1,5 +1,6 @@
 import router from '@ohos.router'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
+
 @Extend(Column) function New(){
   .margin({left: 10, bottom: 5})
   .justifyContent(FlexAlign.Center)

@@ -1,12 +1,7 @@
 import CollectInfo from '../../viewmodel/CollectInfo'
 import { CollectType } from '../../viewmodel/CollectInfo'
 
-enum ExerciseType{
-  schoolExercise = '学校作业',
-  selfExercise = '自我练习',
-  competition = '竞赛'
-}
-
+//收藏练习列
 @Component
 export default struct ExerciseCollectItem {
   exercise: CollectInfo = new CollectInfo(0, CollectType.schoolExercise,'', '')
@@ -50,9 +45,7 @@ export default struct ExerciseCollectItem {
 
       }
       .justifyContent(FlexAlign.Center)
-      // .alignItems(HorizontalAlign.End)
       .height('60%')
-      // .width(90)
 
 
 

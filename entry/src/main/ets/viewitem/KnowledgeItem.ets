@@ -1,6 +1,7 @@
 import router from '@ohos.router'
 import KnowledgeInfo from '../viewmodel/KnowledgeInfo'
 
+//知识列
 @Component
 export default struct KnowledgeItem {
   knowledge: KnowledgeInfo = new KnowledgeInfo(0)

@@ -1,14 +1,5 @@
-import router from '@ohos.router'
 import { HeaderTitle } from '../../../../common/components/CommonComponents'
-
 import { bundleManager, common, Want } from '@kit.AbilityKit';
-
-// import { updateManager } from '@kit.StoreKit';
-// import { hilog } from '@kit.PerformanceAnalysisKit';
-// import type { common } from '@kit.AbilityKit';
-// import { BusinessError } from '@kit.BasicServicesKit';
-//
-// let context: common.UIAbilityContext = getContext() as common.UIAbilityContext;
 
 @Extend(Column) function about_column(){
   .width('100%')
@@ -23,7 +14,7 @@ import { bundleManager, common, Want } from '@kit.AbilityKit';
   .justifyContent(FlexAlign.SpaceBetween)
 }
 
-//关于
+//关于(最新版本检测未完成）
 @Entry
 @Component
 struct AboutPage {
@@ -37,11 +28,11 @@ struct AboutPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
 
-      //2手机版本
+      //2 手机版本
       Divider()
 
       Column(){
@@ -49,7 +40,7 @@ struct AboutPage {
           Text('本机版本')
             .fontSize(20)
 
-          Text(/*'当前版本'*/this.versionName)
+          Text(this.versionName)
         }
         .about_row()
 
@@ -57,7 +48,7 @@ struct AboutPage {
       .about_column()
 
 
-      //3检测新版本
+      //3 检测新版本
       Divider()
 
       Column(){
@@ -73,7 +64,7 @@ struct AboutPage {
       .about_column()
 
 
-      //4备案信息
+      //4 备案信息
       Divider()
 
       Column(){
@@ -89,11 +80,6 @@ struct AboutPage {
       }
       .about_column()
       .onClick(() => {
-        // router.pushUrl(
-        //   {
-        //     url: 'pages/mine/mine_set/about/ArchivalInformationPage'
-        //   }
-        // )
         let context = getContext(this) as common.UIAbilityContext;
         let want: Want = {
           bundleName: 'com.huawei.hmos.settings',//设置应用bundleName
@@ -117,7 +103,6 @@ struct AboutPage {
 
   onPageShow(): void {
     this.getName()
-    // this.checkUpdate()
   }
 
   getName() {
@@ -136,17 +121,4 @@ struct AboutPage {
     }
   }
 
-  // checkUpdate() {
-  //   try {
-  //     updateManager.checkAppUpdate(context)
-  //       .then((checkResult: updateManager.CheckUpdateResult) => {
-  //         // this.newVersionName = checkResult.updateAvailable
-  //         hilog.info(0, 'TAG', "Succeeded in checking Result updateAvailable:" + checkResult.updateAvailable);
-  //       }).catch((error: BusinessError) => {
-  //       hilog.error(0, 'TAG', `checkAppUpdate onError.code is ${error.code}, message is ${error.message}`);
-  //     });
-  //   } catch (error) {
-  //     hilog.error(0, 'TAG', `checkAppUpdate onError.code is ${error.code}, message is ${error.message}`);
-  //   }
-  // }
 }

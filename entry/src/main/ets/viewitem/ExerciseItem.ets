@@ -1,10 +1,10 @@
 import ExerciseInfo from '../viewmodel/ExerciseInfo'
 import { ExerciseType } from '../viewmodel/ExerciseInfo'
 
+//练习列
 @Component
 export default struct ExerciseItem {
   exercise: ExerciseInfo = new ExerciseInfo(0, ExerciseType.schoolExercise, false, '', '')
-  // @State color: any = $r('app.color.button1')
 
   build() {
 
@@ -36,9 +36,6 @@ export default struct ExerciseItem {
 
           }
         }
-        // .backgroundColor(Color.Pink)
-        // .border({ width: 1, color: $r('app.color.tips_red'), radius: 10, style: BorderStyle.Solid })
-
 
 
       }
@@ -75,9 +72,6 @@ export default struct ExerciseItem {
 
             }
           }
-          // .backgroundColor(this.color)
-          // .border({ width: 1, color: $r('app.color.tips'), radius: 10, style: BorderStyle.Solid })
-
 
 
         }

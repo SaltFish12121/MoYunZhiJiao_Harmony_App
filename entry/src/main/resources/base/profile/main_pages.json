@@ -1,14 +1,5 @@
 {
   "src": [
-    "pages/abandon/Index",
-    "pages/abandon/RadicalSearchPage",
-    "pages/abandon/UploadImg",
-    "pages/abandon/VideoChangePage",
-    "pages/abandon/SingleAnalysisPage",
-    "pages/abandon/ServiceCenterTalkPage",
-    "pages/abandon/MessageSetPage",
-    "pages/abandon/ArchivalInformationPage",
-    "pages/abandon/SwitchAccountPage",
     "pages/mainpage/HomePage",
     "pages/mainpage/calligraphy_knowledge/CalligraphyKnowledgePage",
     "pages/mainpage/calligraphy_knowledge/KnowledgeDetailPage",
@@ -34,7 +25,6 @@
     "pages/exercise/exercise_self/NewSelfPage",
     "pages/exercise/exercise_self/SelfUnfinishPage",
     "pages/exercise/exercise_self/RadicalSearchPage",
-    "pages/exercise/exercise_self/ExpertCopywritingPage",
     "pages/exercise/exercise_self/self_generated/SpecialExerciseSelectedPage",
     "pages/exercise/exercise_self/self_generated/SpecialPreviewPage",
     "pages/exercise/exercise_self/self_generated/ComprehensiveExerciseVerifyPage",

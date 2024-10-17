@@ -131,7 +131,6 @@ struct TeachingVideoDetailPage {
 
 
         Column(){
-          // Text('这是视频主体')
 
           Video({
             src: this.videoContent.contentUrl,  //内容
@@ -251,11 +250,7 @@ struct TeachingVideoDetailPage {
       this.title = this.videoList.title
 
       console.log('videoId', this.videoList.id)
-      // this.ifCollect = this.videoList.ifCollect
     }
-
-
-    // console.log(`title=${this.video_title}`)
 
     console.log(this.videoList.type)
     if (this.videoList.type == '单独') {

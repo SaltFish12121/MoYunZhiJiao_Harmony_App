@@ -18,12 +18,12 @@ struct ModifyEmailPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
       Divider()
 
-      //2输入
+      //2 邮箱输入
       Column(){
         Column(){
           Row({space: 10}){
@@ -31,7 +31,8 @@ struct ModifyEmailPage {
               .fontSize(20)
               .backgroundColor($r('app.color.start_window_background'))
 
-            Text(/*'邮箱号'*/this.oldEmail)
+            //邮箱号
+            Text(this.oldEmail)
               .fontSize(18)
           }
           .width('90%')
@@ -65,7 +66,7 @@ struct ModifyEmailPage {
       .margin({top: 40})
 
 
-      //3完成按钮
+      //3 完成按钮
       Button('完成')
         .margin({top: 40})
         .type(ButtonType.Normal)
@@ -74,33 +75,46 @@ struct ModifyEmailPage {
         .borderRadius(10)
         .onClick(async () => {
 
-          //1修改邮箱
-          await this.alterEmail()
+          if (this.newEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.newEmail)) {
+            // 新邮箱格式正确，执行接下来的操作
 
-          //2是否修改成功
-          console.log('success',this.success)
-          if (this.success) {
-            UserDBService.updateUserColumnById(this.userId, 'email', this.email)
-            console.log('DB', 'update', this.userId, 'email', this.email)
+            //1修改邮箱
+            await this.alterEmail()
 
-            router.back(
-              {
-                url: 'pages/mine/mine_set/account_management/AccountManagementPage',
-                params: {
-                  email: this.email,
+            //2是否修改成功
+            console.log('success',this.success)
+            if (this.success) {
+              UserDBService.updateUserColumnById(this.userId, 'email', this.email)
+              console.log('DB', 'update', this.userId, 'email', this.email)
+
+              router.back(
+                {
+                  url: 'pages/mine/mine_set/account_management/AccountManagementPage',
+                  params: {
+                    email: this.email,
+                  }
                 }
-              }
-            )
+              )
 
+            } else {
+              AlertDialog.show({
+                message: '邮箱更改失败',
+                confirm: {
+                  value: '确定',
+                  action: ()=>{}
+                }
+              })
+            }
           } else {
             AlertDialog.show({
-              message: '邮箱更改失败',
+              message: '邮箱格式错误',
               confirm: {
                 value: '确定',
                 action: ()=>{}
               }
             })
           }
+
         })
 
     }
@@ -109,8 +123,7 @@ struct ModifyEmailPage {
   }
 
   async onPageShow(){
-    this.userId = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserId', 0) as number
-    this.userId = 32
+    this.userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     const email = router.getParams() as PARAMS
     this.oldEmail = email.email

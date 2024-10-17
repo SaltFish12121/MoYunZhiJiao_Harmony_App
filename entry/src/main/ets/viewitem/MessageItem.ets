@@ -1,6 +1,7 @@
 import MessageInfo from '../viewmodel/MessageInfo'
 import { MessageType } from '../viewmodel/MessageInfo'
 
+//消息列
 @Component
 export default struct MessageItem {
   message: MessageInfo = new MessageInfo(0, MessageType.system, '', '', '')

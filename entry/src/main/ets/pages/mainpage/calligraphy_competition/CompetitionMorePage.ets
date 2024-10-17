@@ -1,11 +1,10 @@
 import router from '@ohos.router'
-import { HeaderSearch, HeaderTitle } from '../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../../common/components/CommonComponents'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 import CompetitionInformItem from '../../../viewitem/CompetitionInformItem'
 import CompetitionInformInfo from '../../../viewmodel/CompetitionInformInfo'
 
 @Extend(Column) function exercise_List(){
-  // .margin({left: 10, bottom: 5})
   .width('95%')
   .borderRadius(CommonConstants.DEFAULT_10)
   .shadow({
@@ -33,24 +32,10 @@ struct CompetitionMorePage {
       //1 头部
       HeaderTitle({ title: $title })
 
-      /*
-      Row({space: 10}){
-        Search()
-          .height(40)
-          .width(300)
-
-        Text('搜索')
-          .fontSize(18)
-          .fontColor($r('app.color.blue'))
-
-      }*/
 
       //2 竞赛列表
       Column({space: 10}){
-        Column(){
-
-        }
-        .height(5)
+        Column().height(5)
 
         ForEach(
           this.competition,
@@ -77,10 +62,7 @@ struct CompetitionMorePage {
           }
         )
 
-        Column(){
-          // Text('end')
-        }
-        .height(100)
+        Column().height(100)
       }
       .alignItems(HorizontalAlign.Center)
       .width('100%')

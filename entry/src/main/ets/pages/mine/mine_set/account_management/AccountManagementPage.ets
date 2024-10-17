@@ -20,11 +20,11 @@ struct AccountManagementPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
         .backgroundColor($r('app.color.start_window_background'))
 
-      //2手机号
+      //2 手机号
       Divider()
 
       Row(){
@@ -54,7 +54,7 @@ struct AccountManagementPage {
       })
 
 
-      //3邮箱
+      //3 邮箱
 
       Divider()
 
@@ -88,7 +88,7 @@ struct AccountManagementPage {
       })
 
 
-      //4修改密码
+      //4 修改密码
       Divider()
 
       Row(){

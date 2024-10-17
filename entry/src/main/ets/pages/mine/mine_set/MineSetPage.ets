@@ -47,14 +47,13 @@ struct MineSetPage {
 
   build() {
     Column(){
-      //1标题
+      //1 标题
       HeaderTitle({ title: $title })
       .backgroundColor($r('app.color.start_window_background'))
 
-      //2内容
 
+      //2 内容
       List(){
-
         ForEach(this.arr, (item: string) => {
 
           ListItem() {
@@ -98,11 +97,6 @@ struct MineSetPage {
                 break;
 
               case '消息设置':
-                // router.pushUrl(
-                //   {
-                //     url: 'pages/mine/mine_set/message_set/MessageSetPage'
-                //   }
-                // )
                 let context = getContext(this) as common.UIAbilityContext;
                 let want: Want = {
                   bundleName: 'com.huawei.hmos.settings',//设置应用bundleName
@@ -202,21 +196,6 @@ struct MineSetPage {
 
 
       Column({space: 10}){
-        //切换账号
-        /*
-        Column(){
-          Text('切换账号')
-        }
-        .set_column()
-        .onClick(() => {
-          router.pushUrl(
-            {
-              url: 'pages/mine/mine_set/SwitchAccountPage'
-            }
-          )
-        })
-        * */
-
 
         //退出登录
         Column(){

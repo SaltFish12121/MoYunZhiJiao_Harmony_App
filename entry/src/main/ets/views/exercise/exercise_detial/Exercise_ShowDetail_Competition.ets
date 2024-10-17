@@ -17,7 +17,7 @@ export default struct Exercise_ShowDetail_Competition {
             ForEach(
               this.competitionContent.submitWriting,
               (submit: SubmitWritingInfo) => {
-                Image(/*$r('app.media.exercise_test1')*/submit.submit)
+                Image(submit.submit)
                   .width('100%')
                   .height(250)
                   .onClick(() => {
@@ -32,29 +32,6 @@ export default struct Exercise_ShowDetail_Competition {
                   })
               }
             )
-            /*
-            Image($r('app.media.exercise_test1'))
-              .width('100%')
-              .height(250)
-              .onClick(() => {
-                router.pushUrl(
-                  {
-                    url: 'pages/exercise/exercise_detail/ExerciseDetailPage'
-                  }
-                )
-              })
-
-            Image($r('app.media.exercise_test1'))
-              .width('100%')
-              .height(250)
-              .onClick(() => {
-                router.pushUrl(
-                  {
-                    url: 'pages/exercise/exercise_detail/ExerciseDetailPage'
-                  }
-                )
-              })
-              */
 
           }
 
@@ -69,7 +46,7 @@ export default struct Exercise_ShowDetail_Competition {
             Text('系统综合评分')
               .fontSize(16)
 
-            Text(/*'90'*/`${this.competitionContent.score}`)
+            Text(`${this.competitionContent.score}`)
               .fontSize(16)
               .fontColor($r('app.color.text_red'))
           }
@@ -79,7 +56,7 @@ export default struct Exercise_ShowDetail_Competition {
             Text('排名')
               .fontSize(16)
 
-            Text('第'+/*'180'*/`${this.competitionContent.rank}`+'名')
+            Text('第'+`${this.competitionContent.rank}`+'名')
               .fontSize(16)
               .fontColor($r('app.color.text_red'))
 
@@ -91,7 +68,7 @@ export default struct Exercise_ShowDetail_Competition {
             Text('所得奖项')
               .fontSize(16)
 
-            Text(/*'无'*/this.competitionContent.awards)
+            Text(this.competitionContent.awards)
               .fontSize(16)
               .fontColor($r('app.color.text_red'))
 
@@ -104,7 +81,7 @@ export default struct Exercise_ShowDetail_Competition {
               .width('100%')
 
             Column(){
-              Text(/*'评语内容'*/this.competitionContent.comment)
+              Text(this.competitionContent.comment)
                 .fontSize(12)
                 .width('95%')
                 .margin({top: 15, bottom: 15})

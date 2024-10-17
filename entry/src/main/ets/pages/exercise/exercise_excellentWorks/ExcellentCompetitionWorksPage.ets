@@ -1,6 +1,5 @@
-import { HeaderTitle, HeaderTitleCollect } from '../../../common/components/CommonComponents'
+import { HeaderTitleCollect } from '../../../common/components/CommonComponents'
 import Exercise_ShowDetail_Competition from '../../../views/exercise/exercise_detial/Exercise_ShowDetail_Competition'
-import Exercise_ShowDetail_Self from '../../../views/exercise/exercise_detial/Exercise_ShowDetail_Self'
 import ExerciseService from '../../../service/ExerciseService'
 import ExcellentCompetitionInfo from '../../../viewmodel/exerciseDetial/ExcellentCompetitionInfo'
 import CompetitionContentInfo from '../../../viewmodel/exerciseDetial/CompetitionContentInfo'
@@ -8,6 +7,7 @@ import SubmitWritingInfo from '../../../viewmodel/exerciseDetial/SubmitWritingIn
 import { router } from '@kit.ArkUI'
 import Cant_Connect from '../../../views/Cant_Connect'
 
+//优秀竞赛
 @Entry
 @Component
 struct ExcellentCompetitionWorksPage {
@@ -21,7 +21,7 @@ struct ExcellentCompetitionWorksPage {
     [
       new CompetitionContentInfo(0, 80, 18, '重在参与奖', '分学区话它样界出线先北统列程处。北资百长而场划包族系件期社革消引。因当发东理阶们样由商道处。至正活听加资目强后无白三验科。新革同拉飞可影验四际个的回身斯。书劳车主观个原提性反指本文委。',
         [
-          new SubmitWritingInfo(50, /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'), [])
+          new SubmitWritingInfo(50, 'https://dummyimage.com/120x240', [])
         ])
     ])
 
@@ -30,27 +30,19 @@ struct ExcellentCompetitionWorksPage {
   build() {
     Scroll(){
       Column(){
-        //1头部
+        //1 头部
         HeaderTitleCollect({ title: $title, ifCollect: $ifCollect, collectId: $collectId, type: 'ExcellentCompetition' })
 
         if (this.ifConnect) {
-          //2出处
+          //2 来源
           Row(){
             Row(){
               Text('来源：')
                 .fontSize(16)
 
-              Text(/*'系统'*/this.excellentCompetition.comeFrom)
+              Text(this.excellentCompetition.comeFrom)
                 .fontSize(16)
             }
-
-            /*
-            Column(){
-              //收藏
-              Image($r('app.media.collect0'))
-                .width(40)
-            }
-            */
 
           }
           .margin({bottom: 20})
@@ -59,7 +51,7 @@ struct ExcellentCompetitionWorksPage {
           .justifyContent(FlexAlign.SpaceBetween)
 
 
-          //3内容（可能多个）
+          //3 内容（可能多个）
           ForEach(
             this.excellentCompetition.content,
             (content: CompetitionContentInfo) => {
@@ -116,14 +108,6 @@ struct ExcellentCompetitionWorksPage {
         this.ifConnect = false
         console.log('Tags', '获取书法知识失败')
       })
-
-    // this.change(this.knowledgeShow)
-
-
-    // this.content = this.excellentCompetition.content
-
-    // this.contentLength = this.excellentCompetition.content.length
-    // console.log('Result', this.exerciseType)
   }
 
 }

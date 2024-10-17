@@ -20,13 +20,13 @@ struct UnitPage {
   build() {
     Column(){
       Column(){
-        //1头部
+        //1 头部
         HeaderTitle({ title: $title })
 
         Divider()
 
 
-        //2内容
+        //2 内容
         Column(){
           //学校
           Row(){

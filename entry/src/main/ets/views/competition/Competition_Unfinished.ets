@@ -20,7 +20,7 @@ import InformationService from  '../../service/InformationService'
 }
 
 @Component
-export default struct Compition_Unfinished{
+export default struct Competition_Unfinished{
   @Link competition: CompetitionInfo[]
   @State competitionInformation: CompetitionInformInfo = new CompetitionInformInfo(0)
 

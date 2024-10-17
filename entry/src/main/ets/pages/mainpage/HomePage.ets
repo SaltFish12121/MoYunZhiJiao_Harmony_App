@@ -1,19 +1,17 @@
 import Tabs_HomePage from '../../views/homepage/Tabs_HomePage'
 import Tabs_Exercise from '../../views/exercise/Tabs_Exercise'
-import Tabs_Comptition from '../../views/competition/Tabs_Compition'
+import Tabs_Competition from '../../views/competition/Tabs_Competition'
 import Tabs_Message from '../../views/message/Tabs_Message'
 import Tabs_Mine from '../../views/mine/Tabs_Mine'
 
 import UserInfo from '../../viewmodel/user/UserInfo'
 import KnowledgeInfo from '../../viewmodel/KnowledgeInfo'
-import { KnowledgeType } from '../../viewmodel/KnowledgeInfo'
 import VideoListInfo from '../../viewmodel/VideoListInfo'
 import CompetitionInformInfo from '../../viewmodel/CompetitionInformInfo'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
 import InformationService from  '../../service/InformationService'
 import UserService from '../../service/UserService'
 import UserDBService from '../../DBservice/UserDBService'
-import ExerciseService from  '../../service/ExerciseService'
 
 import router from '@ohos.router'
 import { UserPO } from '../../common/bean/UserPO'
@@ -59,7 +57,6 @@ struct HomePage {
     Tabs({barPosition: BarPosition.End}){
       //1.首页
       TabContent(){
-        // Text('首页')
         if (this.ifConnect) {
           Tabs_HomePage({ knowledgeShow: $knowledgeShow, videoShow: $videoShow, CompetitionInformShow: $competitionInformShow })
         } else {
@@ -70,12 +67,8 @@ struct HomePage {
 
       //2.书法练习
       TabContent(){
-        // Text('书法练习')
-        if (this.currentIndex == 1){
-          if (this.ifLogin) {
-            Tabs_Exercise(/*{ schoolExercise: $schoolExercise, selfExercise: $selfExercise, excellentExercise: $excellentExercise }*/)
-          }
-          // Tabs_Exercise(/*{ schoolExercise: $schoolExercise, selfExercise: $selfExercise, excellentExercise: $excellentExercise }*/)
+        if (this.currentIndex == 1 && this.ifLogin){
+          Tabs_Exercise()
         }
 
 
@@ -84,12 +77,8 @@ struct HomePage {
 
       //3.书法竞赛
       TabContent(){
-        // Text('书法竞赛')
-        if (this.currentIndex == 2){
-          if (this.ifLogin) {
-            Tabs_Comptition(/*{ competition: $competition, excellentExercise: $excellentExercise }*/)
-          }
-          // Tabs_Comptition(/*{ competition: $competition, excellentExercise: $excellentExercise }*/)
+        if (this.currentIndex == 2 && this.ifLogin){
+          Tabs_Competition()
         }
 
       }
@@ -97,12 +86,8 @@ struct HomePage {
 
       //4.消息中心
       TabContent(){
-        // Text('消息中心')
-        if (this.currentIndex == 3){
-          if (this.ifLogin) {
-            Tabs_Message()
-          }
-
+        if (this.currentIndex == 3 && this.ifLogin){
+          Tabs_Message()
         }
 
       }
@@ -110,16 +95,9 @@ struct HomePage {
 
       //5.个人信息
       TabContent(){
-        // Text('个人信息')
-
         if (this.currentIndex == 4){
-
           Tabs_Mine({ userPersonal: $userPersonal })
-
         }
-
-
-        // Tabs_Mine()
 
       }
       .tabBar(this.TabBarBuilder($r('app.string.tab_mine'), $r('app.media.user'), 4))
@@ -156,16 +134,12 @@ struct HomePage {
       this.getShowCompetition()
     ]);
 
-    // this.loadUserInfo()
-
-    // this.fontSize = await PreferencesUtil.getPreferenceValue('MyPreferences', 'MineFontSize', 16) as number
   }
 
 
   async onPageShow(){
     console.log('onPageShow', 'HomePage')
     console.log('Token', Http.Token)
-    // this.knowledgeShow[0].cover = $r('app.media.homepage_video3')
 
     this.userPersonal.id = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
     console.log('MyPreferences', 'test', this.userPersonal.id)
@@ -183,12 +157,6 @@ struct HomePage {
     if (user.ifLogin == 1) {
       this.userType = user.login
       this.ifLogin = true
-
-      /*if (this.userType) {
-        this.userPersonal = new UserInfo( 1, '王小明', '202283290123', '123456', new RegionInfo(1, '南京'), '男', '', new KlassInfo(0, '（1）', '盘城小学', '一年级', '李梅'), '18912345678', '123456789@qq.com', '', true)
-      } else {
-        this.userPersonal = new UserInfo( 2, '宋小二', '', '123456', new RegionInfo(1, '南京'), '男', '', new KlassInfo(0, '', '', '未设置年级', ''), '18912345678', '123456789@qq.com', '', false)
-      }*/
 
       //DB 首次接收用户信息？
       await this.getPersonalInformation()
@@ -313,8 +281,6 @@ struct HomePage {
    */
   //获取个人信息
   async getPersonalInformation(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     UserService.getPersonal()
       .then((user) => {
@@ -325,7 +291,6 @@ struct HomePage {
       })
       .catch((error: string) => {
         console.log('Tags', '获取个人信息失败')
-        // this.ifConnect = false
       })
   }
 

@@ -1,9 +1,7 @@
-import router from '@ohos.router'
-import { HeaderSearch, HeaderTitle } from '../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../../common/components/CommonComponents'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 import VideoItem from '../../../viewitem/VideoItem'
 import VideoInfo from '../../../viewmodel/VideoListInfo'
-import LabelInfo from '../../../viewmodel/LabelInfo'
 import InformationService from  '../../../service/InformationService'
 import Cant_Connect from '../../../views/Cant_Connect'
 
@@ -59,7 +57,7 @@ struct CalligraphyTeachingPage {
       }
 
       if (this.ifConnect) {
-        //2.视频 排列
+        //2 视频 排列
         List({ scroller: this.scroller}) {
           ListItem() {}
           .height(5)
@@ -79,10 +77,6 @@ struct CalligraphyTeachingPage {
               })
             }
             .width("98%")
-            .onBreakpointChange((breakpoint) => {
-              // this.currentBp = breakpoint
-              // console.log(`this==${this.currentBp}`)
-            })
 
           }
 
@@ -104,7 +98,6 @@ struct CalligraphyTeachingPage {
             this.isLoading = true
             // 翻页
             this.pageNum++
-            // page = ShopModel.pageNo
             this.getTeachingVideo2()
           }
         })
@@ -122,7 +115,7 @@ struct CalligraphyTeachingPage {
   }
 
   //获取书法教学
-  async getTeachingVideo1(){//测试
+  async getTeachingVideo1(){
     console.log('pageNum', this.pageNum)
     await InformationService.getTeachingVideo(this.search, this.pageNum)
       .then((video: VideoInfo[]) => {

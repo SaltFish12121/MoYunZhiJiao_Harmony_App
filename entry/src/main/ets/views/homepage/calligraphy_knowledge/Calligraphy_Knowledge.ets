@@ -27,8 +27,8 @@ export default struct Calligraphy_Knowledge {
         )
       })
 
-      //2 轮播图
 
+      //2 轮播图
       Swiper() {
         //2.1 图片
         ForEach(

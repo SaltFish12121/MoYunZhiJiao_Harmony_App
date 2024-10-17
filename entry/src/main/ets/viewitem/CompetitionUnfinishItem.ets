@@ -1,6 +1,7 @@
 import CompetitionInfo from '../viewmodel/CompetitonInfo'
 import { CompetitionType,IfSignUpType } from '../viewmodel/CompetitonInfo'
 
+//竞赛未完成列
 @Component
 export default struct CompetitionItem {
   competition: CompetitionInfo = new CompetitionInfo(0)

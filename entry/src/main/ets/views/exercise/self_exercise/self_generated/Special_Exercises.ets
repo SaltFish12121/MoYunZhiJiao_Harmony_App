@@ -256,7 +256,6 @@ export default struct Special_Exercises {
 
         })
 
-        // Divider()
       }
       .height('10%')
       .justifyContent(FlexAlign.Start)

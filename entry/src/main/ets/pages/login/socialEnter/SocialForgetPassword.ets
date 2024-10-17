@@ -2,9 +2,18 @@ import router from '@ohos.router'
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import LoginService from '../../../service/LoginService'
 
+const TOTAL_COUNT = 30
+
+//忘记密码
 @Entry
 @Component
 struct SocialForgetPassword {
+  @State count: number = TOTAL_COUNT
+  timerId: number = -1
+  isPaused: boolean = false
+  isBack: boolean = false
+  @State buttonText: string = '获取验证码'
+
   @State phoneNumber: string = ''
   @State verify: string = ''
   getPhoneVerify: string = ''
@@ -13,7 +22,7 @@ struct SocialForgetPassword {
 
   build() {
     Column() {
-      //1头部
+      //1 头部
       Stack({ alignContent: Alignment.TopEnd }) {
         HeaderTitle({ title: $title })
           .width('95%')
@@ -32,7 +41,7 @@ struct SocialForgetPassword {
         })
       }
 
-      //2输入
+      //2 输入
       Column() {
         Column() {
           TextInput({ placeholder: '请输入手机号码' })
@@ -59,14 +68,20 @@ struct SocialForgetPassword {
                 this.verify = v
               })
 
-            Button('获取验证码')
+            Button(this.buttonText)
+              .enabled(this.count === TOTAL_COUNT)
               .backgroundColor($r('app.color.button1'))
+              .fontColor($r('app.color.start_window_background'))
               .margin({ top: -20, right: 20 })
-              .onClick(() => {
+              .onClick(async() => {
 
                 //发送手机号获取验证码，进入重发倒计时
                 if (this.phoneNumber != '' && this.phoneNumber.length === 11 ) {
-                  this.getVerify()
+                  this.startTimer()
+                  await this.getVerify()
+                  AlertDialog.show({
+                    message: '验证码已发送'
+                  })
                 } else {
                   AlertDialog.show({
                     message: '手机号格式错误',
@@ -92,7 +107,7 @@ struct SocialForgetPassword {
         }
         .margin({ top: 40 })
 
-      //3按钮
+      //3 按钮
       Column(){
         Button('下一步')
           .width('90%')
@@ -152,4 +167,44 @@ struct SocialForgetPassword {
     }
   }
 
+  async onPageShow(){
+    !this.isBack && this.resumeTimer()
+  }
+
+  onPageHide(): void {
+    this.pauseTimer()
+  }
+
+  aboutToDisappear(): void {
+    clearInterval(this.timerId)
+    this.buttonText = '获取验证码'
+  }
+
+  startTimer() {
+    this.timerId = setInterval(() => {
+      this.count--
+      this.buttonText = `${this.count}s`
+      this.isBack = false
+      if (this.count < 0) {
+        clearInterval(this.timerId)
+        this.buttonText = '获取验证码'
+        this.count = TOTAL_COUNT
+      }
+    }, 1000)
+  }
+
+  pauseTimer() {
+    if (!this.isPaused) {
+      this.isPaused = true;
+      clearInterval(this.timerId)
+      this.buttonText = '获取验证码'
+    }
+  }
+
+  resumeTimer() {
+    if (this.isPaused) {
+      this.isPaused = false
+      this.startTimer()
+    }
+  }
 }

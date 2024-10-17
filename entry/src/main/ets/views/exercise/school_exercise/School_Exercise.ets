@@ -58,7 +58,9 @@ export default struct School_Exercise {
         this.currentIndex = index
         this.currentIndex2 = index
 
-        console.log('School_Exercise', this.currentIndex , `length = ${this.schoolUnfinishExercise.length}`)
+        if (this.schoolUnfinishExercise.length ) {
+          console.log('School_Exercise', this.currentIndex , `length = ${this.schoolUnfinishExercise.length}`)
+        }
       })
 
     }

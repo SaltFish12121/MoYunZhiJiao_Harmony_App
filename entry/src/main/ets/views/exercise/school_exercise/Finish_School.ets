@@ -73,7 +73,6 @@ export default struct Finish_School {
           this.isLoading = true
           // 翻页
           this.pageNum++
-          // page = ShopModel.pageNo
           this.getSchoolExercise()
         }
       })
@@ -86,8 +85,6 @@ export default struct Finish_School {
 
   //获取学校作业
   async getSchoolExercise(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     ExerciseService.getSchoolExercise('finish', this.pageNum)
       .then((exercise: ExerciseInfo[]) => {
@@ -107,8 +104,6 @@ export default struct Finish_School {
 
   //获取学校作业
   async getSchoolExercise2(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     ExerciseService.getSchoolExercise('finish', this.pageNum)
       .then((exercise: ExerciseInfo[]) => {

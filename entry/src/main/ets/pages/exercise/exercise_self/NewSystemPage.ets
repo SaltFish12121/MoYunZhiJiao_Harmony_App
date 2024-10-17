@@ -1,4 +1,3 @@
-import router from '@ohos.router'
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 import SystemCopybookItem from '../../../viewitem/SystemCopybookItem'
@@ -18,7 +17,7 @@ import Cant_Connect from '../../../views/Cant_Connect'
   })
 }
 
-
+//系统模板
 @Entry
 @Component
 struct NewSystemPage {
@@ -49,31 +48,28 @@ struct NewSystemPage {
 
   build() {
     Column() {
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
       if (this.ifConnect) {
-        //2.导航栏：专项类型，综合类型，字帖类型
+        //2 导航栏：专项类型，综合类型，字帖类型
         Tabs({ barPosition: BarPosition.Start }) {
-          //1.专项类型
+          //2.1 专项类型
           TabContent() {
-            // Text('专项类型')
             templateType({ exercise: $copybook, type: TemplateType.specialType, pageNum: this.pageNum, isMore: this.isMore })
 
           }
           .tabBar(this.TabBarBuilder('专项类型', 0))
 
-          //2.综合类型
+          //2.2 综合类型
           TabContent() {
-            // Text('综合类型')
             templateType({ exercise: $copybook, type: TemplateType.syntheticType, pageNum: this.pageNum, isMore: this.isMore })
 
           }
           .tabBar(this.TabBarBuilder('综合类型', 1))
 
-          //3.字帖类型
+          //2.3 字帖类型
           TabContent() {
-            // Text('字帖类型')
             templateType({ exercise: $copybook, type: TemplateType.copybookType, pageNum: this.pageNum, isMore: this.isMore })
 
           }
@@ -93,13 +89,8 @@ struct NewSystemPage {
     }
   }
 
-  async aboutToAppear() {
-    // console.log('page appear')
-
-  }
 
   async onPageShow(){
-    // console.log('page show')
     this.pageNum = 1
     this.isMore = true
     //获取系统模板
@@ -142,7 +133,7 @@ struct templateType {
   build() {
     Column(){
 
-      //2系统字贴列表
+      //1 系统字贴列表
       List({space: 10}){
         ListItem().height(5)
 
@@ -174,21 +165,15 @@ struct templateType {
           this.isLoading = true
           // 翻页
           this.pageNum ++
-          // page = ShopModel.pageNo
           this.getSystemTemplate()
         }
       })
-
-
 
     }
     .width('100%')
     .height('100%')
   }
 
-  aboutToAppear(){
-    // console.log('component appear')
-  }
 
   //获取系统模板
   async getSystemTemplate0(){
@@ -201,11 +186,9 @@ struct templateType {
         this.exercise = copybook
 
         console.log('Result', '系统模板', this.exercise[0].title, this.exercise[0].type)
-        // this.ifConnect = true
       })
       .catch((error: string) => {
         console.log('Tags', '获取系统字帖失败', error)
-        // this.ifConnect = false
       })
   }
 

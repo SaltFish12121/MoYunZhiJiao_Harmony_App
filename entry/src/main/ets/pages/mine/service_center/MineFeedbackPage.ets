@@ -1,7 +1,6 @@
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import UserService from '../../../service/UserService'
 import FeedbackInfo from '../../../viewmodel/FeedbackInfo'
-import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 import Cant_Connect from '../../../views/Cant_Connect'
 import No_Content from '../../../views/No_Content'
 
@@ -9,8 +8,6 @@ import No_Content from '../../../views/No_Content'
 @Entry
 @Component
 struct MineFeedbackPage {
-  private arr: number[] = [0, 1]
-
   @State feedback: FeedbackInfo[] = []
 
   @State title: string = '我的反馈'

@@ -1,6 +1,7 @@
 import router from '@ohos.router'
 import CopybookInfo from '../viewmodel/CopybookInfo'
 
+//字帖列
 @Component
 export default struct ExpertCopywritingItem {
   exercise: CopybookInfo = new CopybookInfo(0, '', '', '')

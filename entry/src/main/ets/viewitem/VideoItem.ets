@@ -1,6 +1,7 @@
 import router from '@ohos.router'
 import VideoInfo from '../viewmodel/VideoListInfo'
 
+//视频列
 @Component
 export default struct VideoItem {
   video: VideoInfo = new VideoInfo(0, '', '', '', '')

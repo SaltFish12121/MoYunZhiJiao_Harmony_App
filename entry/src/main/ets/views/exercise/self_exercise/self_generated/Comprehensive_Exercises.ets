@@ -82,12 +82,6 @@ export default struct Comprehensive_Exercises {
                 this.composeType = v
               })
 
-
-            // Text('默认')
-            //   .fontSize(14)
-
-            // Image($r('app.media.down'))
-            //   .width(12)
           }
           .justifyContent(FlexAlign.Center)
           .alignItems(VerticalAlign.Center)

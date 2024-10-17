@@ -14,14 +14,11 @@ struct WelcomePage {
   build() {
     Column({space: 10}){
 
-      //1.中央slogan
+      //1 中央slogan
       Row(){
         Image($r('app.media.app')).width(260)
       }
       .layoutWeight(1)//布局权重
-
-      //2.logo
-      // Image($r('app.media.video_1')).width(150)
 
 
     }

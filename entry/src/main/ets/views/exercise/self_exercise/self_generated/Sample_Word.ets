@@ -79,12 +79,11 @@ export default struct Sample_Word {
 
               Row(){
                 Row(){
-                  Image(/*$r('app.media.KaitiChineseStroke_val_000000000041')*/sampleWord.template)
+                  Image(sampleWord.template)
                     .sourceSize({width: 70, height: 70})
                     .width('80%')
                     .height('80%')
                     .backgroundColor(this.color[item])
-                    // .fillColor(this.color[item])
                 }
                 .backgroundColor(this.color[item])
                 .word_card()

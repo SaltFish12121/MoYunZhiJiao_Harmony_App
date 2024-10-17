@@ -1,4 +1,3 @@
-import router from '@ohos.router'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 import KnowledgeItem from '../../../viewitem/KnowledgeItem'
 import KnowledgeInfo from '../../../viewmodel/KnowledgeInfo'
@@ -53,7 +52,6 @@ export default struct Knowledge_Hanzi {
           this.isLoading = true
           // 翻页
           this.pageNum++
-          // page = ShopModel.pageNo
           this.getKnowledge()
         }
       })

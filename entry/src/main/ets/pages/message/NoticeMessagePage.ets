@@ -1,27 +1,13 @@
-import router from '@ohos.router'
 import { HeaderTitle } from '../../common/components/CommonComponents'
-import { CommonConstants } from '../../common/constants/CommonConstants'
 import MessageInfo from '../../viewmodel/MessageInfo'
 import MessageItem from '../../viewitem/MessageItem'
-import { MessageType } from '../../viewmodel/MessageInfo'
 import UserService from '../../service/UserService'
-import PreferencesUtil from '../../common/utils/PreferencesUtil'
 import No_Content from '../../views/No_Content'
 import Cant_Connect from '../../views/Cant_Connect'
 
 @Extend(ListItem) function message_List(){
-  // .margin({left: 10, bottom: 5})
   .width('100%')
   .backgroundColor(0xFFFFFF)
-  // .borderRadius(CommonConstants.DEFAULT_10)
-  /*
-  .shadow({
-    radius: 6,
-    color: "#000000",
-    offsetX: 0,
-    offsetY: 2,
-  })
-  */
 }
 
 //竞赛通知
@@ -37,18 +23,17 @@ struct NoticeMessagePage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
         .backgroundColor($r('app.color.start_window_background'))
 
-      // Divider().strokeWidth(2)
 
       if (this.ifConnect) {
         if (this.CompetitionNotice_messages != null && this.CompetitionNotice_messages.length == 0) {
           No_Content()
         } else {
 
-          //2消息列表
+          //2 消息列表
           List({space: 10}){
             ListItem().height(5)
 
@@ -82,7 +67,6 @@ struct NoticeMessagePage {
               this.isLoading = true
               // 翻页
               this.pageNum++
-              // page = ShopModel.pageNo
               this.getMineMessage2()
             }
           })
@@ -104,8 +88,6 @@ struct NoticeMessagePage {
   }
 
   async getMineMessage(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     UserService.getMineMessage(3, 1)
       .then((message: MessageInfo[]) => {
@@ -121,8 +103,6 @@ struct NoticeMessagePage {
   }
 
   async getMineMessage2(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     UserService.getMineMessage(3, this.pageNum)
       .then((message: MessageInfo[]) => {

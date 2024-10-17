@@ -1,8 +1,8 @@
-import router from '@ohos.router'
 import { Header_close } from '../../../common/components/CommonComponents'
 import MobilePhoneLogin from '../../../views/login/MobilePhoneLogin'
 import PasswordLogin from '../../../views/login/PasswordLogin'
 
+//社会登录
 @Entry
 @Component
 struct SocialEnter {
@@ -12,7 +12,7 @@ struct SocialEnter {
   build() {
     Column(){
 
-      //1头部
+      //1 头部
       Stack({alignContent: Alignment.TopEnd}){
         Header_close()
           .width('95%')
@@ -31,11 +31,11 @@ struct SocialEnter {
 
 
       if (this.index==0){
-        //2登录输入
+        //2 登录输入
         PasswordLogin()
       }
       else {
-        //3验证码登录
+        //3 验证码登录
         MobilePhoneLogin()
       }
 

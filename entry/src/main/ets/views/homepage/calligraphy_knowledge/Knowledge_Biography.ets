@@ -54,7 +54,6 @@ export default struct Knowledge_Biography {
           this.isLoading = true
           // 翻页
           this.pageNum++
-          // page = ShopModel.pageNo
           this.getKnowledge()
         }
       })

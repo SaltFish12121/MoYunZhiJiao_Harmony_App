@@ -15,7 +15,7 @@ struct GenderPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       Column(){
         Stack({alignContent: Alignment.TopEnd}){
           Header()
@@ -56,8 +56,6 @@ struct GenderPage {
 
 
           })
-
-
         }
 
       }
@@ -68,7 +66,7 @@ struct GenderPage {
       Divider()
 
 
-      //2内容
+      //2 内容
       Column(){
         Row(){
           Text('男')

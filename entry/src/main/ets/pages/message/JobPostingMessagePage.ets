@@ -6,18 +6,8 @@ import Cant_Connect from '../../views/Cant_Connect'
 import No_Content from '../../views/No_Content'
 
 @Extend(ListItem) function message_List(){
-  // .margin({left: 10, bottom: 5})
   .width('100%')
   .backgroundColor(0xFFFFFF)
-  // .borderRadius(CommonConstants.DEFAULT_10)
-  /*
-  .shadow({
-    radius: 6,
-    color: "#000000",
-    offsetX: 0,
-    offsetY: 2,
-  })
-  */
 }
 
 //作业发布
@@ -33,18 +23,17 @@ struct JobPostingMessagePage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
         .backgroundColor($r('app.color.start_window_background'))
 
-      // Divider().strokeWidth(2)
 
       if (this.ifConnect) {
         if (this.JobPost_messages != null && this.JobPost_messages.length == 0) {
           No_Content()
         } else {
 
-          //2消息列表
+          //2 消息列表
           List({space: 10}){
             ListItem().height(5)
 
@@ -78,7 +67,6 @@ struct JobPostingMessagePage {
               this.isLoading = true
               // 翻页
               this.pageNum++
-              // page = ShopModel.pageNo
               this.getMineMessage2()
             }
           })

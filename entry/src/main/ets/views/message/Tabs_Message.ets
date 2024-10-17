@@ -1,8 +1,6 @@
 import router from '@ohos.router'
 import { CommonConstants } from '../../common/constants/CommonConstants'
-import UserService from '../../service/UserService'
 import MessageInfo from '../../viewmodel/MessageInfo'
-import { MessageType } from '../../viewmodel/MessageInfo'
 
 @Extend(Column) function content_formant(){
   .padding({top: 30, bottom: 35})
@@ -22,16 +20,7 @@ import { MessageType } from '../../viewmodel/MessageInfo'
 export default struct Tabs_Message {
 
   //传入的数据
-  @State message: MessageInfo[] = [/*
-    new MessageInfo(MessageType.system,'信息设置','2024-5-24','您修改头像已经通过审核'),
-    new MessageInfo(MessageType.system,'尊贵的VIP用户','2024-4-9','恭喜你成为VIP'),
-    new MessageInfo(MessageType.system,'作业“基础练习”已发布','2024-5-24','截止日期6-15'),
-    new MessageInfo(MessageType.system,'作业“基础练习”已发布','2024-4-9','截止日期6-15'),
-    new MessageInfo(MessageType.system,'作业“基础练习”已即将截止','2024-5-24','还剩4小时'),
-    new MessageInfo(MessageType.system,'作业“基础练习”已即将截止','2024-4-9','还剩4小时'),
-    new MessageInfo(MessageType.system,'您报名的“全国大赛”已成功','2024-5-24','开赛时间2024-5-5')
-    */
-  ]
+  @State message: MessageInfo[] = []
 
   build() {
     Column(){
@@ -108,22 +97,5 @@ export default struct Tabs_Message {
     .height('100%')
   }
 
-
-  /*
-  getMineMessage(){
-    let userId = 1
-
-    UserService.getMineMessage(userId, 0)
-      .then((message: MessageInfo[]) => {
-        console.log('Tags', '获取消息通知成功')
-
-        this.message = message
-      })
-      .catch((error) => {
-        console.log('Tags', '获取消息通知失败')
-
-      })
-  }
-  */
 
 }

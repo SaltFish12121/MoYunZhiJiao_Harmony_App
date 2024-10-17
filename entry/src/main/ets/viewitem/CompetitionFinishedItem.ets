@@ -1,7 +1,8 @@
 import CompetitionInfo from '../viewmodel/CompetitonInfo'
 
+//竞赛完成
 @Component
-export default struct CompetitionFinisheItem {
+export default struct CompetitionFinishedItem {
   competition: CompetitionInfo = new CompetitionInfo(0)
 
   build() {

@@ -4,9 +4,7 @@ import UserService from '../../../service/UserService'
 import UserInfo from '../../../viewmodel/user/UserInfo'
 import RegionInfo from '../../../viewmodel/user/RegionInfo'
 import KlassInfo from '../../../viewmodel/user/KlassInfo'
-import CompetitionInformInfo from '../../../viewmodel/CompetitionInformInfo'
 import CompetitionService from '../../../service/CompetitionService'
-import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 
 //确认报名
 @Entry
@@ -26,10 +24,10 @@ struct ConfirmInformationPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title})
 
-      //2信息
+      //2 信息
       Column(){
         ForEach(
           this.arr,
@@ -56,7 +54,7 @@ struct ConfirmInformationPage {
       .width('80%')
       .margin({top: 50, bottom: 50})
 
-      //3是否报名
+      //3 是否报名
       Row(){
         Column(){
           Text('取消报名')
@@ -133,8 +131,6 @@ struct ConfirmInformationPage {
 
   //获取个人信息
   async getPersonalInformation(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await UserService.getPersonal()
       .then((user) => {
@@ -159,8 +155,6 @@ struct ConfirmInformationPage {
           url: 'pages/login/LoginPage'
         })
       })
-
-    /*  @State arr2: string[] = ['项目名称', '王小明', '男', '202293290123', '盘龙小学', '二年级（1）班', '李梅', '18912234567', '2612345678@qq.com']*/
 
   }
 

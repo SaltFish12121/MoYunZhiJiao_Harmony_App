@@ -1,13 +1,12 @@
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import Comprehensive_Exercises from '../../../views/exercise/self_exercise/self_generated/Comprehensive_Exercises'
-import ExpertCopywriting from '../../../views/exercise/self_exercise/self_generated/ExpertCopywriting'
 import Special_Exercises from '../../../views/exercise/self_exercise/self_generated/Special_Exercises'
 import ExerciseService from '../../../service/ExerciseService'
 import router from '@ohos.router'
 import { Radical } from '../../../data/Radical'
 import WordListInfo from '../../../viewmodel/WordListInfo'
 
-
+//自主生成
 @Entry
 @Component
 struct NewSelfPage {
@@ -46,34 +45,25 @@ struct NewSelfPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
       Divider()
         .strokeWidth(2)
 
-      //2导航栏：专项练习，综合练习，专家字帖
+      //2 导航栏：专项练习，综合练习
       Tabs({barPosition: BarPosition.Start}){
-        //1.专项练习
+        //2.1 专项练习
         TabContent(){
-          // Text('专项练习')
           Special_Exercises({ radical: $radical, typeface: this.typeface, structure: this.structure, sampleWord: $sampleWord, ifConnect: this.ifConnect })
 
         }
         .tabBar(this.TabBarBuilder($r('app.string.self_specialExercises'), 0))
 
-        //2.综合练习
+        //2.2 综合练习
         TabContent(){
-          // Text('综合练习')
           Comprehensive_Exercises()
         }
         .tabBar(this.TabBarBuilder($r('app.string.self_comprehensiveExercises'), 1))
-
-        // //3.专家字帖
-        // TabContent(){
-        //   // Text('专家字帖')
-        //   ExpertCopywriting()
-        // }
-        // .tabBar(this.TabBarBuilder($r('app.string.self_expertCopywriting'), 2))
 
       }
       .width('100%')
@@ -95,7 +85,6 @@ struct NewSelfPage {
         console.log(`${this.radical.id}`, this.radical.radical, this.radical.name)
       }
     }
-
 
     //获取样本字
     this.getTemplateWord()

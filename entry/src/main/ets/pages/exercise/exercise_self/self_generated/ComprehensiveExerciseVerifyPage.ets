@@ -12,6 +12,7 @@ import PreferencesUtil from '../../../../common/utils/PreferencesUtil'
 
 }
 
+//综合预览图
 @Entry
 @Component
 struct ComprehensiveExerciseVerifyPage {
@@ -25,16 +26,16 @@ struct ComprehensiveExerciseVerifyPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       Header()
 
       Scroll(){
         Column({space: 20}){
 
-          //2内容
+          //2 内容
           Column({space: 5}){
             Row(){
-              Text(/*'练习名称'*/this.title)
+              Text(this.title)
                 .fontSize(28)
             }
             .width('90%')
@@ -46,12 +47,12 @@ struct ComprehensiveExerciseVerifyPage {
             .width('90%')
             .justifyContent(FlexAlign.Start)
 
-            List(){//大口卵
+            List(){
               ForEach(
                 this.sample,
                 (sample: string) => {
                   ListItem(){
-                    Image(/*$r('app.media.exercise_test1')*/sample)
+                    Image(sample)
                       .width(350)
                   }
                 }
@@ -60,10 +61,8 @@ struct ComprehensiveExerciseVerifyPage {
             }
             .width(350)
           }
-          // .height('75%')
-          // .margin({top: 20})
 
-          //3按钮
+          //3 是否选择的按钮
           Row(){
             Column(){
               Text('取消')
@@ -117,7 +116,6 @@ struct ComprehensiveExerciseVerifyPage {
 
         }
         .width('100%')
-        // .height('100%')
       }
 
 
@@ -151,23 +149,23 @@ struct ComprehensiveExerciseVerifyPage {
     await this.generateExercise()
   }
 
+  //生成练习
   generateExercise(){
     ExerciseService.generateExercise2(this.title, this.content, this.typeface, this.composeType)
       .then((content) => {
-        console.log('Tags', '创建练习成功')
+        console.log('Tags', '生成练习成功')
 
         this.sample = content
 
         console.log('Result', this.sample)
       })
       .catch((error: string) => {
-        console.log('Tags', '创建练习失败', error)
+        console.log('Tags', '生成练习失败', error)
       })
   }
 
   //创建练习
   async createExercise(){
-    // let userId = 1
     let userId = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserId', 0) as number
 
     ExerciseService.createExercise(userId, this.title, this.typeface, this.sample, '综合')

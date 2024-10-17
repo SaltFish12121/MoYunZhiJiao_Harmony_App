@@ -17,7 +17,7 @@ struct ManageStorageSpacePage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       Stack({alignContent: Alignment.TopEnd}){
 
         HeaderTitle({ title: $title })
@@ -33,12 +33,11 @@ struct ManageStorageSpacePage {
         .onClick(() => {
 
         })
-
       }
       .width('100%')
       .backgroundColor($r('app.color.start_window_background'))
 
-      //2系统缓存
+      //2 系统缓存
       Column(){
         Divider()
 

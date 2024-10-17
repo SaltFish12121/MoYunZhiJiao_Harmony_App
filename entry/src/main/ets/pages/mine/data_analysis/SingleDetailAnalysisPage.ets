@@ -4,9 +4,6 @@ import UserService from '../../../service/UserService'
 import WordAnalysisInfo from '../../../viewmodel/analysis/WordAnalysisInfo'
 import ExerciseWordRecordInfo from '../../../viewmodel/analysis/ExerciseWordRecordInfo'
 
-import Echarts from '../../../common/components/Echarts/Echarts'
-import { EChartsOption } from '../../../common/components/Echarts/ViewModel'
-
 //单字分析单字细节
 @Entry
 @Component
@@ -20,16 +17,16 @@ struct SingleDetailAnalysisPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({title: $title })
 
-      //2模板字+平均+占比
+      //2 模板字+平均+占比
       Row({space: 10}){
         Column({space: 5}){
           Text('模板字')
 
           Column(){
-            Image(/*$r('app.media.KaitiChineseStroke_train_000000001548')*/this.wordAnalysis.template)
+            Image(this.wordAnalysis.template)
               .width(120)
               .height(120)
 
@@ -83,7 +80,7 @@ struct SingleDetailAnalysisPage {
       Text('来源练习')
         .width('90%')
 
-      //3练习记录
+      //3 练习记录
       if (this.wordAnalysis.record.length == 0) {
         Column(){
           Text('暂无练习')
@@ -189,7 +186,6 @@ struct SingleDetailAnalysisPage {
         console.log('Tags', '获取单字分析失败')
       })
 
-    // this.lineChart.series[0].data = this.wordAnalysis.score
   }
 
 

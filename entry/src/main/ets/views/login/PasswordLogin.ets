@@ -1,7 +1,5 @@
 import router from '@ohos.router'
-import UserInfo from '../../viewmodel/user/UserInfo'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
-import { Http } from '../../common/constants/Http'
 
 import InformationService from  '../../service/InformationService'
 import UserService from '../../service/UserService'
@@ -206,7 +204,6 @@ export default struct PasswordLogin {
   //用户持久化
   preferenceUser(userId: number, token: string) {
     console.log('MyPreferences', 'UserId', userId)
-    // user.name = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserName', '默认名') as string
     PreferencesUtil.putPreferenceValue('MyPreferences', 'UserId', userId)
 
     //token持久化

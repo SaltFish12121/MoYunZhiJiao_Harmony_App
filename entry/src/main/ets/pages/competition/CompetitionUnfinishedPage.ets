@@ -3,18 +3,17 @@ import Exercise_Upload from '../../views/exercise/exercise_detial/Exercise_Uploa
 import CompetitionService from '../../service/CompetitionService'
 import CompetitionDetailInfo from '../../viewmodel/CompetitionDetailInfo'
 import router from '@ohos.router'
-import SubmitWritingInfo from '../../viewmodel/exerciseDetial/SubmitWritingInfo'
-import PreferencesUtil from '../../common/utils/PreferencesUtil'
 import Cant_Connect from '../../views/Cant_Connect'
 import { imageUploadModule } from '../../model/ImageUploadModule'
 
+//未完成的竞赛
 @Entry
 @Component
 struct CompetitionUnfinishedPage {
   @State title: string = '基础笔画练习'
 
   @State competition: CompetitionDetailInfo = new CompetitionDetailInfo(0, '笔画练习（一）', '2024-8-11', '2024-8-30',
-    '行书', '际传存论青常照采照再八算何机话元。', /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'),
+    '行书', '际传存论青常照采照再八算何机话元。', 'https://dummyimage.com/120x240',
     [], 88, 18, '重在参与奖', '总体文章错误少，缺点笔峰不足，部分字连笔', false)
 
   @State success: boolean = false
@@ -29,7 +28,6 @@ struct CompetitionUnfinishedPage {
     Scroll(){
       Column({space: 10}){
         //1 头部
-        // Text('123')
         HeaderTitle({ title: this.title })
 
         if (this.ifConnect) {
@@ -40,7 +38,7 @@ struct CompetitionUnfinishedPage {
             Row({space: 30}){
               Text('截止日期')
 
-              Text(/*'2024-6-29 13：30'*/this.competition.finishTime)
+              Text(this.competition.finishTime)
             }
             .width('90%')
 
@@ -50,13 +48,15 @@ struct CompetitionUnfinishedPage {
               Row(){
                 Text('要求')
 
-                Text(/*'楷体'*/this.competition.typeface)
+                //字体
+                Text(this.competition.typeface)
               }
               .width('100%')
               .justifyContent(FlexAlign.SpaceBetween)
 
+              // 作业要求
               Column(){
-                Text(/*'作业要求'*/this.competition.require)
+                Text(this.competition.require)
                   .fontSize(12)
                   .width('95%')
                   .margin({top: 15, bottom: 15})
@@ -75,7 +75,7 @@ struct CompetitionUnfinishedPage {
                 .width('100%')
 
 
-              Image(/*$r('app.media.exercise_test1')*/this.competition.example)
+              Image(this.competition.example)
                 .width('90%')
                 .margin({top: 10 })
             }
@@ -85,7 +85,6 @@ struct CompetitionUnfinishedPage {
 
             //5上传作品
             Exercise_Upload({ exerciseId: $competitionId, content: $content })
-
 
           }
           .width('100%')
@@ -147,7 +146,6 @@ struct CompetitionUnfinishedPage {
 
       }
       .width('100%')
-      // .height('100%')
 
     }
     .width('100%')
@@ -192,23 +190,6 @@ struct CompetitionUnfinishedPage {
 
   }
 
-  // //提交竞赛
-  // async submitCompetition(){
-  //   let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
-  //   await CompetitionService.submitCompetition(userId, this.competition.id, this.content)
-  //     .then((success) => {
-  //       console.log('Tags', '获取竞赛详情成功')
-  //
-  //       this.success = success
-  //
-  //       console.log('Result', this.success)
-  //     })
-  //     .catch((error: string) => {
-  //       console.log('Tags', '获取竞赛详情失败', error)
-  //
-  //     })
-  //
-  // }
 }
 
 // 声明接受参数的类型

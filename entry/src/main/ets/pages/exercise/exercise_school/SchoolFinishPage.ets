@@ -1,16 +1,14 @@
 import router from '@ohos.router'
 import {  HeaderTitleTypeCollect } from '../../../common/components/CommonComponents'
-import { CommonConstants } from '../../../common/constants/CommonConstants'
 import Exercise_ShowDetail_Self from '../../../views/exercise/exercise_detial/Exercise_ShowDetail_Self'
 import Exercise_Top_School from '../../../views/exercise/exercise_detial/Exercise_Top_School'
-import ExerciseInfo from '../../../viewmodel/ExerciseInfo'
-import { ExerciseType } from '../../../viewmodel/ExerciseInfo'
 import ExerciseService from '../../../service/ExerciseService'
 
 import SchoolFinishExerciseDetailInfo from '../../../viewmodel/exerciseDetial/SchoolFinishExerciseDetailInfo'
 import SubmitWritingInfo from '../../../viewmodel/exerciseDetial/SubmitWritingInfo'
 import Cant_Connect from '../../../views/Cant_Connect'
 
+//学校完成
 @Entry
 @Component
 struct SchoolFinishPage {
@@ -20,7 +18,7 @@ struct SchoolFinishPage {
   (
     0, '笔画练习（一）', '个人', false, 4, 50, '行书', '专项-偏旁部首练习', '际传存论青常照采照再八算何机话元。', [],
     [
-      new SubmitWritingInfo(50, $r('app.media.exercise_test1'), [])
+      new SubmitWritingInfo(50, 'https://dummyimage.com/120x240', [])
     ], 88, '总体文章错误少，缺点笔峰不足，部分字连笔', '分学区话它样界出线先北统列程处。北资百长而场划包族系件期社革消引。因当发东理阶们样由商道处。至正活听加资目强后无白三验科。新革同拉飞可影验四际个的回身斯。书劳车主观个原提性反指本文委。'
   )
 
@@ -44,18 +42,18 @@ struct SchoolFinishPage {
           Exercise_Top_School({ exercise: $schoolFinish})
             .margin({bottom: 15})
 
-          //3详情
+          //3 详情
           Exercise_ShowDetail_Self({ exercise: $schoolFinish})
 
 
-          //4教师评语
+          //4 教师评语
           Column(){
             Text('教师评语')
               .width('100%')
 
             Column(){
               if (this.schoolFinish.teacherComment != null) {
-                Text(/*'教师评语内容'*/this.schoolFinish.teacherComment)
+                Text(this.schoolFinish.teacherComment)
                   .fontSize(12)
                   .width('95%')
                   .margin({top: 15, bottom: 15})
@@ -108,7 +106,6 @@ struct SchoolFinishPage {
 
 
   async onPageShow(){
-    console.log('show')
 
     const get = router.getParams() as PARAMS
 
@@ -123,14 +120,6 @@ struct SchoolFinishPage {
       //获取学校完成练习
       await this.getSchoolFinish()
     }
-
-  }
-
-  async aboutToAppear(){
-    console.log('appear')
-
-    //获取学校完成练习
-    // await this.getSchoolFinish()
 
   }
 
@@ -155,12 +144,10 @@ struct SchoolFinishPage {
         this.collectId = this.schoolFinish.id
         console.log('Result', this.exerciseType, this.schoolFinish.example)
         console.log('Result', this.schoolFinish.id, this.schoolFinish.title, this.schoolFinish.submit[0].submit)
-        // this.ifConnect = true
       })
       .catch((error: string) => {
         this.ifConnect = false
         console.log('Tags', '获取书法知识失败')
-        // this.ifConnect = false
       })
 
   }

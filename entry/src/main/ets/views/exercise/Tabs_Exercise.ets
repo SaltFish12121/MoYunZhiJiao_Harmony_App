@@ -4,9 +4,7 @@ import School_Exercise from './school_exercise/School_Exercise'
 import Self_Exercise from './self_exercise/Self_Exercise'
 import ExerciseService from  '../../service/ExerciseService'
 import ExerciseInfo from '../../viewmodel/ExerciseInfo'
-import { ExerciseType } from '../../viewmodel/ExerciseInfo'
 import ExcellentWorkInfo from '../../viewmodel/ExcellentWorkInfo'
-import { WorkType } from '../../viewmodel/ExcellentWorkInfo'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
 import Cant_Connect from '../Cant_Connect'
 
@@ -16,36 +14,11 @@ export default struct Tabs_Exercise {
 
   userId: number = 0
   //接收的数据
-  @State schoolFinishExercise: ExerciseInfo[] = [
-    /*
-    new ExerciseInfo(0,ExerciseType.schoolExercise, false, '笔画练习（一）', '2024-3-3', '', 0, true),
-    new ExerciseInfo(0,ExerciseType.schoolExercise, true, '将进酒', '2024-3-2', '', 0, true)
-    */
-  ]
-  @State schoolUnfinishExercise: ExerciseInfo[] = [
-    /*
-    new ExerciseInfo(0,ExerciseType.schoolExercise,false ,'笔画练习（一）', '2024-3-3', '', 0, false),
-    new ExerciseInfo(0,ExerciseType.schoolExercise,false ,'横折练习', '2024-3-2', '', 0, false)
-    */
-  ]
-  @State selfFinishExercise: ExerciseInfo[] = [
-    /*
-    new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(2)', '2024-3-3', '', 90, true),
-    new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(1)', '2024-3-2', '', 91, true)
-    */
-  ]
-  @State selfUnfinishExercise: ExerciseInfo[] = [
-    /*
-    new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(2)', '2024-3-3', '', 90, false),
-    new ExerciseInfo(0,ExerciseType.selfExercise,false ,'基础笔画练习(1)', '2024-3-2', '', 91, false)
-    */
-  ]
-  @State excellentExercise: ExcellentWorkInfo[] = [
-    /*
-    new ExcellentWorkInfo(0,WorkType.schoolWork, '','横折练习', '2024-3-3'),
-    new ExcellentWorkInfo(0,WorkType.competitionWork, '','第一次书法竞赛', '2024-3-2')
-    */
-  ]
+  @State schoolFinishExercise: ExerciseInfo[] = []
+  @State schoolUnfinishExercise: ExerciseInfo[] = []
+  @State selfFinishExercise: ExerciseInfo[] = []
+  @State selfUnfinishExercise: ExerciseInfo[] = []
+  @State excellentExercise: ExcellentWorkInfo[] = []
 
   @State ifConnect1: boolean = false
   @State ifConnect2: boolean = false
@@ -121,20 +94,6 @@ export default struct Tabs_Exercise {
       .onChange(async (index) => {
         this.currentIndex = index
 
-        /*
-        if (this.currentIndex == 0) {
-          await Promise.all([
-            //获取学校练习
-            this.getSchoolFinishExercise(),
-            this.getSchoolUnfinishExercise(),
-            //获取自我练习
-            this.getSelfFinishExercise(),
-            this.getSelfUnfinishExercise(),
-            //获取优秀作品
-            this.getExcellentExercise()
-          ]);
-        }
-        */
       })
     }
     .width('100%')

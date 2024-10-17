@@ -1,5 +1,6 @@
 import LabelInfo from '../viewmodel/LabelInfo'
 
+//标签列
 @Component
 export default struct LabelItem {
   Label : LabelInfo = new LabelInfo('123')

@@ -1,5 +1,5 @@
 import router from '@ohos.router';
-import { HeaderSearch, HeaderTitle } from '../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../../common/components/CommonComponents'
 import { Radical, radical } from '../../../data/Radical'
 
 //样式
@@ -9,6 +9,7 @@ import { Radical, radical } from '../../../data/Radical'
   .backgroundColor($r('app.color.start_window_background'))
 }
 
+//部首搜索
 @Entry
 @Component
 struct RadicalSearchPage {
@@ -20,12 +21,9 @@ struct RadicalSearchPage {
   build() {
     Column(){
 
-      //1头部
+      //1 头部
       Column(){
         HeaderTitle({ title: $title })
-
-        // Search()
-        //   .width('90%')
 
         Button('不选偏旁')
           .width('80%')
@@ -48,7 +46,7 @@ struct RadicalSearchPage {
       }
       .backgroundColor($r('app.color.start_window_background'))
 
-      //2笔画列表
+      //2 笔画列表
       Scroll(this.scroller){
         Column(){
           ForEach(
@@ -85,18 +83,14 @@ struct RadicalSearchPage {
                 Blank()
 
                 //划线
-                Divider()
-                  .height(1)
+                Divider().height(1)
               }
               .card()
 
             }
           )
 
-          Column(){
-
-          }
-          .height(200)
+          Column().height(200)
 
         }
       }

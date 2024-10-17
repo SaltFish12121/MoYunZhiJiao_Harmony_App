@@ -1,26 +1,23 @@
 import router from '@ohos.router'
-import { HeaderTitle, HeaderTitleCollect } from '../../common/components/CommonComponents'
-import Exercise_ShowDetail_Competition from '../../views/exercise/exercise_detial/Exercise_ShowDetail_Competition'
+import { HeaderTitle } from '../../common/components/CommonComponents'
 import CompetitionService from '../../service/CompetitionService'
 import CompetitionDetailInfo from '../../viewmodel/CompetitionDetailInfo'
-import CompetitionContentInfo from '../../viewmodel/exerciseDetial/CompetitionContentInfo'
 import Competition_ShowDetail_Finish from '../../views/competition/competiiton_detail/Competition_ShowDetail_Finish'
 import SubmitWritingInfo from '../../viewmodel/exerciseDetial/SubmitWritingInfo'
 import Cant_Connect from '../../views/Cant_Connect'
 
+//完成的竞赛
 @Entry
 @Component
 struct CompetitionFinishedPage {
 
   @State title: string = '基础笔画练习'
-  // @State ifCollect: boolean = false
-  // @State collectId: number = 0
   @State competitionId: number = 0
 
   @State competition: CompetitionDetailInfo = new CompetitionDetailInfo(0, '笔画练习（一）', '2024-8-11', '2024-8-30',
-    '行书', '际传存论青常照采照再八算何机话元。', /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'),
+    '行书', '际传存论青常照采照再八算何机话元。', 'https://dummyimage.com/120x240',
     [
-      new SubmitWritingInfo(50, /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'), [])
+      new SubmitWritingInfo(50, 'https://dummyimage.com/120x240', [])
     ], 88, 18, '重在参与奖', '总体文章错误少，缺点笔峰不足，部分字连笔', false)
 
   @State ifConnect: boolean = false
@@ -42,14 +39,16 @@ struct CompetitionFinishedPage {
                 Text('要求')
                   .textAlign(TextAlign.Start)
 
-                Text(/*'楷体'*/this.competition.typeface)
+                //字体
+                Text(this.competition.typeface)
               }
               .justifyContent(FlexAlign.SpaceBetween)
               .width('100%')
 
 
+              ///作业要求
               Column(){
-                Text(/*'作业要求'*/this.competition.require)
+                Text(this.competition.require)
                   .fontSize(12)
                   .width('95%')
                   .margin({top: 15, bottom: 15})
@@ -68,7 +67,7 @@ struct CompetitionFinishedPage {
                 .width('100%')
 
 
-              Image(/*$r('app.media.exercise_test1')*/this.competition.example)
+              Image(this.competition.example)
                 .width('90%')
             }
             .width('90%')

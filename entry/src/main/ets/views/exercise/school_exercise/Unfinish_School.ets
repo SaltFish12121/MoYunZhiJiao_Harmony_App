@@ -3,7 +3,6 @@ import { CommonConstants } from '../../../common/constants/CommonConstants'
 import ExerciseItem from '../../../viewitem/ExerciseItem'
 import ExerciseInfo from '../../../viewmodel/ExerciseInfo'
 import ExerciseService from  '../../../service/ExerciseService'
-import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 
 @Extend(ListItem) function exercise_List(){
   .width('95%')
@@ -71,7 +70,6 @@ export default struct Unfinish_School {
           this.isLoading = true
           // 翻页
           this.pageNum++
-          // page = ShopModel.pageNo
           this.getSchoolExercise()
         }
       })
@@ -84,8 +82,6 @@ export default struct Unfinish_School {
 
   //获取学校作业
   async getSchoolExercise(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     ExerciseService.getSchoolExercise('unfinish', this.pageNum)
       .then((exercise: ExerciseInfo[]) => {
@@ -105,8 +101,6 @@ export default struct Unfinish_School {
 
   //获取学校作业
   async getSchoolExercise2(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     ExerciseService.getSchoolExercise('unfinish', this.pageNum)
       .then((exercise: ExerciseInfo[]) => {

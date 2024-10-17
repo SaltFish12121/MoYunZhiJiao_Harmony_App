@@ -1,7 +1,6 @@
 import router from '@ohos.router'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 import VideoInfo from '../../../viewmodel/VideoListInfo'
-import LabelInfo from '../../../viewmodel/LabelInfo'
 import VideoItem from '../../../viewitem/VideoItem'
 
 @Extend(Row) function videoShow_List(){

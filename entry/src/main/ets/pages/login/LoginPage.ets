@@ -1,11 +1,13 @@
 import router from '@ohos.router'
+
+//登录
 @Entry
 @Component
 struct LoginPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       Row(){
         Column(){
           Image($r('app.media.close'))
@@ -27,7 +29,7 @@ struct LoginPage {
       .height(59)
       .width('95%')
 
-      //2内容
+      //2 内容
       Column(){
         Text($r('app.string.app_name'))
           .fontSize(28)
@@ -39,7 +41,7 @@ struct LoginPage {
       }
 
 
-      //3按钮
+      //3 按钮
       Column({space: 40}){
         Button('学校用户')
           .width('80%')

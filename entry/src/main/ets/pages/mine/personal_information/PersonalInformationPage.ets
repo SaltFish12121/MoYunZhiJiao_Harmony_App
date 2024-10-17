@@ -6,7 +6,6 @@ import RegionInfo from '../../../viewmodel/user/RegionInfo'
 import KlassInfo from '../../../viewmodel/user/KlassInfo'
 import router from '@ohos.router'
 import UserService from '../../../service/UserService'
-import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 
 @Extend(Column) function content_formant(){
   .borderRadius(CommonConstants.DEFAULT_20)
@@ -26,7 +25,7 @@ struct PersonalInformationPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       Header({ isOutControl: true})
         .width('100%')
         .onClick(() => {
@@ -41,7 +40,7 @@ struct PersonalInformationPage {
           )
         })
 
-      //2信息
+      //2 信息
       Stack({ alignContent: Alignment.TopStart }) {
 
         Column(){
@@ -63,7 +62,7 @@ struct PersonalInformationPage {
 
 
 
-        Image(/*$r('app.media.userhead_example2')*/this.userPersonal.otherName)
+        Image(this.userPersonal.otherName)
           .height(100)
           .width(100)
           .clip(true)
@@ -82,27 +81,12 @@ struct PersonalInformationPage {
   }
 
 
-  onPageShow(){
-    /*
-    const user = router.getParams()
-    console.log(`user = ${user['data']}`)
-    if (user['ifSuccess'] == 1) {
-      this.userPersonal = user['data']
-    }
-
-    console.log(`user.gender = ${user['gender']}`)
-    if (user['gender'] != null) {
-      this.userPersonal.gender = user['gender']
-    }
-    */
-
-    this.getPersonalInformation()
+  async onPageShow(){
+    await this.getPersonalInformation()
   }
 
   //获取个人信息
   async getPersonalInformation(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     UserService.getPersonal()
       .then((user) => {

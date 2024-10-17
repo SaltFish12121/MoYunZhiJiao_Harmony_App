@@ -5,10 +5,18 @@ import UserService from '../../../../service/UserService'
 import UserDBService from '../../../../DBservice/UserDBService'
 import PreferencesUtil from '../../../../common/utils/PreferencesUtil'
 
+const TOTAL_COUNT = 30
+
 //修改手机号
 @Entry
 @Component
 struct ModifyMobilePhonePage {
+  @State count: number = TOTAL_COUNT
+  timerId: number = -1
+  isPaused: boolean = false
+  isBack: boolean = false
+  @State buttonText: string = '获取验证码'
+
   userId: number = 0
   @State title: string = '手机号'
 
@@ -19,12 +27,12 @@ struct ModifyMobilePhonePage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
       Divider()
 
-      //2输入
+      //2 手机号输入
       Column(){
         Column(){
           TextInput({placeholder: '请输入新手机号'})
@@ -41,7 +49,7 @@ struct ModifyMobilePhonePage {
         .height(70)
 
 
-
+        //验证码的输入
         Column() {
           Row() {
             TextInput({ placeholder: '请输入验证码' })
@@ -51,15 +59,22 @@ struct ModifyMobilePhonePage {
                 this.verify = v
               })
 
-            Text('获取验证码')
-              .width('25%')
-              .fontColor($r('app.color.blue'))
+            Button(this.buttonText)
+              .enabled(this.count === TOTAL_COUNT)
+              .backgroundColor($r('app.color.button1'))
+              .fontColor($r('app.color.start_window_background'))
+              .margin({right: 5})
+              .width(95)
+              .fontSize(12)
               .onClick(async () => {
 
                 //发送手机号获取验证码，进入重发倒计时
-                if (this.newPhoneNumber != '') {
+                if (this.newPhoneNumber != '' && this.newPhoneNumber.length === 11) {
+                  this.startTimer()
                   await this.getVerify()
-
+                  AlertDialog.show({
+                    message: '验证码已发送'
+                  })
                 } else {
                   AlertDialog.show({
                     message: '手机号格式不正确',
@@ -69,12 +84,8 @@ struct ModifyMobilePhonePage {
                     }
                   })
                 }
-
-
               })
-
           }
-
 
 
           Divider()
@@ -88,7 +99,7 @@ struct ModifyMobilePhonePage {
       .margin({top: 40})
 
 
-      //3完成按钮
+      //3 完成按钮
       Button('完成')
         .margin({top: 40})
         .type(ButtonType.Normal)
@@ -106,26 +117,21 @@ struct ModifyMobilePhonePage {
             if (this.success) {
               UserDBService.updateUserColumnById(this.userId, 'phoneNumber', this.newPhoneNumber)
               console.log('DB', 'update', this.userId, 'phoneNumber', this.newPhoneNumber)
-
-              router.back(
-                {
-                  url: 'pages/mine/mine_set/account_management/AccountManagementPage',
-                  params: {
-                    phoneNumber: this.newPhoneNumber,
-                  }
-                }
-              )
-              /*
               AlertDialog.show({
                 message: '手机号更改成功',
                 confirm: {
                   value: '确定',
                   action: ()=>{
-                    router.back()
+                    router.back({
+                        url: 'pages/mine/mine_set/account_management/AccountManagementPage',
+                        params: {
+                          phoneNumber: this.newPhoneNumber,
+                        }
+                    })
                   }
                 }
               })
-              */
+
             } else {
               AlertDialog.show({
                 message: '手机号更改失败',
@@ -154,9 +160,48 @@ struct ModifyMobilePhonePage {
   }
 
   async onPageShow(){
-    this.userId = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserId', 0) as number
-    this.userId = 32
+    this.userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
+    !this.isBack && this.resumeTimer()
   }
+
+
+  onPageHide(): void {
+    this.pauseTimer()
+  }
+
+  aboutToDisappear(): void {
+    clearInterval(this.timerId)
+    this.buttonText = '获取验证码'
+  }
+
+  startTimer() {
+    this.timerId = setInterval(() => {
+      this.count--
+      this.buttonText = `${this.count}s`
+      this.isBack = false
+      if (this.count < 0) {
+        clearInterval(this.timerId)
+        this.buttonText = '获取验证码'
+        this.count = TOTAL_COUNT
+      }
+    }, 1000)
+  }
+
+  pauseTimer() {
+    if (!this.isPaused) {
+      this.isPaused = true;
+      clearInterval(this.timerId)
+      this.buttonText = '获取验证码'
+    }
+  }
+
+  resumeTimer() {
+    if (this.isPaused) {
+      this.isPaused = false
+      this.startTimer()
+    }
+  }
+
 
   //获取手机验证码
   getVerify(){

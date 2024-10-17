@@ -1,12 +1,11 @@
 import router from '@ohos.router'
-import {  HeaderSearch, HeaderTitle } from '../../../common/components/CommonComponents'
+import { HeaderTitle } from '../../../common/components/CommonComponents'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 import CompetitionInformItem from '../../../viewitem/CompetitionInformItem'
 import CompetitionInformInfo from  '../../../viewmodel/CompetitionInformInfo'
 import InformationService from  '../../../service/InformationService'
 
 @Extend(Column) function exercise_List(){
-  // .margin({left: 10, bottom: 5})
   .width('95%')
   .borderRadius(CommonConstants.DEFAULT_10)
   .shadow({
@@ -111,7 +110,6 @@ struct CalligraphyCompetitionPage {
                       .height(100)
                       .exercise_List()
                       .onClick(() => {
-                        // console.log(`competition=${this.competition.title}`)
 
                         router.pushUrl(
                           {

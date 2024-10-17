@@ -1,5 +1,6 @@
 import ExerciseAnalysisInfo from '../viewmodel/analysis/ExerciseAnalysisInfo'
 
+//练习分析列
 @Component
 export default struct ExerciseAnalysisItem {
   exerciseAnalysis: ExerciseAnalysisInfo = new ExerciseAnalysisInfo(0, false, '', '', 0)
@@ -22,7 +23,6 @@ export default struct ExerciseAnalysisItem {
     .justifyContent(FlexAlign.SpaceBetween)
     .width('90%')
     .height(75)
-    // .backgroundColor($r('app.color.start_window_background'))
 
   }
 }

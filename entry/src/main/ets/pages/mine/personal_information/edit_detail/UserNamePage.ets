@@ -19,7 +19,7 @@ struct UserNamePage {
   build() {
     Column(){
       Column(){
-        //1头部
+        //1 头部
         Stack({ alignContent: Alignment.TopEnd }){
           HeaderTitle({ title: $title })
 

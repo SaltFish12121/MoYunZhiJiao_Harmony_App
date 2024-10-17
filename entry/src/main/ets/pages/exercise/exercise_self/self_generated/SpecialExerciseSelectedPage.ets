@@ -25,15 +25,11 @@ import WordListInfo from '../../../../viewmodel/WordListInfo'
   })
 }
 
+//专项所选字检查
 @Entry
 @Component
 struct SpecialExerciseSelectedPage {
-  // @State arr: number[] = [0, 1, 2, 3, 4, 5, 6/*, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19*/]
   @State currentBp: string = 'unknown'
-
-  // @State color1: ResourceStr = $r('app.color.button1')
-  // @State color2: ResourceStr = $r('app.color.gray')
-  // @State color: ResourceStr[] = []
 
   @State ifEdit: boolean = false
 
@@ -46,12 +42,12 @@ struct SpecialExerciseSelectedPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
-      //2内容
+      //2 内容
       Column({space: 15}){
-        //提示
+        //2.1 提示
         Row(){
           Text('所选样例字')
 
@@ -72,7 +68,7 @@ struct SpecialExerciseSelectedPage {
         .width('100%')
 
 
-        //选的字
+        //2.2 选的字
         GridRow({
           columns: 4,
           gutter: { x: 5, y: 10 },
@@ -94,7 +90,7 @@ struct SpecialExerciseSelectedPage {
                   Stack({alignContent: Alignment.TopEnd}){
 
                     Row() {
-                      Image(/*$r('app.media.KaitiChineseStroke_val_000000000041')*/selectWord.template)
+                      Image(selectWord.template)
                         .sourceSize({width: 70, height: 70})
                         .width('80%')
                         .height('80%')
@@ -119,19 +115,13 @@ struct SpecialExerciseSelectedPage {
                     this.selectNumber--
                   })
 
-
-
                 }
-                // .backgroundColor(this.color2)
-                // .word_card()
-                // .borderWidth(1)
-                // .borderColor($r('app.color.mid_gray'))
 
               } else {
                 //未编辑
 
                 Row() {
-                  Image(/*$r('app.media.KaitiChineseStroke_val_000000000041')*/selectWord.template)
+                  Image(selectWord.template)
                     .sourceSize({width: 70, height: 70})
                     .width('80%')
                     .height('80%')
@@ -144,16 +134,6 @@ struct SpecialExerciseSelectedPage {
 
 
             }
-            /*
-            .onClick(() => {
-              if (this.color[item] != this.color1) {
-                this.color[item] = this.color1
-              } else {
-                this.color[item] = this.color2
-              }
-
-            })
-            */
 
           })
         }
@@ -165,7 +145,7 @@ struct SpecialExerciseSelectedPage {
       .width('90%')
 
 
-      //3按钮
+      //3 按钮
       Row(){
         Column(){
           Text('取消')

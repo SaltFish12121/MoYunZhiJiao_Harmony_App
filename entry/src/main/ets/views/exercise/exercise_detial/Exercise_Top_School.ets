@@ -28,13 +28,13 @@ export default struct Exercise_Top_School {
             Text('字数')
               .fontSize(14)
 
-            Text(/*'50'*/`${this.exercise.wordNumber}`)
+            Text(`${this.exercise.wordNumber}`)
               .fontSize(14)
           }
           .width('15%')
 
           Row(){
-            Text(/*'楷体'*/this.exercise.typeface)
+            Text(this.exercise.typeface)
               .fontSize(14)
           }
           .alignItems(VerticalAlign.Center)
@@ -43,7 +43,7 @@ export default struct Exercise_Top_School {
 
 
           Row(){
-            Text(/*'专项-偏旁部首练习'*/this.exercise.type)
+            Text(this.exercise.type)
               .fontSize(14)
           }
           .margin({right: -10})
@@ -63,7 +63,7 @@ export default struct Exercise_Top_School {
             .textAlign(TextAlign.Start)
 
           Column(){
-            Text(/*'作业要求'*/`${this.exercise.require}`)
+            Text(`${this.exercise.require}`)
               .fontSize(12)
               .width('95%')
               .margin({top: 15, bottom: 15})
@@ -86,7 +86,7 @@ export default struct Exercise_Top_School {
             Row(){
               ForEach(this.exercise.example,
                 (example: string) => {
-                  Image(/*$r('app.media.exercise_test1')*/example)
+                  Image(example)
                     .width('90%')
                 }
               )

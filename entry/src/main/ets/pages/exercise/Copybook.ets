@@ -1,11 +1,12 @@
 import router from '@ohos.router'
 import { HeaderTitle } from '../../common/components/CommonComponents'
 import SystemTemplateInfo from '../../viewmodel/SystemTemplateInfo'
-import { TemplateType, TypefaceType } from '../../viewmodel/SystemTemplateInfo'
+import { TemplateType } from '../../viewmodel/SystemTemplateInfo'
 import ExerciseService from '../../service/ExerciseService'
 import CreateExerciseDialog from '../../views/exercise/CreateExerciseDialog'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
 
+//字帖
 @Entry
 @Component
 struct Copybook {
@@ -43,12 +44,12 @@ struct Copybook {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title})
 
 
       Column(){
-        //2样例
+        //2 样例
         Column(){
 
           Row(){
@@ -86,7 +87,7 @@ struct Copybook {
         .width('90%')
 
 
-        //3选择
+        //3 选择
         Column(){
           Text('选择')
             .fontSize(20)
@@ -102,8 +103,6 @@ struct Copybook {
           //创建练习
           this.controller.open()
 
-          // router.back()
-          // router.back()
         })
 
       }
@@ -137,8 +136,7 @@ struct Copybook {
 
   //创建练习
   async createExercise(e: string){
-    // let userId = 1
-    let userId = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserId', 0) as number
+    let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await ExerciseService.createExercise(userId, e, this.template.typeface, this.template.content, '已完成')
       .then((success) => {

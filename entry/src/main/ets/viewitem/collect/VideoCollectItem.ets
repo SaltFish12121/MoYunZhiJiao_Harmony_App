@@ -1,6 +1,7 @@
 import router from '@ohos.router'
 import VideoInfo from '../../viewmodel/VideoListInfo'
 
+//收藏视频列
 @Component
 export default struct VideoCollectItem {
   video: VideoInfo = new VideoInfo(0, '', '', '', '')
@@ -12,8 +13,6 @@ export default struct VideoCollectItem {
           .fontSize(19)
 
         Row({space: 10}){
-          // Text(`${this.knowledge.viewNumber}阅读`)
-          //   .fontSize(12)
 
           Text(this.video.time)
             .fontSize(12)
@@ -42,9 +41,10 @@ export default struct VideoCollectItem {
     .width('95%')
     .height(100)
     .onClick(() => {
+      //跳转视频详情
       router.pushUrl(
         {
-          url: 'pages/mainpage/calligraphy_teachingVideo/TeachingVideoDetialPage',
+          url: 'pages/mainpage/calligraphy_teachingVideo/TeachingVideoDetailPage',
           params: {
             video: this.video
           }

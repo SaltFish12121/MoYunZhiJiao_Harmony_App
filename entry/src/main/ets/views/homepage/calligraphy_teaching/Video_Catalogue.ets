@@ -1,10 +1,7 @@
-import VideoCollectionInfo from '../../../viewmodel/VideoCollectionInfo'
 import VideoInfo from '../../../viewmodel/VideoInfo'
 import VideoContentInfo from  '../../../viewmodel/VideoContentInfo'
 import InformationService from '../../../service/InformationService'
 
-
-let Arr = 0
 
 @Component
 export default struct Video_Catalogue {
@@ -26,21 +23,20 @@ export default struct Video_Catalogue {
             Column(){
               Column(){
                 Row({space: 10}){
-                  // Text(VideoInfo)
 
                   Text(''+this.arr[arr])
 
-                  Text(/*'楷书教学视频'*/sonVideo.title)
+                  Text(sonVideo.title)
                 }
                 .height('50%')
                 .alignItems(VerticalAlign.Center)
 
                 Row(){
-                  Text(/*'60分钟'*/sonVideo.playTime)
+                  Text(sonVideo.playTime)
                     .fontSize(12)
                     .fontColor($r('app.color.text_gray'))
 
-                  Text('播放量'+/*'20w+'*/sonVideo.playAmount)
+                  Text('播放量'+sonVideo.playAmount)
                     .fontSize(12)
                     .fontColor($r('app.color.text_gray'))
                 }
@@ -69,10 +65,7 @@ export default struct Video_Catalogue {
           }
         )
 
-        Column(){
-
-        }
-        .height(50)
+        Column().height(50)
 
       }
       .width('100%')

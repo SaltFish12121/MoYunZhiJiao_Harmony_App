@@ -26,7 +26,7 @@ import UserService from '../../service/UserService'
 @Component
 export default struct Tabs_Mine {
 
-  @Link userPersonal: UserInfo/* = new UserInfo( 0, '王小明', '202283290123', '123456', new RegionInfo(1, '南京'), '男', '', new KlassInfo(0, '（1）', '盘城小学', '一年级', '李梅'), '18912345678', '123456789@qq.com', '', true)*/
+  @Link userPersonal: UserInfo
 
 
   build() {
@@ -342,31 +342,26 @@ export default struct Tabs_Mine {
         }
         .content_formant()
         .onClick(() => {
-          router.pushUrl(
-            {
+          if (this.userPersonal.phoneNumber != null && this.userPersonal.email != null) {
+            router.pushUrl({
               url: 'pages/mine/mine_set/MineSetPage',
               params: {
                 phoneNumber: this.userPersonal.phoneNumber,
                 email: this.userPersonal.email
               }
-            }
-          )
+            })
+          } else {
+            router.pushUrl({
+              url: 'pages/mine/mine_set/MineSetPage',
+              params: {
+                phoneNumber: '',
+                email: ''
+              }
+            })
+          }
+
         })
 
-        /*
-        // 测试图片上传
-        Column(){
-          Text('测试图片上传')
-        }
-          .content_formant()
-          .onClick(() => {
-            router.pushUrl(
-              {
-                url: 'pages/UploadImg'
-              }
-            )
-          })
-        */
 
       }
       .margin({top: 20})

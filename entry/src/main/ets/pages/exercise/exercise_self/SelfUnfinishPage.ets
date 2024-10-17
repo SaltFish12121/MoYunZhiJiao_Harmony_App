@@ -1,13 +1,14 @@
 import router from '@ohos.router'
 import {  HeaderTitle } from '../../../common/components/CommonComponents'
 import Exercise_Top_Self from '../../../views/exercise/exercise_detial/Exercise_Top_Self'
-// import Exercise_Upload from '../../../views/exercise/exercise_detial/Exercise_Upload'
 import SelfUnfinishExerciseDetailInfo from '../../../viewmodel/exerciseDetial/SelfUnfinishExerciseDetailInfo'
 import ExerciseService from '../../../service/ExerciseService'
 import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 import Cant_Connect from '../../../views/Cant_Connect'
 import { imageUploadModule } from '../../../model/ImageUploadModule'
+import Exercise_Upload from '../../../views/exercise/exercise_detial/Exercise_Upload'
 
+//自我未完成
 @Entry
 @Component
 struct SelfUnfinishPage {
@@ -19,17 +20,11 @@ struct SelfUnfinishPage {
   @State exerciseId: number = 0
   @State selfUnfinish: SelfUnfinishExerciseDetailInfo = new SelfUnfinishExerciseDetailInfo(0, '笔画练习（一）', false,
     '行书',
-    '际传存论青常照采照再八算何机话元。', ['https://dummyimage.com/120x240'],
-    [
-      /*'https://dummyimage.com/120x240'*/
-    ])
+    '际传存论青常照采照再八算何机话元。', ['https://dummyimage.com/120x240'], [])
 
   @State ifConnect: boolean = false
   @State ifUpload: boolean = false
-  // @State content: ResourceStr[] = []
-
-  @State selectedPaths: string[] | null = null
-  @State filesPaths: string[] = []
+  @State content: string[] = []
 
 
   build(){
@@ -42,75 +37,13 @@ struct SelfUnfinishPage {
           //2 内容
           Exercise_Top_Self({ selfExercise: $selfUnfinish })
 
-          //3上传作品
-          // Exercise_Upload({ exerciseId: this.exerciseId, content: this.content })
-          Column({space: 10}){
-
-            Text('上传作品')
-              .width('100%')
-
-            if (this.filesPaths.length != 0) {
-              List(){
-                ListItem().height(20)
-
-                ForEach(
-                  this.filesPaths,
-                  (filesPaths: string) => {
-                    ListItem(){
-                      Image(filesPaths) // 使用 URI 显示图片
-                        .width(250)
-                        .height(300)
-                        .margin({ top: '10' })
-                    }
-                  }
-                )
-              }
-              .width('90%')
-              .height(177)
-            }
-
-            Row(){
-
-              Row({space: 10}){
-                Image($r('app.media.camera'))
-                  .width(20)
-                  .margin({left: 8})
-
-                Text('上传图片')
-              }
-              .width(110)
-              .height(32)
-              .border({ width: 1, color: $r('app.color.text_gray'), radius: 5, style: BorderStyle.Solid })
-              .onClick(async () => {
-                try {
-                  // 选择图片
-                  const selectedPaths = await imageUploadModule.pickerAvatar(5);
-                  console.log('ImageFile', '选择的图片路径:', selectedPaths);
-                  this.selectedPaths = selectedPaths;
-                  this.filesPaths = selectedPaths
-
-                  console.log('ImageFile', 'filesPaths', this.filesPaths);
-
-                } catch (error) {
-                  console.error('ImageFile', '选择或上传图片出错:', error);
-                }
-
-              })
-
-            }
-            .margin({top: 30})
-            .width('100%')
-            .alignItems(VerticalAlign.Center)
-            .justifyContent(FlexAlign.Center)
-
-          }
-          .width('90%')
-          .margin({top: 30, bottom: 60})
+          //3 上传作品
+          Exercise_Upload({ exerciseId: this.exerciseId, content: $content })
 
 
-          //4关闭
+          //4 关闭
           Row({space: 20}){
-            // 1关闭
+            //4.1 关闭
             Column(){
               Text('关闭')
                 .fontSize(20)
@@ -125,18 +58,18 @@ struct SelfUnfinishPage {
             .border({ width: 1, color: $r('app.color.text_gray'), radius: 10, style: BorderStyle.Solid })
 
 
-            // 2提交
+            //4.2 提交
             if (true) {
               Column(){
                 Text('提交')
                   .fontSize(20)
                   .onClick(async () => {
 
-                    console.log('ImageFile', 'filesPaths', this.filesPaths, this.exerciseId)
+                    console.log('ImageFile', 'filesPaths', this.content, this.exerciseId)
 
                     try {
                       // 上传图片
-                      const uploadedPaths = await imageUploadModule.prepareUpload(`/ExerciseService/uploadExercise/${this.exerciseId}`, "image", this.filesPaths);
+                      const uploadedPaths = await imageUploadModule.prepareUpload(`/ExerciseService/uploadExercise/${this.exerciseId}`, "image", this.content);
                       console.log('ImageFile', '上传的图片路径:', uploadedPaths);
 
                       // 上传成功
@@ -220,7 +153,7 @@ struct SelfUnfinishPage {
         this.ifConnect = true
 
         if (this.selfUnfinish.submit.length != 0) {
-          this.filesPaths = this.selfUnfinish.submit
+          this.content = this.selfUnfinish.submit
         }
 
         this.title = this.selfUnfinish.title

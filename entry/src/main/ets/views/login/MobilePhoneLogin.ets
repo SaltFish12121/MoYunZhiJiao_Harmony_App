@@ -1,6 +1,5 @@
 import router from '@ohos.router'
 import PreferencesUtil from '../../common/utils/PreferencesUtil'
-import { Http } from '../../common/constants/Http'
 
 import InformationService from  '../../service/InformationService'
 import UserService from '../../service/UserService'
@@ -8,8 +7,17 @@ import ExerciseService from '../../service/ExerciseService'
 import CompetitionService from '../../service/CompetitionService'
 import LoginService from '../../service/LoginService'
 
+const TOTAL_COUNT = 30
+
+//验证码登录
 @Component
 export default struct MobilePhoneLogin {
+  @State count: number = TOTAL_COUNT
+  timerId: number = -1
+  isPaused: boolean = false
+  isBack: boolean = false
+  @State buttonText: string = '获取验证码'
+
   @State userId: number = 0
   @State phoneNumber: string = ''
   @State verify: string = ''
@@ -49,14 +57,20 @@ export default struct MobilePhoneLogin {
               this.verify = v
             })
 
-          Button('获取验证码')
+          Button(this.buttonText)
+            .enabled(this.count === TOTAL_COUNT)
             .backgroundColor($r('app.color.button1'))
+            .fontColor($r('app.color.start_window_background'))
             .margin({ top: -20, right: 20 })
-            .onClick(() => {
+            .onClick(async() => {
 
               //发送手机号获取验证码，进入重发倒计时
               if (this.phoneNumber != '' && this.phoneNumber.length === 11) {
-                this.getVerify()
+                this.startTimer()
+                await this.getVerify()
+                AlertDialog.show({
+                  message: '验证码已发送'
+                })
               } else {
                 AlertDialog.show({
                   message: '手机号格式错误',
@@ -245,10 +259,50 @@ export default struct MobilePhoneLogin {
     }
   }
 
+  async onPageShow(){
+    !this.isBack && this.resumeTimer()
+  }
+
+  onPageHide(): void {
+    this.pauseTimer()
+  }
+
+  aboutToDisappear(): void {
+    clearInterval(this.timerId)
+    this.buttonText = '获取验证码'
+  }
+
+  startTimer() {
+    this.timerId = setInterval(() => {
+      this.count--
+      this.buttonText = `${this.count}s`
+      this.isBack = false
+      if (this.count < 0) {
+        clearInterval(this.timerId)
+        this.buttonText = '获取验证码'
+        this.count = TOTAL_COUNT
+      }
+    }, 1000)
+  }
+
+  pauseTimer() {
+    if (!this.isPaused) {
+      this.isPaused = true;
+      clearInterval(this.timerId)
+      this.buttonText = '获取验证码'
+    }
+  }
+
+  resumeTimer() {
+    if (this.isPaused) {
+      this.isPaused = false
+      this.startTimer()
+    }
+  }
+
   //用户持久化
   preferenceUser(userId: number, token: string) {
     console.log('MyPreferences', 'UserId', userId)
-    // user.name = await PreferencesUtil.getPreferenceValue('MyPerferences', 'UserName', '默认名') as string
     PreferencesUtil.putPreferenceValue('MyPreferences', 'UserId', userId)
 
     //token持久化

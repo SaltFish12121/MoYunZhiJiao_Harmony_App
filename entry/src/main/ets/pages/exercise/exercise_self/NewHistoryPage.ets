@@ -1,11 +1,8 @@
-import router from '@ohos.router'
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import { CommonConstants } from '../../../common/constants/CommonConstants'
 import SystemCopybookItem from '../../../viewitem/SystemCopybookItem'
 import SystemTemplateInfo from '../../../viewmodel/SystemTemplateInfo'
-import { TemplateType, TypefaceType } from '../../../viewmodel/SystemTemplateInfo'
 import ExerciseService from '../../../service/ExerciseService'
-import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 import Cant_Connect from '../../../views/Cant_Connect'
 
 @Extend(ListItem) function exercise_List(){
@@ -19,16 +16,11 @@ import Cant_Connect from '../../../views/Cant_Connect'
   })
 }
 
-
+//已有练习
 @Entry
 @Component
 struct NewHistoryPage {
-  @State exercise: SystemTemplateInfo[] = [
-    /*
-    new SystemTemplateInfo(0,TemplateType.alreadyType,'基础笔画练习(2)', '2024-3-3',TypefaceType.KaiTi),
-    new SystemTemplateInfo(0,TemplateType.alreadyType,'基础笔画练习(1)', '2024-3-2',TypefaceType.KaiTi)
-    */
-  ]
+  @State exercise: SystemTemplateInfo[] = []
   @State title: string = '已有练习'
   @State pageNum: number = 1
   isLoading: boolean = false//是否正在加载
@@ -38,10 +30,11 @@ struct NewHistoryPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
       if (this.ifConnect) {
+        //2 已有练习列表
         List({space: 10}){
           ListItem().height(5)
 
@@ -69,7 +62,6 @@ struct NewHistoryPage {
             this.isLoading = true
             // 翻页
             this.pageNum++
-            // page = ShopModel.pageNo
             this.getHistoryExercise2()
           }
         })
@@ -91,32 +83,28 @@ struct NewHistoryPage {
 
   //获取已有练习
   async getHistoryExercise(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await ExerciseService.getExistExercise(this.pageNum)
       .then((exercise: SystemTemplateInfo[]) => {
-        console.log('Tags', '获取系统字帖成功')
+        console.log('Tags', '获取已有练习成功')
 
         this.exercise = exercise
 
-        console.log('Result', '系统模板', this.exercise[0].title, this.exercise[0].type)
+        console.log('Result', '已有练习', this.exercise[0].title, this.exercise[0].type)
         this.ifConnect = true
       })
       .catch((error: string) => {
-        console.log('Tags', '获取系统字帖失败', error)
+        console.log('Tags', '获取已有练习失败', error)
         this.ifConnect = false
       })
   }
 
   //获取已有练习
   async getHistoryExercise2(){
-    // let userId = 1
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await ExerciseService.getExistExercise(this.pageNum)
       .then((exercise: SystemTemplateInfo[]) => {
-        console.log('Tags', '获取系统字帖成功')
+        console.log('Tags', '获取已有练习成功')
 
         //拼接
         this.exercise = this.exercise.concat(exercise)
@@ -125,11 +113,11 @@ struct NewHistoryPage {
           this.isMore = false
         }
 
-        console.log('Result', '系统模板', this.exercise[0].title, this.exercise[0].type)
+        console.log('Result', '已有练习', this.exercise[0].title, this.exercise[0].type)
         this.ifConnect = true
       })
       .catch((error: string) => {
-        console.log('Tags', '获取系统字帖失败', error)
+        console.log('Tags', '获取已有练习失败', error)
         this.ifConnect = false
       })
   }

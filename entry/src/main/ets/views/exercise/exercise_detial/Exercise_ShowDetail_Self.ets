@@ -17,7 +17,7 @@ export default struct Exercise_ShowDetail_Self {
             ForEach(
               this.exercise.submit,
               (submit: SubmitWritingInfo) => {
-                Image(/*$r('app.media.exercise_test1')*/submit.submit)
+                Image(submit.submit)
                   .width('100%')
                   .height(250)
                   .onClick(() => {
@@ -33,19 +33,6 @@ export default struct Exercise_ShowDetail_Self {
               }
             )
 
-            /*
-            Image($r('app.media.exercise_test1'))
-              .width('100%')
-              .height(250)
-              .onClick(() => {
-                router.pushUrl(
-                  {
-                    url: 'pages/exercise/exercise_detail/ExerciseDetailPage'
-                  }
-                )
-              })
-            */
-
           }
 
         }
@@ -59,7 +46,7 @@ export default struct Exercise_ShowDetail_Self {
             Text('系统综合评分')
               .fontSize(18)
 
-            Text(/*'90'*/`${this.exercise.score}`)
+            Text(`${this.exercise.score}`)
               .fontSize(18)
               .fontColor($r('app.color.text_red'))
           }
@@ -71,7 +58,7 @@ export default struct Exercise_ShowDetail_Self {
               .width('100%')
 
             Column(){
-              Text(/*'总体文章错误少，缺点笔峰不足，部分字连笔'*/this.exercise.systemComment)
+              Text(this.exercise.systemComment)
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
                 .maxLines(10)
                 .fontSize(12)

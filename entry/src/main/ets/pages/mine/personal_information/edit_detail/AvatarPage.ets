@@ -1,6 +1,5 @@
 import router from '@ohos.router'
 import { Header_close_2 } from '../../../../common/components/CommonComponents'
-import UserService from '../../../../service/UserService'
 import PreferencesUtil from '../../../../common/utils/PreferencesUtil'
 import { imageUploadModule } from '../../../../model/ImageUploadModule'
 
@@ -18,25 +17,18 @@ struct AvatarPage {
   build() {
     Scroll(){
       Column(){
-        //1头部
+        //1 头部
         Header_close_2({ avatar: $avatar})
 
-        //2头像
-        if (this.avatar) {
-          Image(/*$r('app.media.userhead_example2')*/this.avatar)
-            .width('300')
-            .height(400)
-            .margin({top: 100, bottom: 50})
-        } else {
-          Image($r('app.media.userhead_example2'))
-            .width('300')
-            .height(400)
-            .margin({top: 100, bottom: 50})
-        }
+        //2 头像
+        Image(this.avatar)
+          .width('300')
+          .height(400)
+          .margin({top: 100, bottom: 50})
 
 
         Column({space: 25}){
-          //3更换头像
+          //3 更换头像
           Column(){
             Text('更换头像')
               .fontSize(20)
@@ -64,32 +56,9 @@ struct AvatarPage {
               const uploadedPaths = await imageUploadModule.prepareUpload("/UserService/alterAvatar", "image", this.selectedPaths);
               console.log('ImageFile', '上传的图片路径:', uploadedPaths);
 
-              // // 通过后台获取新的头像
-              // await this.alterAvatar();
-              // if (this.success2) {
-              //   AlertDialog.show({
-              //     message: '更改头像成功',
-              //     confirm: {
-              //       value: '确定',
-              //       action: ()=>{
-              //         router.back();
-              //       }
-              //     }
-              //   })
-              // } else {
-              //   AlertDialog.show({
-              //     message: '更改头像失败',
-              //     confirm: {
-              //       value: '确定',
-              //       action: ()=>{
-              //       }
-              //     }
-              //   })
-              // }
             } catch (error) {
               console.error('ImageFile', '选择或上传图片出错:', error);
             }
-
           })
 
 
@@ -108,15 +77,12 @@ struct AvatarPage {
           .onClick(() => {
 
           })
-
-
         }
 
 
 
       }
       .width('100%')
-      // .height('100%')
       .backgroundColor($r('app.color.black'))
     }
 
@@ -138,21 +104,6 @@ struct AvatarPage {
     console.log('param', this.avatar)
   }
 
-
-  // //修改头像
-  // async alterAvatar(){
-  //   await UserService.alterAvatar(this.userId, this.avatar)
-  //     .then((success) => {
-  //       console.log('Tags', '修改头像成功')
-  //
-  //       this.success2 = success
-  //
-  //       console.log('Result', 'ifsuccess', this.success2)
-  //     })
-  //     .catch((error: string) => {
-  //       console.log('Tags', '修改头像失败')
-  //     })
-  // }
 }
 
 // 声明接受参数的类型

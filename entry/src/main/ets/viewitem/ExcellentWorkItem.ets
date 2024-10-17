@@ -1,6 +1,7 @@
 import ExcellentWorkInfo from '../viewmodel/ExcellentWorkInfo'
 import { WorkType } from '../viewmodel/ExcellentWorkInfo'
 
+//优秀作品列
 @Component
 export default struct ExcellentWorkItem {
   excellentWork: ExcellentWorkInfo = new ExcellentWorkInfo(0, WorkType.schoolWork, '', '', '')

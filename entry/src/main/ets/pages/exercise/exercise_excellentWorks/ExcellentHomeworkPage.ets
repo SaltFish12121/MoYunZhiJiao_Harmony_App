@@ -1,6 +1,5 @@
 import router from '@ohos.router'
 import { HeaderTitleCollect } from '../../../common/components/CommonComponents'
-import Exercise_ShowDetail_Competition from '../../../views/exercise/exercise_detial/Exercise_ShowDetail_Competition'
 import Exercise_ShowDetail_Self from '../../../views/exercise/exercise_detial/Exercise_ShowDetail_Self'
 import Exercise_Top_School from '../../../views/exercise/exercise_detial/Exercise_Top_School'
 import ExerciseService from '../../../service/ExerciseService'
@@ -8,11 +7,11 @@ import ExcellentHomeworkInfo from '../../../viewmodel/exerciseDetial/ExcellentHo
 import SubmitWritingInfo from '../../../viewmodel/exerciseDetial/SubmitWritingInfo'
 import Cant_Connect from '../../../views/Cant_Connect'
 
+//优秀学校练习
 @Entry
 @Component
 struct ExcellentHomeworkPage {
 
-  // @State rating: number = 3.5
   @State title: string = '基础笔画练习'
   @State ifCollect: boolean = false
   @State collectId: number = 0
@@ -22,7 +21,7 @@ struct ExcellentHomeworkPage {
     4, 50, '行书', '专项-偏旁部首练习',
     '际传存论青常照采照再八算何机话元。', ['https://dummyimage.com/120x240'],
     [
-      new SubmitWritingInfo(50, /*'https://dummyimage.com/120x240'*/$r('app.media.exercise_test1'), [])
+      new SubmitWritingInfo(50, 'https://dummyimage.com/120x240', [])
     ], 88, '总体文章错误少，缺点笔峰不足，部分字连笔', '分学区话它样界出线先北统列程处。北资百长而场划包族系件期社革消引。因当发东理阶们样由商道处。至正活听加资目强后无白三验科。新革同拉飞可影验四际个的回身斯。书劳车主观个原提性反指本文委。')
 
   @State ifConnect: boolean = false
@@ -35,23 +34,15 @@ struct ExcellentHomeworkPage {
           .width('95%')
 
         if (this.ifConnect) {
-          //2出处
+          //2 来源
           Row(){
             Row(){
               Text('来源：')
                 .fontSize(16)
 
-              Text(/*'教师李梅'*/`${this.excellentHomework.comeFrom}`)
+              Text(`${this.excellentHomework.comeFrom}`)
                 .fontSize(16)
             }
-
-            /*
-            Column(){
-              //收藏
-              Image($r('app.media.collect0'))
-                .width(40)
-            }
-            */
 
           }
           .margin({bottom: 20})
@@ -60,21 +51,21 @@ struct ExcellentHomeworkPage {
           .justifyContent(FlexAlign.SpaceBetween)
 
 
-          //3信息
+          //3 信息
           Exercise_Top_School({ exercise: $excellentHomework})
 
-          //4详情
+          //4 详情
           Exercise_ShowDetail_Self({ exercise: $excellentHomework})
 
 
-          //5教师评语
+          //5 教师评语
           Column(){
             Text('教师评语')
               .width('100%')
 
             Column(){
               if (this.excellentHomework.teacherComment != null) {
-                Text(/*'教师评语内容'*/`${this.excellentHomework.teacherComment}`)
+                Text(`${this.excellentHomework.teacherComment}`)
                   .fontSize(12)
                   .width('95%')
                   .margin({top: 15, bottom: 15})
@@ -93,7 +84,7 @@ struct ExcellentHomeworkPage {
           .width('90%')
 
 
-          //3 关闭
+          //6 关闭
           Column(){
             Text('关闭')
               .fontSize(20)
@@ -162,10 +153,6 @@ struct ExcellentHomeworkPage {
         this.ifConnect = false
         console.log('Tags', '获取优秀学校练习失败')
       })
-
-    // this.change(this.knowledgeShow)
-
-    // console.log('Result', this.exerciseType)
   }
 
 }

@@ -2,6 +2,7 @@ import router from '@ohos.router'
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import LoginService from '../../../service/LoginService'
 
+//设置新密码
 @Entry
 @Component
 struct SocialResetPasswordPage {
@@ -16,7 +17,7 @@ struct SocialResetPasswordPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       Stack({ alignContent: Alignment.TopEnd }) {
         HeaderTitle({ title: $title })
           .width('95%')
@@ -35,7 +36,7 @@ struct SocialResetPasswordPage {
         })
       }
 
-      //2输入
+      //2 输入
       Column() {
         Column() {
           TextInput({ placeholder: '新密码' })
@@ -64,7 +65,7 @@ struct SocialResetPasswordPage {
       }
       .margin({ top: 40 })
 
-      //3按钮
+      //3 按钮
       Column(){
         Button('确认')
           .width('90%')

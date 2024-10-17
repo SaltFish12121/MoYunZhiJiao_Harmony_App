@@ -15,22 +15,22 @@ struct CommonProblemPage {
 
   build() {
     Column(){
-      //1头部
+      //1 头部
       HeaderTitle({ title: $title })
 
-      //2内容
+      //2 内容
       Column({space: 10}){
-        Text('问：'+/*'我在电脑上登录本软件总是说验证码错误，可是我输入的是正确的呀，怎么办？'*/this.problem.question)
+        Text('问：' + this.problem.question)
           .fontSize(18)
 
-        Text('答：'+/*'您好，建议提供您的信息及截图联系本软件的在线客服帮您核查下。祝您学习愉快！'*/this.problem.content)
+        Text('答：' + this.problem.content)
           .fontSize(18)
 
       }
       .margin({ top: 50, bottom: 80})
       .width('95%')
 
-      //3上一章  下一章
+      //3 上一章  下一章
       Row({space: 30}){
 
         if (this.arr > 1) {
@@ -43,6 +43,7 @@ struct CommonProblemPage {
               const arr = this.arr-1
 
               console.log('arr', arr)
+              //跳转其他问题详情
               router.replaceUrl(
                 {
                   url: 'pages/mine/service_center/CommonProblemPage',
@@ -64,6 +65,7 @@ struct CommonProblemPage {
               const arr = this.arr+1
 
               console.log('arr', arr)
+              //跳转其他问题详情
               router.replaceUrl(
                 {
                   url: 'pages/mine/service_center/CommonProblemPage',

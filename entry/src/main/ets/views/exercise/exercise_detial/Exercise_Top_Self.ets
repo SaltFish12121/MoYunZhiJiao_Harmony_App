@@ -13,7 +13,7 @@ export default struct Exercise_Top_Self {
         Row(){
           Text('样例')
 
-          Text(/*'楷体'*/this.selfExercise.typeface)
+          Text(this.selfExercise.typeface)
 
         }
         .width('95%')
@@ -26,7 +26,7 @@ export default struct Exercise_Top_Self {
             Row(){
               ForEach(this.selfExercise.example,
                 (example: string) => {
-                  Image(/*$r('app.media.exercise_test1')*/example)
+                  Image(example)
                     .width('90%')
                 }
               )

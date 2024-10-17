@@ -1,7 +1,6 @@
 import { HeaderTitle } from '../../../common/components/CommonComponents'
 import ExerciseAnalysisInfo from '../../../viewmodel/analysis/ExerciseAnalysisInfo'
 import UserService from '../../../service/UserService'
-import Cant_Connect from '../../../views/Cant_Connect'
 import Exercise_Analysis from '../../../views/mine/data_analysis/Exercise_Analysis'
 import Single_Analysis from '../../../views/mine/data_analysis/Single_Analysis'
 
@@ -46,21 +45,19 @@ struct DataAnalysisPage {
 
   build() {
     Column(){
-      //1.标题
+      //1 标题
       HeaderTitle({ title: $title})
 
-      //2.分类：练习分析，单字分析
+      //2 分类：练习分析，单字分析
       Tabs({barPosition: BarPosition.Start}){
-        //1.练习分析
+        //2.1 练习分析
         TabContent(){
-          // Text('练习分析')
           Exercise_Analysis({ exerciseAnalysis: $exerciseAnalysis, year: $year, month: $month })
         }
         .tabBar(this.TabBarBuilder('练习分析', 0))
 
-        //2.单字分析
+        //2.2 单字分析
         TabContent(){
-          // Text('单字分析')
           Single_Analysis()
         }
         .tabBar(this.TabBarBuilder('单字分析', 1))
@@ -106,7 +103,6 @@ struct DataAnalysisPage {
         this.ifConnect = false
       })
 
-    // console.log(`${this.frequency}`)
   }
 
 }

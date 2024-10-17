@@ -4,7 +4,6 @@ import ExcellentWorkItem from '../../../viewitem/ExcellentWorkItem'
 import ExcellentWorkInfo from '../../../viewmodel/ExcellentWorkInfo'
 import { WorkType } from '../../../viewmodel/ExcellentWorkInfo'
 import ExerciseService from  '../../../service/ExerciseService'
-import PreferencesUtil from '../../../common/utils/PreferencesUtil'
 
 @Extend(ListItem) function exercise_List(){
   .width('95%')
@@ -86,7 +85,6 @@ export default struct Excellent_Works {
           this.isLoading = true
           // 翻页
           this.pageNum++
-          // page = ShopModel.pageNo
           this.getExcellentExercise()
         }
       })
@@ -100,7 +98,6 @@ export default struct Excellent_Works {
 
   //获取优秀作品
   async getExcellentExercise(){
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await ExerciseService.getExcellentExercise(this.pageNum)
       .then((exercise: ExcellentWorkInfo[]) => {
@@ -121,7 +118,6 @@ export default struct Excellent_Works {
 
   //获取优秀作品
   async getExcellentExercise2(){
-    // let userId = await PreferencesUtil.getPreferenceValue('MyPreferences', 'UserId', 0) as number
 
     await ExerciseService.getExcellentExercise(this.pageNum)
       .then((exercise: ExcellentWorkInfo[]) => {

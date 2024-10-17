@@ -1,5 +1,4 @@
 import KnowledgeInfo from '../../viewmodel/KnowledgeInfo'
-import { KnowledgeType } from '../../viewmodel/KnowledgeInfo'
 import Calligraphy_Competition from './calligraphy_competition/Calligraphy_Competition'
 import Calligraphy_Knowledge from './calligraphy_knowledge/Calligraphy_Knowledge'
 import Calligraphy_Teaching from './calligraphy_teaching/Calligraphy_Teaching'
